@@ -8,6 +8,7 @@ import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
 import Test from './Components/TEST/Test';
 import Enter from './Components/Auth/Enter';
+import NavBar from './Components/Nav/NavBar';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <>
-
+<NavBar/>
  <Router>
  <Routes>
         <Route path='/' element={<Test/>} />

@@ -1,21 +1,25 @@
 import { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginStart, loginSuccess } from '../../redux/userSlice';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-
+  const dispatch = useDispatch();
 
   const handleSubmit = async(event) => {
     event.preventDefault();
+    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
       const res = await axios.post('http://localhost:3000/api/auth/signin', {name,password});
+      dispatch(loginSuccess(res.data))
       console.log(res.data)
    } catch (error) {
-    
+      dispatch(loginFailure())
    }
   };
 
