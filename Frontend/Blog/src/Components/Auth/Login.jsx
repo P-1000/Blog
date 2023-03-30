@@ -3,12 +3,15 @@ import { TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginStart, loginSuccess } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -16,8 +19,28 @@ function Login() {
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
       const res = await axios.post('http://localhost:3000/api/auth/signin', {name,password});
-      dispatch(loginSuccess(res.data))
-      console.log(res.data)
+      //setting token to local storage
+      localStorage.setItem("jwt", JSON.stringify(res.data.token))
+      document.cookie = `token=${res.data.token}`;
+      //get token from local storage
+      const token = localStorage.getItem('jwt');
+      const tok = JSON.parse(token);
+      console.log(tok)
+
+      const config = {
+        headers: { Authorization: `Bearer ${tok}` }
+      };
+      
+      axios.get('http://localhost:3000/api/auth/read', config)
+  .then(response => {
+   console.log("succuess read")
+   dispatch(loginSuccess(response.data.user))
+  })
+  .catch(error => {
+    console.log(error)
+  });
+      console.log(tok + "slkafjlsk")
+      navigate('/home')
    } catch (error) {
       dispatch(loginFailure())
    }
@@ -25,7 +48,7 @@ function Login() {
 
   return (
     <form
-    className='flex flex-col gap-4 w-8/12 mx-56'
+    className='flex flex-col gap-4 w-8/12 mx-56 mt-10'
      onSubmit={handleSubmit}>
       <TextField
         label="UserName"

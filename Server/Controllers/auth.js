@@ -24,14 +24,25 @@ export const signin = async(req, res , next) => {
        if(!user) return next(createError(404, "User not found!"))
        const isMatch = await bcrypt.compare(req.body.password, user.password)
          if(!isMatch) return next(createError(400, "Invalid Credentials!"))
-         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET) //{expiresIn: "1d"}
+         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET , {expiresIn: "1d"}) //
          const {password, ...others} = user._doc
-         res.cookie("access_token", token, 
-         {httpOnly: true})
+         res.cookie("access_token", token , {
+            expires: new Date(Date.now() + 86400000), // expires in 1 day
+      //      httpOnly: true, // this will prevent JavaScript from accessing the cookie
+          })
          .status(200)
-         .json(others)
+         .json({token , user: others})
     } catch (error) {
         next(error)
     }
 
+}
+
+export const cookie_read = async(req, res , next) => {
+    try {
+        const token =  await req.headers.authorization.split(' ')[1]
+        res.json(token + "token")
+    } catch (error) {
+        res.send(error)
+    }
 }

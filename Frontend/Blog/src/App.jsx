@@ -9,6 +9,7 @@ import Register from './Components/Auth/Register';
 import Test from './Components/TEST/Test';
 import Enter from './Components/Auth/Enter';
 import NavBar from './Components/Nav/NavBar';
+import Home from './Components/Home/Home';
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
     </Routes>
     <Routes>
         <Route path='/Register' element={<Register/>} />
+    </Routes>
+    <Routes>
+        <Route path='/home' element={<Home/>} />
     </Routes>
  </Router>
 </>
