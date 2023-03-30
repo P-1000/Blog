@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 
 function NavBar() {
-  const { currentUser } = useSelector(state => state.user);
+   const { currentUser } = useSelector(state => state.user);
 
 
   return (

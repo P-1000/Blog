@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function Test() {
+
+  useEffect(()=>{
+    
+  })
+
   return (
     <div>
      <h1 className="text-3xl font-bold underline">

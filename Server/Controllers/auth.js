@@ -41,7 +41,11 @@ export const signin = async(req, res , next) => {
 export const cookie_read = async(req, res , next) => {
     try {
         const token =  await req.headers.authorization.split(' ')[1]
-        res.json(token + "token")
+        if(!token) return next(createError(401, "UnAuthorized!"))
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        if(!decoded) return next(createError(401, "UnAuthorized!"))
+        const user = await User.findById(decoded.id).select("-password")
+        res.json(user)
     } catch (error) {
         res.send(error)
     }

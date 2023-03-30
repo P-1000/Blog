@@ -33,8 +33,7 @@ function Login() {
       
       axios.get('http://localhost:3000/api/auth/read', config)
   .then(response => {
-   console.log("succuess read")
-   dispatch(loginSuccess(response.data.user))
+   console.log("succuess login")
   })
   .catch(error => {
     console.log(error)
