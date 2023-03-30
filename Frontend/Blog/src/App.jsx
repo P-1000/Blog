@@ -10,7 +10,9 @@ import Test from './Components/TEST/Test';
 import Enter from './Components/Auth/Enter';
 import NavBar from './Components/Nav/NavBar';
 import Home from './Components/Home/Home';
-
+import HC from './Components/HOme/HC';
+import CreateBlog from './Components/Blog_Cards/CreateBlog';
+import BlogDetails from './Components/Blog_Cards/BlogDetails';
 
 function App() {
 
@@ -22,13 +24,20 @@ function App() {
 
   return (
     <>
-<NavBar/>
+
  <Router>
+ <NavBar/>
  <Routes>
         <Route path='/' element={<Test/>} />
     </Routes>
     <Routes>
         <Route path='/Go' element={<Enter/>} />
+    </Routes>
+    <Routes>
+        <Route path='/createBlog' element={<CreateBlog/>} />
+    </Routes>
+    <Routes>
+        <Route path='/BlogDetails/:id' element={<BlogDetails/>} />
     </Routes>
     <Routes>
         <Route path='/Login' element={<Login />} />
@@ -37,7 +46,7 @@ function App() {
         <Route path='/Register' element={<Register/>} />
     </Routes>
     <Routes>
-        <Route path='/home' element={<Home/>} />
+        <Route path='/home' element={<HC/>} />
     </Routes>
  </Router>
 </>

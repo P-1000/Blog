@@ -16,11 +16,11 @@ const BlogSchema = new mongoose.Schema(
     },
     imgUrl: {
       type: String,
-      required: true,
+      required: false,
     },
     videoUrl: {
       type: String,
-      required: true,
+      required: false,
     },
     views: {
       type: Number,

@@ -5,6 +5,8 @@ import userRoutes from "./routes/User.js"
 import authRoutes from "./routes/auth.js"
 import cookieparser from "cookie-parser"
 import cors from 'cors';
+import blogRouter from "./routes/blog.js"
+import blog_router from "./routes/blog.js"
 
 const app = express()
 app.use(cors());
@@ -30,6 +32,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/blogs", blog_router)
 
 
 app.use((err,req,res,next)=>{

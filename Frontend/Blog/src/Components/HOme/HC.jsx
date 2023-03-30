@@ -1,11 +1,11 @@
-import React, { useEffect , useState } from 'react'
+import React from 'react'
+import  { useEffect , useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginStart, loginSuccess } from '../../redux/userSlice';
 import axios from 'axios'
+import Cards from '../Blog_Cards/Cards';
 
-
-function Home()
-{
+function HC() {
     const dispatch = useDispatch();
     const token = localStorage.getItem('jwt');
     const tok = JSON.parse(token);
@@ -23,14 +23,12 @@ function Home()
          fetchData()
     },[])
  const { currentUser } = useSelector(state => state.user);
-
   return (
-    <div className='mt-20'>
-      <h1 className=''>
-        Home page bro!
-      </h1>
+    <div>
+      Home page bro
+      <Cards/>
     </div>
   )
 }
 
-export default Home
+export default HC

@@ -1,10 +1,16 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Test() {
-
+  const navigate = useNavigate();
   useEffect(()=>{
-    
-  })
+    if(localStorage.getItem('jwt')){
+     navigate('/home')
+    }
+    else{
+      navigate('/Go')
+    }
+  },[])
 
   return (
     <div>
