@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function NavBar() {
    const navigate = useNavigate();
    const { currentUser } = useSelector(state => state.user);
-
+  
    const handleLogout = () => {
    localStorage.removeItem('jwt');
     navigate('/Go')

@@ -13,6 +13,49 @@ export const addBlog = async (req, res, next) => {
     }
   };
 
+//update a blog by id
+export const updateBlog = async (req, res, next) => {
+  const blogId = req.params.bid;
+
+  try {
+    const blog = await Blog.findById(blogId);
+    const updatedData = req.body;
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    if (blog.userId.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    blog.title = updatedData.title;
+    blog.description = updatedData.content;
+    const updatedBlog = await blog.save();
+
+    res.status(200).json(updatedBlog);
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+//delete a blog by id
+export const deleteBlog = async (req, res, next) => {
+  const blogId = req.params.bid;
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(blogId);
+    if (!deletedBlog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    if (deletedBlog.userId.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    res.status(200).json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    next(error)
+  }
+}
+
 // get all blogs
 export const getAllBlogs = async (req, res, next) => {
     try {
@@ -34,4 +77,3 @@ export const getBlogById = async (req , res , next) =>{
 }  
 
 
-  

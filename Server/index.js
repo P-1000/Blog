@@ -13,7 +13,7 @@ app.use(cors());
 dotenv.config()
 
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'http://localhost:5174'
   }));
 
 const connect = () =>{
@@ -46,12 +46,10 @@ app.use((err,req,res,next)=>{
 })
 
 
-
-app.listen(3000, () => {
+app.listen(3000 , ()=>{
+    console.log("Server running on port 3000")
     connect()
-    console.log("Server is running on port 3000")
 })
-
 
 
 //K1x7Ne0KAIfLBzCa

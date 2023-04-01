@@ -13,6 +13,7 @@ import Home from './Components/Home/Home';
 import HC from './Components/HOme/HC';
 import CreateBlog from './Components/Blog_Cards/CreateBlog';
 import BlogDetails from './Components/Blog_Cards/BlogDetails';
+import EditBlog from './Components/Blog_Cards/EditBlog';
 
 function App() {
 
@@ -31,10 +32,13 @@ function App() {
         <Route path='/' element={<Test/>} />
     </Routes>
     <Routes>
-        <Route path='/Go' element={<Enter/>} />
+        <Route path='/Go' element={<Enter/>} /> 
     </Routes>
     <Routes>
         <Route path='/createBlog' element={<CreateBlog/>} />
+    </Routes>
+    <Routes>
+        <Route path='/updateBlog/:Blog_id' element={<EditBlog/>} />
     </Routes>
     <Routes>
         <Route path='/BlogDetails/:id' element={<BlogDetails/>} />
