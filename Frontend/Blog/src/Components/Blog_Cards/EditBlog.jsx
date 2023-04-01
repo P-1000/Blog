@@ -51,7 +51,7 @@ console.log(title, content)
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
-      <h1 className="text-4xl font-bold mb-4">Create Blog Post</h1>
+      <h1 className="text-4xl font-bold mb-4">Edit Blog Post</h1>
       <form className="w-3/4 max-w-lg" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
