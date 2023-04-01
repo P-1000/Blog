@@ -1,13 +1,31 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-
-
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginStart, loginSuccess } from '../../redux/userSlice';
+import axios from 'axios'
+import { useEffect } from 'react';
 
 function NavBar() {
    const navigate = useNavigate();
-   const { currentUser } = useSelector(state => state.user);
+   const dispatch = useDispatch();
+    const token = localStorage.getItem('jwt');
+    const tok = JSON.parse(token);
+    const config = {
+        headers: { Authorization: `Bearer ${tok}` }
+    }
+   
+     useEffect(()=>{
+       async function fetchData(){
+         const res = await axios.get('http://localhost:3000/api/auth/read', config)
+          console.log(res.data)
+         dispatch(loginSuccess(res.data));
+         
+       }
+         fetchData()
+    },[])
+ const { currentUser } = useSelector(state => state.user);
   
    const handleLogout = () => {
    localStorage.removeItem('jwt');

@@ -22,11 +22,7 @@ function Cards() {
     }
     fetchBlogs();
   },[])
-  const fetchBlogs = async () => {
-    const response = await axios.get('http://localhost:3000/api/blogs/allBlogs', config);
-    console.log(response.data , "blog data ");
-    setBlogs(response.data);
-  }
+
 
   const data = {
     title: 'My Card Title',
@@ -59,7 +55,7 @@ function Cards() {
            </div>
             
         ))}
-        <button onClick={fetchBlogs}>Fetch Blogs</button>
+       
     </div>
     
   );
