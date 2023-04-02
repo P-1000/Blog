@@ -6,7 +6,7 @@ import {IoNotificationsOutline } from 'react-icons/io5'
 
 function NavBar() {
   return (
-    <div className='border-b-[1px]'>
+    <div className='border-b-[1px] bg-white'>
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
         <div className='col-span-3'>
             <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8' />
