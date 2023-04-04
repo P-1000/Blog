@@ -2,7 +2,8 @@ import React from 'react'
 import {BsBookmarkPlus} from 'react-icons/bs'
 import {SlLike} from 'react-icons/sl'
 
-function BlogCardFooter() {
+function BlogCardFooter(props) {
+  const {tag} = props
   return (
     <div className='flex justify-between mt-4'>
            <div>
@@ -11,8 +12,8 @@ function BlogCardFooter() {
             <BsBookmarkPlus className='text-2xl text-primary-500'/>
         </div>
         <div className='flex gap-[.2em]'>
-            <p className='border text-[.8rem] font-medium  rounded-full px-[14px] py-[1px]'>5G</p>
-            <p className='border text-[.8rem] font-medium  rounded-full px-[14px] py-[1px]'>5G Technology</p>
+            <p className='border text-[.8rem] font-medium  rounded-full px-[14px] py-[1px]'>{tag ? tag[0] : "Blog"}</p>
+            <p className='border text-[.8rem] font-medium  rounded-full px-[14px] py-[1px]'>{tag ? tag[1] : "FlashPost"}</p>
             <p className='border text-[.8rem] font-medium  rounded-full px-[14px] py-[1px]'>8+</p>
         </div>
       </div>

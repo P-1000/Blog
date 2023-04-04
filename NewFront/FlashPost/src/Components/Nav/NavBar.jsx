@@ -3,8 +3,37 @@ import {CiSearch} from 'react-icons/ci'
 import {MdCreate} from 'react-icons/md'
 import {RxAvatar} from 'react-icons/rx'
 import {IoNotificationsOutline } from 'react-icons/io5'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { loginStart, loginSuccess } from '../../redux/userSlice';
+import { useState , useEffect } from 'react'
+import axios from 'axios'
 
 function NavBar() {
+    const { currentUser } = useSelector(state => state.user);
+    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const token = localStorage.getItem('jwt');
+    const tok = JSON.parse(token);
+    const config = {
+        headers: { Authorization: `Bearer ${tok}` }
+    }
+   
+     useEffect(()=>{
+       async function fetchData(){
+         const res = await axios.get('http://localhost:3000/api/auth/read', config)
+          console.log(res.data)
+         dispatch(loginSuccess(res.data));
+         
+       }
+         fetchData()
+    },[])
+
+
+
+
+
+
   return (
     <div className='border-b-[1px] bg-white'>
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
@@ -32,23 +61,50 @@ function NavBar() {
 
 
         </div>
-        <div className='flex col-span-3 justify-around w-full'>
-            <div>
-                <button className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
-                    font-semibold text-secondary mr-2 hover:bg-gray-100'>
-                        <MdCreate className='text-xl text-white' />
-                    <p> Create</p>
-                </button>
-            </div>
-            <div className='flex justify-between gap-7'>
-                <button>
-                <IoNotificationsOutline className='text-2xl text-gray-400' />
-                </button>
-                <button>
-                <RxAvatar className='text-4xl text-gray-400' />
-                </button>
-            </div>
+       {
+        currentUser &&  <div className='flex col-span-3 justify-around w-full'>
+        <div>
+            <button 
+            onClick={()=>navigate('/Write')}
+            className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
+                font-semibold text-secondary mr-2 hover:bg-gray-100'>
+                    <MdCreate className='text-xl text-white' />
+                <p> Create</p>
+            </button>
         </div>
+        <div className='flex justify-between gap-7'>
+            <button>
+            <IoNotificationsOutline className='text-2xl text-gray-400' />
+            </button>
+            <button>
+            <RxAvatar className='text-4xl text-gray-400' />
+            </button>
+        </div>
+    </div>
+       }
+
+    {
+        !currentUser && 
+        <div> 
+           <div className='mx-36 flex col-span-3 gap-3 justify-around w-full'>
+        <div>
+            <button 
+            onClick={()=>navigate('/')}
+            className=' w-full bg-secondary rounded-full px-4 py-2 text-sm
+                font-semibold text-primary hover:bg-gray-100'>
+                <p> Login</p>
+            </button>
+        </div>
+        <button 
+            onClick={()=>navigate('/')}
+            className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
+                font-semibold text-secondary mr-2 hover:bg-gray-100'>
+                <p> SignUp</p>
+            </button>
+    </div> 
+        </div>
+    }
+
     </div>
     </div>
   )

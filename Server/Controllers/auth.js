@@ -28,7 +28,7 @@ export const signin = async(req, res , next) => {
          const {password, ...others} = user._doc
          res.cookie("access_token", token , {
             expires: new Date(Date.now() + 86400000), // expires in 1 day
-      //      httpOnly: true, // this will prevent JavaScript from accessing the cookie
+            httpOnly: true, // this will prevent JavaScript from accessing the cookie
           })
          .status(200)
          .json({token , user: others})

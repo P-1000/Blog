@@ -1,7 +1,17 @@
-@tailwind base;
+@tailwind base; 
 @tailwind components;
 @tailwind utilities;
+
 
 body{
     background-color: #f5f5f5;
 }
+
+
+.ql-editor {
+  height: 400px;
+  padding: 5px;
+}
+
+.det{
+  background-image: linear-gradient(to right top, #d3ecf7, #d3ecf7, #d3ecf7, #d3ecf7, #d3ecf7, #d3ecf7, #d3edf8, #d3edf8, #d3eef9, #d3effa, #d3effb, #d3f0fc); }
