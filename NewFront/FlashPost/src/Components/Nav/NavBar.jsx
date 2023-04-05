@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginStart, loginSuccess } from '../../redux/userSlice';
 import { useState , useEffect } from 'react'
 import axios from 'axios'
-
+import MouseOverPopover from './Profile.jsx'
 function NavBar() {
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate()
@@ -28,12 +28,6 @@ function NavBar() {
        }
          fetchData()
     },[])
-
-
-
-
-
-
   return (
     <div className='border-b-[1px] bg-white'>
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
@@ -77,7 +71,8 @@ function NavBar() {
             <IoNotificationsOutline className='text-2xl text-gray-400' />
             </button>
             <button>
-            <RxAvatar className='text-4xl text-gray-400' />
+            {/* <RxAvatar className='text-4xl text-gray-400' /> */}
+            <MouseOverPopover className='text-4xl' />
             </button>
         </div>
     </div>

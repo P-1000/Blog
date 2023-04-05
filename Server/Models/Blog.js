@@ -37,9 +37,13 @@ const BlogSchema = new mongoose.Schema(
     Author:{
       type:String,
       required:true,
+    },
+    Contetn:{
+      type:String,
+      requried:true,
     }
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
 export default mongoose.model("Blog", BlogSchema);

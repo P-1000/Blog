@@ -4,13 +4,15 @@ import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import ImageKit from 'imagekit';
+import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekitio-react'
 
 function QuillEditor() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-
+  const [coverUrl, setCoverUrl] = useState('');
  const editorRef = useRef(null);
  const quillRef = useRef(null);
  const { currentUser } = useSelector(state => state.user);
@@ -47,21 +49,7 @@ function QuillEditor() {
     }
   }, []);
 
-  // image file to base 64 -
-  function convertToBase64(file){
-    return new Promise((resovle,reject)=>{
-      const fileReader = new FileReader()
-      fileReader.readAsDataURL(file)
-      fileReader.onload = ()=>{
-        resovle(fileReader.result)
-      };
-      fileReader.onerror = (error) =>{
-          reject(error)
-      }
-    })
-}
 
-// base64 to image : 
 
 
   function handleTitleInput(event) {
@@ -79,12 +67,6 @@ function QuillEditor() {
     setTags(tagsArray)
   }
 
-  async function handleImageUpload(event) {
-   const file = event.target.files[0]
-   const base64 = await convertToBase64(file)
-   setPostImage({...postImage , Cover : base64})
-    setimgU(base64)
-  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -94,7 +76,7 @@ function QuillEditor() {
     try {
       const res = await axios.post('http://localhost:3000/api/blogs/uploadBlog',  {
         title,
-        imgUrl: imgu,
+        imgUrl: coverUrl,
         desc:description,
         tags,
         Author:currentUser.name,
@@ -106,6 +88,35 @@ function QuillEditor() {
     }
   }
 
+  //headers for imagekit.io
+const imagekit = new ImageKit({
+  publicKey:"public_URvjzrf8cUDwCO0A6NK3VOYWg1U=",
+  urlEndpoint:"https://ik.imagekit.io/cwq19b8fi",
+  privateKey:"private_gR6kfpKknhbtLmBe7OXtwKJ19h0=",
+  authenticationEndpoint:"localhost:5173",
+});
+
+
+
+
+  // Image  upload function to imagekit.io
+const handleImageUpload = async (file) => {
+  try {
+    const result = await imagekit.upload({
+      file: file,
+      fileName: file.name,
+      folder: '/Covers', // Specify the folder in ImageKit.io where you want to upload the image
+      tags: ['BlogCover', 'FlashPost' , 'Pavan Patchikarla'], // Optional: add tags to the image
+    });
+    setCoverUrl(result.url);
+    console.log(result.url)
+    console.log('Image uploaded successfully:', result);
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+};
+
+
   return (
     <>
     <div className="flex flex-col w-8/12 ml-36 ">
@@ -113,14 +124,10 @@ function QuillEditor() {
       <input value={title} onChange={handleTitleInput} id="title" type="text" className="bg-gray-200 rounded px-3 py-2 mb-4" />
 
       <label className="text-gray-700 font-bold mb-2" htmlFor="image">Image:</label>
-      <input 
-        id="image" 
-        type="file" 
-        name='Cover'
-        accept='.jpeg,.png, .jpg'
-        className="bg-gray-200 rounded px-3 py-2 mb-4" 
-        onChange={(event)=>handleImageUpload(event)}
-      />
+<input 
+      type="file" 
+      onChange={(event) => handleImageUpload(event.target.files[0])} />
+
 
       <label className="text-gray-700 font-bold mb-2" htmlFor="description">Description:</label>
       <textarea value={description} onChange={handleDescriptionInput} id="description" className="bg-gray-200 rounded px-3 py-2 mb-4"></textarea>

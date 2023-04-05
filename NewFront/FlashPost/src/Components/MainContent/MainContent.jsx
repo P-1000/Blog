@@ -4,9 +4,13 @@ import BlogCards from './BlogCards'
 import ContentMenu from './ContentMenu'
 import { useEffect , useState } from 'react'
 import axios from 'axios'
+import  { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 
 function MainContent() {
+
+
     const token = localStorage.getItem('jwt');
     const tok = JSON.parse(token);
     const config = {
@@ -41,7 +45,8 @@ blogs.map((blog)=>{
       
    {blogs && blogs.map((blog)=>{
       return(
-        <div>
+      <Link to={`/blog/@${blog.Author}/${blog._id}`}>
+          <div className='border-b-[1px]'>
         <div>
       <div>
                 <BlogCards 
@@ -59,6 +64,7 @@ blogs.map((blog)=>{
         </div>
          }
             </div> </div> 
+            </Link>
       )
     })}
    </div>
