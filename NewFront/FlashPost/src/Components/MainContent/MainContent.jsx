@@ -45,10 +45,11 @@ blogs.map((blog)=>{
       
    {blogs && blogs.map((blog)=>{
       return(
-      <Link to={`/blog/@${blog.Author}/${blog._id}`}>
+    
           <div className='border-b-[1px]'>
         <div>
       <div>
+      <Link to={`/blog/@${blog.Author}/${blog._id}`}>
                 <BlogCards 
                 Author={blog.Author}
                 desc= {blog.desc}
@@ -57,14 +58,15 @@ blogs.map((blog)=>{
                 blog_id={blog._id}
                 time={blog.createdAt}
                  />
+                   </Link>
             </div>
          {
-            blog.tags &&    <div className='mb-3'>
+            blog.tags && <div className='mb-3'>
             <BlogCardFooter tag={blog.tags} />
         </div>
          }
             </div> </div> 
-            </Link>
+          
       )
     })}
    </div>

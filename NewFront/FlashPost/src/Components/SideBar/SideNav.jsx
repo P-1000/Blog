@@ -4,7 +4,7 @@ import TagsSide from './TagsSide'
 
 function SideNav() {
   return (
-    <div className='mt-3 p-5 mx-1 sticky'>
+    <div className='mt-3 p-5 mx-1 sticky top-[-1px] '>
         <div className='border rounded-md  bg-white   w-48 font-bold text-primary py-6'>
 
          <div className=' flex flex-col'>

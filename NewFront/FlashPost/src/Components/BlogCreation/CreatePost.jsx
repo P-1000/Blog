@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ImageKit from 'imagekit';
 import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekitio-react'
 
+
 function QuillEditor() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -107,6 +108,7 @@ const handleImageUpload = async (file) => {
       fileName: file.name,
       folder: '/Covers', // Specify the folder in ImageKit.io where you want to upload the image
       tags: ['BlogCover', 'FlashPost' , 'Pavan Patchikarla'], // Optional: add tags to the image
+      
     });
     setCoverUrl(result.url);
     console.log(result.url)

@@ -3,6 +3,7 @@ import express from "express"
 import { verifyToken } from "../Verify.js"
 import { addBlog, deleteBlog, getAllBlogs, getBlogById } from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
+import { getTopTags } from "../Controllers/blog.js"
 
 
 const blog_router = express.Router()
@@ -23,6 +24,7 @@ blog_router.get("/allBlogs", verifyToken , getAllBlogs )
 //get blog by Id : 
 blog_router.get("/blog/:id",  getBlogById )
 
-
+//tags count :
+blog_router.get("/tagsCount" , getTopTags )
 
 export default blog_router

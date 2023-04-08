@@ -1,7 +1,9 @@
 import React from 'react'
+import BasicPopover from './BasicPopover'
 
 function Author(props) {
   const {name} = props
+  const post_id = props.post_id
   return (
     <div className='w-8/12 mx-20 pt-10 flex justify-between'>
         <div className='flex'>
@@ -23,10 +25,10 @@ function Author(props) {
             <img src='https://cdn-icons-png.flaticon.com/512/61/61109.png'/>
             <img src='https://cdn-icons-png.flaticon.com/512/25/25347.png'/>
             <img src='https://cdn-icons-png.flaticon.com/512/455/455691.png'/>
-        </div>
-        <div className='flex w-7 h-7 p-1 gap-2 mt-2'>
             <img src='https://cdn-icons-png.flaticon.com/512/7966/7966414.png'/>
-            <img src='https://cdn-icons-png.flaticon.com/512/2311/2311524.png'/>
+        </div>
+        <div className='flex w-7 h-7 p-1 gap-2'>
+            <BasicPopover post_id={post_id}/>
         </div>
         </div>
         <div>

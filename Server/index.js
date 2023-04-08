@@ -7,6 +7,14 @@ import cookieparser from "cookie-parser"
 import cors from 'cors';
 import blogRouter from "./routes/blog.js"
 import blog_router from "./routes/blog.js"
+import blog from "./Models/blog.js"
+import { faker } from '@faker-js/faker';
+import Fuse from 'fuse.js';
+
+
+// import algoliasearch from 'algoliasearch';
+// UKAHGWLA0Z
+// 85eda515b05d95ee73b78ccb67aad0d0
 
 const app = express()
 app.use(cors());
@@ -25,7 +33,9 @@ const connect = () =>{
         console.log("Database connected")
     }).catch(err => {throw err})
 }
- 
+
+
+
 app.use(cookieparser())
 app.use(express.json())
 
@@ -36,6 +46,92 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/blogs", blog_router)
+
+
+
+//search db for blogs with title, tags, desc : without any filter or pagination 
+app.get("/api/search", async (req, res) => {
+  try {
+    const query = req.query.query;
+    const options = {
+      keys: ["title", "tags", "desc" , "content" , "Author"],
+      includeScore: true,
+      threshold: 0.4,
+    };
+    const blogs = await blog.find();
+    const fuse = new Fuse(blogs, options);
+    const result = fuse.search(query);
+    const matchedBlogs = result.map(({ item }) => item);
+    res.json(matchedBlogs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" || "unAuth" });
+  }
+});
+
+//search db for blogs with title, tags, desc : with filter  and pagination
+app.get("/api/search/filter", async (req, res) => {
+  try {
+    const query = req.query.query;
+    const options = {
+      keys: ["title", "tags", "desc" , "content" , "Author"],
+      includeScore: true,
+      threshold: 0.4,
+    };
+    const blogs = await blog.find();
+    const fuse = new Fuse(blogs, options);
+    const result = fuse.search(query);
+    const matchedBlogs = result.map(({ item }) => item);
+    const filter = req.query.filter;
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const results = {};
+    if (endIndex < matchedBlogs.length) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+    results.results = matchedBlogs.slice(startIndex, endIndex);
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" || "unAuth" });
+  }
+});
+
+//using faker to generate fake data for testing
+app.get("/api/faker", async (req, res) => {
+    
+    try {
+        for (let i = 0; i < 20; i++) {
+            const blogs= await new blog({
+                title: faker.lorem.words(5),
+                desc: faker.lorem.words(10),
+                tags:  [faker.lorem.words(5) ,  faker.lorem.words(5) ,  faker.lorem.words(5)],
+                imgUrl: faker.image.imageUrl(),
+                Author: faker.name.firstName(),
+                userId: "60e1f1b0b0b5a41b3c8c1b1a",
+            });
+         const fakeblog =await blogs.save();
+        }
+        res.json({ message: "success" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error"  });
+    }
+});
+
+
+
 
 
 app.use((err,req,res,next)=>{

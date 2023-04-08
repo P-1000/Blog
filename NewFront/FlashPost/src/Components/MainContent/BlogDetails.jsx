@@ -37,7 +37,9 @@ function BlogDetails() {
 <div className='det w-full h-[100vh]  rounded-md bg-clip-padding  '>
     <div className=''>
         {/* author details  */}
-        <Author name={blog.Author}/>
+        <Author 
+        post_id={blogId}
+        name={blog.Author}/>
     </div>
 
     <div className='w-8/12 mx-20 my-10'>
@@ -48,7 +50,9 @@ function BlogDetails() {
       <p>{blog.desc}</p>
     </div>
     <div>
-      <img src={blog.imgUrl} />
+      <img 
+      className='w-full object-cover shadow-md rounded-md'
+      src={blog.imgUrl} />
     </div>
     </div>
     

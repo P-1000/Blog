@@ -7,9 +7,15 @@ function Home() {
   return (
     <>
     <div className='flex'>
-        <SideNav/>
-        <MainContent/>
-        <RightMenu/>
+      <div>
+      <SideNav/>
+      </div>
+      <div>
+      <MainContent/>
+      </div>
+       <div className='sticky '>
+       <RightMenu/>
+       </div>
     </div>
     </>
   )

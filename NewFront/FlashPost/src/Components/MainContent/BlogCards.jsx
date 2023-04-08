@@ -6,7 +6,6 @@ function BlogCards(props) {
   const {imgUrl , title , desc , blog_id  , Author , time} = props
   const [s , sc]  = useState('')
   const [coverImg , setcoverImg] = useState({})
-console.log(imgUrl)
 // Use the URL to display the image
 const img = new Image();
 
@@ -35,17 +34,17 @@ const formattedDate = date.toLocaleString('en-IN', options);
                     <div className='flex gap-5 '>
                     <div className='flex flex-col'>
                            <div className='mt-4 ml-5'>
-                                <h1 className='text-xl font-bold text-primary'>
+                                <h1 className='text-xl font-bold text-primary hover:text-secondary '>
                                {title}
                                 </h1>
                                 </div>
 
                              <div>
-                             <div className='w-[27rem] mt-1'>
-                                <p className='text-sm text-gray-500 ml-5 font-normal' 
-                                dangerouslySetInnerHTML={{__html:desc}} //html parse of quill
-                                >
-
+                             <div className='w-[27rem]  mt-1'>
+                                {/* <p className='text-sm text-gray-500 ml-5 font-normal text-ellipsis  overflow-hidden ' 
+                                dangerouslySetInnerHTML={{__html:desc}} > */}
+                                <p className='text-sm text-gray-500 ml-5 font-normal h-24 text-ellipsis overflow-hidden '>
+                                {desc}
                                     </p>
                                 </div>
                              </div>   
@@ -54,11 +53,11 @@ const formattedDate = date.toLocaleString('en-IN', options);
                            <div className=' mx-4'>
                           
                 <img src={imgUrl}
-                className='rounded-md  w-full border-primary border-[1.5px]' />
+                className='rounded-md  w-full border-primary shadow-lg hover:shadow-md transition-all' />
                 </div>
                            </div>
                     </div>
-                                
+
               </div>
                 {/* card body with post image and post description */}
                 <div className='mt-1'>

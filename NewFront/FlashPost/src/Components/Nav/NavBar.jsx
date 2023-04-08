@@ -24,15 +24,25 @@ function NavBar() {
          const res = await axios.get('http://localhost:3000/api/auth/read', config)
           console.log(res.data)
          dispatch(loginSuccess(res.data));
-         
        }
          fetchData()
     },[])
+
+    const [search , setSearch] = useState('')
+    
+    async function handleChange(event){
+        const search = event.target.value;
+        setSearch(search);
+       navigate(`/search/${search}`)
+    }
+
   return (
     <div className='border-b-[1px] bg-white'>
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
         <div className='col-span-3'>
-            <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8' />
+           <a href='/Home'>
+           <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8' />
+           </a>
         </div>
         <div className='flex col-span-6 gap-4'>
             <div>
@@ -45,7 +55,10 @@ function NavBar() {
             <div className="flex flex-row-reverse focus-within:border rounded-full px-4 py-2 pr-[16rem] 
              text-sm 
              focus-within:border-secondary">
-             <input type="text"
+                {/* search bar navigate to searchres page on enter */}
+             <input type="text" 
+             value={search} 
+             onChange={handleChange}
               className="border-none focus:outline-none w-full text-primary"
                  placeholder="Search Flashpost"/>
             <div className="  h-full flex items-center pr-2">

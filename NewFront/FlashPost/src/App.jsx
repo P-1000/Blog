@@ -9,6 +9,8 @@ import CreatePost from './Components/BlogCreation/CreatePost'
 import Home from './Components/MainContent/Home'
 import Auth from './Components/auth/Auth'
 import BlogDetails from './Components/MainContent/BlogDetails'
+import EditPost from './Components/MainContent/EditPost'
+import SearchRes from './Components/Search/SearchRes'
 
 function App() {
 
@@ -25,8 +27,14 @@ function App() {
         <Route path='/home' element={<Home/>} />
     </Routes>
     <Routes>
+        <Route path='/search/:query' element={<SearchRes/>} />
+    </Routes> 
+    <Routes>
         <Route path='blog/:AuthorId/:blogId' element={<BlogDetails/>} />
     </Routes>
+    <Routes>
+        <Route path='Edit/:blogId' element={<EditPost/>} />
+    </Routes> 
     <Routes>
         <Route path='/Write' element={<CreatePost/>} />
     </Routes>
