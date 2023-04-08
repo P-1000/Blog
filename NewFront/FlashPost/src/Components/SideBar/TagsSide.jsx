@@ -1,48 +1,41 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react'
 import {AiOutlineDoubleRight} from 'react-icons/ai'
+import axios from 'axios'
+import {Link , useNavigate} from 'react-router-dom'
 
 function TagsSide() {
+    const navigate = useNavigate();
+    const [tags , setTags] = useState([]);
+    useEffect(()=>{
+      async function getTags(){
+        const TagReq = await axios.get('http://localhost:3000/api/TopTags');
+        setTags(TagReq.data)
+        console.log(tags , "tags bro")
+      }
+      getTags();
+    },[])
+
   return (
     <div className='mt-4'>
        <div>
-       <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#javascript</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+545</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#react</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+461</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#node</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+448</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#express</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+410</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#mongodb</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+345</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#css</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+315</p>
-        </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#Linux</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+305</p>
-            </div>
-        <div className='flex justify-between mb-[7px]'>
-            <a className='text-sm text-gray-500 hover:text-secondary'>#DevOps</a>
-            <p className='border rounded-full px-[6px] py-[2px] text-[10px] mt-[1px]'>+295</p>
-            </div>
+     {
+        tags && tags.map((item)=>{
+            return (
+              <Link to={`/search/${item.name}`}
+              >
+                <div 
+                className='flex justify-between mb-[7px] box-border cursor-pointer' style={{ width: '100%' }}>
+                <a className='text-[13px] font-normal text-gray-500 box-border hover:text-primary'>#{item.name}</a>
+                <p className='border rounded-full h-[20px] box-border px-[8px] py-[1.2px] text-[10px] mt-[1px]'>+{item.count}</p>
+              </div>
+              </Link>
+        )
+           
+        })
+     }
+    
        </div>
 
-       <div className='text-sm'>
-              <a className='text-primary hover:text-secondary mt-[30px]'>Show More </a>
-                <AiOutlineDoubleRight className='inline-block text-[10px]'/>
-       </div>
 
     </div>
   )

@@ -81,7 +81,7 @@ function QuillEditor() {
         desc:description,
         tags,
         Author:currentUser.name,
-       // content: JSON.stringify(delta)
+       content: JSON.stringify(delta)
       } , config);
    //   console.log(res.data);
     } catch (error) {

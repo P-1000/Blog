@@ -54,6 +54,12 @@ function BlogDetails() {
       className='w-full object-cover shadow-md rounded-md'
       src={blog.imgUrl} />
     </div>
+    <div>
+    <div className='text-sm text-gray-500 ml-5 font-normal text-ellipsis  overflow-hidden ' 
+                                dangerouslySetInnerHTML={{__html:blog.content}} >
+
+                                  </div>
+    </div>
     </div>
     
    </div>

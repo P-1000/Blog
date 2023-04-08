@@ -8,6 +8,7 @@ import cors from 'cors';
 import blogRouter from "./routes/blog.js"
 import blog_router from "./routes/blog.js"
 import blog from "./Models/blog.js"
+import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
 import Fuse from 'fuse.js';
 
@@ -116,7 +117,7 @@ app.get("/api/faker", async (req, res) => {
             const blogs= await new blog({
                 title: faker.lorem.words(5),
                 desc: faker.lorem.words(10),
-                tags:  [faker.lorem.words(5) ,  faker.lorem.words(5) ,  faker.lorem.words(5)],
+                tags:  [faker.lorem.word(1) ,  faker.lorem.word(1) ,  faker.lorem.words(1)],
                 imgUrl: faker.image.imageUrl(),
                 Author: faker.name.firstName(),
                 userId: "60e1f1b0b0b5a41b3c8c1b1a",
@@ -131,6 +132,45 @@ app.get("/api/faker", async (req, res) => {
 });
 
 
+// count all the tags in the db
+app.get("/api/tags", async (req, res) => {
+  try {
+    const blogs = await blog.find();
+    const tags = blogs.map((blog) => blog.tags);
+    const alltags = tags.flat();
+    const tagcount = {};
+    alltags.forEach((tag) => {
+      tagcount[tag] = (tagcount[tag] || 0) + 1;
+    });
+
+    // Loop through each unique tag and save it to the database
+    const uniqueTags = Object.keys(tagcount);
+    for (let i = 0; i < uniqueTags.length; i++) {
+      const tag = uniqueTags[i];
+      if (tag) { // check if tag is not empty
+        const tagModel = new Tag({ name: tag, count: tagcount[tag] });
+        await tagModel.save();
+      }
+    }
+
+    res.json(tagcount);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+//get tags from db:
+app.get('/api/TopTags' , async(req , res)=>{
+  try {
+    const result = await Tag.find().sort({ count: -1 }).limit(8);
+    //response with result
+    res.json(result)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 
 
@@ -143,6 +183,16 @@ app.use((err,req,res,next)=>{
         status,
     })
 })
+
+app.get("/api/deletefakerblogs", async (req, res) => {
+  try {
+      const deletedBlogs = await blog.deleteMany({ userId: "60e1f1b0b0b5a41b3c8c1b1a" });
+      res.json({ message: `Deleted ${deletedBlogs.deletedCount} blogs` });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 app.listen(3000 , ()=>{
