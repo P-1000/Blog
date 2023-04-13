@@ -9,7 +9,7 @@ function SearchCard(props) {
         {/* card header with author image and post title */}
               <div className='border-b-[1px] hover:bg-slate-200 transition-all'>
 
-                    <div className='flex gap-5 '>
+                    <div className='flex gap-5 justify-between '>
                     <div className='flex flex-col'>
                            <div className='mt-4 ml-5'>
                                 <h1 className='text-2xl font-semibold text-primary'>
@@ -36,10 +36,10 @@ function SearchCard(props) {
                            <div className=' mx-4 w-64'>
                           
                 <img src={imgUrl}
-                className='rounded-md mt-[22px] w-full h-full border-primary shadow-lg hover:shadow-md transition-all' />
+                className='rounded-md mb-3 mt-[22px] w-full h-full border-primary shadow-lg hover:scale-95 hover:shadow-md transition-all' />
                 </div>
                            </div>
-                    </div>
+                    </div> 
             
               </div>
       </div>

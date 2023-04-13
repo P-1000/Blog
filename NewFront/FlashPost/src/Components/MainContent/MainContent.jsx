@@ -17,6 +17,7 @@ function MainContent() {
         headers: { Authorization: `Bearer ${tok}` }
     }
     const [blogs, setBlogs] = useState([]);
+    const [Trending, setTrending] = useState([]);
     //fetching all blogs from database :
     useEffect(()=>{
       const fetchBlogs = async () => {
@@ -25,12 +26,23 @@ function MainContent() {
         const blog_data = response.data
         const rev = response.data.reverse()
         setBlogs(rev);
+     //   trending(rev)
       }
       fetchBlogs();
     },[])
-blogs.map((blog)=>{
-  blog.Author
-})
+
+// blogs.map((blog)=>{
+//   blog.Author
+// })
+
+
+const trending = (blogs) => {
+  const blog = blogs
+  const trending = blog.sort((a,b)=> b.likes - a.likes)
+  setTrending(trending)
+}
+
+
 
   return (
     <>
@@ -62,7 +74,10 @@ blogs.map((blog)=>{
             </div>
          {
             blog.tags && <div className='mb-3'>
-            <BlogCardFooter tag={blog.tags} />
+            <BlogCardFooter
+            id={blog._id}
+            like={blog.likes}
+             tag={blog.tags} />
         </div>
          }
             </div> </div> 

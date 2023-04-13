@@ -11,7 +11,10 @@ import blog from "./Models/blog.js"
 import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
 import Fuse from 'fuse.js';
-
+import User from "./Models/User.js"
+import { followFunc } from "./Controllers/auth.js"
+import { createError } from "./error.js"
+import { verifyToken } from "./Verify.js"
 
 // import algoliasearch from 'algoliasearch';
 // UKAHGWLA0Z
@@ -116,9 +119,9 @@ app.get("/api/faker", async (req, res) => {
         for (let i = 0; i < 20; i++) {
             const blogs= await new blog({
                 title: faker.lorem.words(5),
-                desc: faker.lorem.words(10),
+                desc: faker.lorem.words(38),
                 tags:  [faker.lorem.word(1) ,  faker.lorem.word(1) ,  faker.lorem.words(1)],
-                imgUrl: faker.image.imageUrl(),
+                imgUrl: faker.image.imageUrl(640,480),
                 Author: faker.name.firstName(),
                 userId: "60e1f1b0b0b5a41b3c8c1b1a",
             });
@@ -138,11 +141,14 @@ app.get("/api/tags", async (req, res) => {
     const blogs = await blog.find();
     const tags = blogs.map((blog) => blog.tags);
     const alltags = tags.flat();
+    //remove spaces in front and back of tags
+    alltags.forEach((tag, index) => {
+      alltags[index] = tag.trim();
+    });
     const tagcount = {};
     alltags.forEach((tag) => {
       tagcount[tag] = (tagcount[tag] || 0) + 1;
     });
-
     // Loop through each unique tag and save it to the database
     const uniqueTags = Object.keys(tagcount);
     for (let i = 0; i < uniqueTags.length; i++) {
@@ -172,8 +178,6 @@ app.get('/api/TopTags' , async(req , res)=>{
 })
 
 
-
-
 app.use((err,req,res,next)=>{
     const status = err.status || 500
     const message = err.message || "Something went wrong"
@@ -193,6 +197,12 @@ app.get("/api/deletefakerblogs", async (req, res) => {
       res.status(500).json({ message: "Server error" });
   }
 });
+
+
+
+//follow user function : 
+app.post("/api/follow", followFunc);
+
 
 
 app.listen(3000 , ()=>{

@@ -19,14 +19,18 @@ function NavBar() {
         headers: { Authorization: `Bearer ${tok}` }
     }
    
+    const [user, setUser] = useState([]);
      useEffect(()=>{
        async function fetchData(){
          const res = await axios.get('http://localhost:3000/api/auth/read', config)
           console.log(res.data)
+            setUser(res.data)
          dispatch(loginSuccess(res.data));
        }
          fetchData()
     },[])
+
+    const usr = localStorage.setItem('user', JSON.stringify(user));
 
     const [search , setSearch] = useState('')
     
@@ -85,7 +89,9 @@ function NavBar() {
             </button>
             <button>
             {/* <RxAvatar className='text-4xl text-gray-400' /> */}
-            <MouseOverPopover className='text-4xl' />
+            <MouseOverPopover 
+            name={user.name}
+            className='text-4xl' />
             </button>
         </div>
     </div>

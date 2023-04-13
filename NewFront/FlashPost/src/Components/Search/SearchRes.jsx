@@ -3,6 +3,7 @@ import { useState , useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import SearchCard from './SearchCard';
+import SideNav from '../SideBar/SideNav';
 
 
 function SearchRes(props) {
@@ -33,14 +34,19 @@ useEffect(() => {
 
   return (
  <>
-   <div>
-        <div className='w-8/12 '>
+   <div className='flex'>
+    <div>
+      <SideNav />
+    </div>
+      <div className='w-9/12 mt-8 rounded-md bg-white border'>
+      <div className=''>
             {
                 data.map((item) => {
                     return <SearchCard key={item.blog_id} {...item} />
                 })
             }
         </div>
+      </div>
    </div>
    
  </>

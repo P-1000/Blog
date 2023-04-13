@@ -73,6 +73,22 @@ function QuillEditor() {
     event.preventDefault();
     const delta = quillRef.current.getContents();
     const html = editorRef.current.firstChild.innerHTML;
+    if(title === "" || description === "" || tags === "" || coverUrl === "" || html === ""){
+      alert("Please fill all the fields");
+      return;
+    }
+    //check if the user is logged in or not
+    if(!currentUser){
+      alert("Please login to continue");
+      return;
+    }
+    // check tags : for not allowing duplicate tags and remove spaces in start and end
+    const tagsArray = tags.map((tag)=>{
+      return tag.trim();
+    })
+
+    const uniqueTags = [...new Set(tagsArray)];
+    setTags(uniqueTags);
 
     try {
       const res = await axios.post('http://localhost:3000/api/blogs/uploadBlog',  {

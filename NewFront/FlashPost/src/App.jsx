@@ -11,6 +11,8 @@ import Auth from './Components/auth/Auth'
 import BlogDetails from './Components/MainContent/BlogDetails'
 import EditPost from './Components/MainContent/EditPost'
 import SearchRes from './Components/Search/SearchRes'
+import Profile from './Components/Profile/Profile'
+import Profile_Page from './Components/Profile/Profile_Page'
 
 function App() {
 
@@ -31,6 +33,12 @@ function App() {
     </Routes> 
     <Routes>
         <Route path='blog/:AuthorId/:blogId' element={<BlogDetails/>} />
+    </Routes>
+    <Routes>
+        <Route path='Profile/:User' element={<Profile_Page/>} />
+    </Routes>
+    <Routes>
+        <Route path='blog/:User' element={<Profile_Page/>} />
     </Routes>
     <Routes>
         <Route path='Edit/:blogId' element={<EditPost/>} />

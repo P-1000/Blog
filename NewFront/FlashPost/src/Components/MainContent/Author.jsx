@@ -1,12 +1,15 @@
 import React from 'react'
 import BasicPopover from './BasicPopover'
+import { Link } from 'react-router-dom'
 
 function Author(props) {
   const {name} = props
   const post_id = props.post_id
   return (
     <div className='w-8/12 mx-20 pt-10 flex justify-between'>
-        <div className='flex'>
+      {/* link to profile page  */}
+      <Link to={`/profile/@${name}`}>
+      <div className='flex'>
         <div className='flex gap-5 '>
            <div>
            <img 
@@ -19,6 +22,8 @@ function Author(props) {
            </div>
         </div>
         </div>
+        </Link>
+
         <div className='flex justify-between gap-10 w-2/12 float-right'>
         <div className='flex w-6 h-6 p-1  gap-2 mt-2'>
         <img src='https://cdn-icons-png.flaticon.com/512/3128/3128208.png'/>

@@ -6,7 +6,8 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import {RxAvatar} from 'react-icons/rx'
 import {useNavigate} from 'react-router-dom'
 
-export default function MouseOverPopover() {
+export default function MouseOverPopover(props) {
+  const {name} = props
   const navigate = useNavigate()
   return (
 
@@ -29,7 +30,9 @@ export default function MouseOverPopover() {
           >
             <Typography  >
             <div className='flex flex-col  text-center '>
-               <button className='text-sm text-center  font-semibold text-primary hover:bg-slate-300 mt-2  p-1 px-4'>Profile</button>
+               <button 
+               onClick={() => {navigate(`/Profile/@${name}`); popupState.close() }}
+               className='text-sm text-center  font-semibold text-primary hover:bg-slate-300 mt-2  p-1 px-4'>Profile</button>
               <button className='text-sm text-center  font-semibold text-primary hover:bg-slate-300 p-1  px-4'>My Blogs</button>
               <button className='text-sm font-semibold text-primary hover:bg-slate-300 p-1  px-4'>Settings</button>
               <button 

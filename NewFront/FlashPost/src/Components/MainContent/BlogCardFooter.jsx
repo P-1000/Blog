@@ -2,8 +2,26 @@ import React from 'react'
 import {BsBookmarkPlus} from 'react-icons/bs'
 import {SlLike} from 'react-icons/sl'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
+import { useEffect , useState } from 'react'
 
 function BlogCardFooter(props) {
+
+    const [like, setLike] = useState(props.like)
+    console.log(like)
+    const [isLiked, setIsLiked] = useState(false);
+    async function handleLike() {
+        if (isLiked) {
+            setLike(like - 1);
+            setIsLiked(false);
+        } else {
+            setLike(like + 1);
+            setIsLiked(true);
+            const response = await axios.put(`http://localhost:3000/api/blogs/like/${props.id}`);
+        }
+        console.log(response);
+    }
+
   const {tag} = props
   return (
     <div className='flex justify-between mt-4'>
@@ -28,7 +46,9 @@ function BlogCardFooter(props) {
     <div>
         <div className='mx-10'>
             <button>
-                <SlLike className='text-2xl text-primary-500'/>58
+                <SlLike 
+                onClick={handleLike}
+                className='text-2xl text-primary-500'/>{like}
             </button>
         </div>
     </div>

@@ -5,8 +5,8 @@ import DraftsSide from './DraftsSide'
 
 function RightMenu() {
   return (
-    <div>
-     <div className='mt-3 p-5 mx-1'>
+    <div className='sticky top-[-1px]'>
+     <div className='mt-3 p-5 mx-1 '>
      <div className='border rounded-md  bg-white   w-full font-bold text-primary py-6'>
      <h1 className='mx-4 border-b'>Recently Viewed</h1>
      <div className='border-b-[1px] '>

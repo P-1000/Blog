@@ -13,7 +13,7 @@ function Home() {
       <div>
       <MainContent/>
       </div>
-       <div className='sticky '>
+       <div className='sticky top-[1rem]'>
        <RightMenu/>
        </div>
     </div>

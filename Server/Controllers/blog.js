@@ -64,7 +64,9 @@ export const updateBlog = async (req, res, next) => {
 export const deleteBlog = async (req, res, next) => {
   const blogId = req.params.bid;
   try {
-    const deletedBlog = await Blog.findByIdAndDelete(blogId);
+    if(blogId.userId = req.user.id){
+      const deletedBlog = await Blog.findByIdAndDelete(blogId);
+    }
     if (!deletedBlog) {
       return res.status(404).json({ message: "Blog not found" });
     }
@@ -96,5 +98,17 @@ export const getBlogById = async (req , res , next) =>{
     next(err)
   }
 }  
+
+// increment likes count for a blog :
+export const likeBlog = async (req , res , next) =>{
+  try{
+      const blog = await Blog.findById(req.params.bid)
+      blog.likes += 1
+      const updatedBlog = await blog.save()
+      res.status(200).json(updatedBlog)
+  }catch(err){
+    next(err)
+  }
+}
 
 
