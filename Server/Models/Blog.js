@@ -18,10 +18,6 @@ const BlogSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    videoUrl: {
-      type: String,
-      required: false,
-    },
     views: {
       type: Number,
       default: 0,
@@ -38,8 +34,20 @@ const BlogSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    Author:{
+      type:String,
+      required:true,
+    },
+    Contetn:{
+      type:String,
+      requried:true,
+    },
+    likes:{
+      type:Number,
+      default:0,
+    },
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
 export default mongoose.model("Blog", BlogSchema);

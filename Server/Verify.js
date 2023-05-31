@@ -5,7 +5,8 @@
  export const verifyToken = async(req, res, next) => {
 //   // Get the access token from the request headers
 const authHeader = req.headers.authorization;
-  const authHeader1 = authHeader.split(' ')[1];
+  const authHeader9 = authHeader.split(' ');
+  const authHeader1 = authHeader9[1];
   const token = authHeader1 || req.cookies.token;
 
 
