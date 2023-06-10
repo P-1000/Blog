@@ -13,6 +13,7 @@ function MainContent() {
   };
   const [blogs, setBlogs] = useState([]);
   const [category, setCategory] = useState('personalised');
+  const [trendingBlogs, setTrendingBlogs] = useState([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -21,12 +22,32 @@ function MainContent() {
       const rev = response.data.reverse();
       setBlogs(rev);
     };
+
+    const fetchTrendingBlogs = async () => {
+      const response = await axios.get('http://localhost:3000/api/blogs/trending');
+      const blog_data = response.data;
+      setTrendingBlogs(blog_data);
+    };
+
     fetchBlogs();
+    fetchTrendingBlogs();
   }, []);
 
+  const fetchBlogsre = async () => {
+    const response = await axios.get('http://localhost:3000/api/blogs/allBlogs', config);
+    const blog_data = response.data;
+    const rev = response.data.reverse();
+    setBlogs(rev);
+  };
+
   const handleCategoryChange = (category) => {
-    // Update the category state variable this function is called in ContentMenu.jsx and passed as a prop to ContentMenu.jsx
     setCategory(category);
+    if (category === 'trending') {
+      setBlogs(trendingBlogs);
+    } else if (category === 'personalised') {
+      fetchBlogsre();
+      setBlogs(blogs);
+    }
   };
 
   return (
@@ -35,17 +56,15 @@ function MainContent() {
         <div className='mt-3  pt-5'>
           <div className='border rounded-md  bg-white   w-full font-bold text-primary py-6 '>
             <div className=''>
-              <ContentMenu category={category} onCategoryChange={handleCategoryChange} /> 
-              {/* // passing the function as a prop to ContentMenu.jsx */}
+              <ContentMenu category={category} onCategoryChange={handleCategoryChange} />
             </div>
 
             <div>
               {blogs &&
                 blogs.map((blog) => {
-                  // Filter blogs based on the selected category
-                  if (category === 'personalised' || blog.category === category) {
+                  if (true) {
                     return (
-                      <div className='border-b-[1px]'>
+                      <div className='border-b-[1px]' key={blog._id}>
                         <div>
                           <div>
                             <Link to={`/blog/@${blog.Author}/${blog._id}`}>

@@ -45,8 +45,13 @@ export default function BasicPopover(props) {
   const id = open ? 'simple-popover' : undefined;
 
   async function deletePost(id){
+   try {
     const del_ = await axios.delete(`http://localhost:3000/api/blogs/delete/${id}` , config)
-    alert(del.message)
+    alert("Post Deleted")
+    navigate('/home')
+   } catch (error) {
+      console.log(error)
+   }
   }
 
   return (

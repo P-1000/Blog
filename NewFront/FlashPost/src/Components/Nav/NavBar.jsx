@@ -50,7 +50,7 @@ function NavBar() {
         </div>
         <div className='flex col-span-6 gap-4'>
             <div>
-                <button
+                <button onClick={()=>navigate('/Home')}
                     className='border border-gray-300 rounded-full px-4 py-2 text-sm  
                     font-semibold text-gray-700 mr-2 hover:bg-gray-100'
                 >Your Feed</button>
