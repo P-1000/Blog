@@ -71,7 +71,20 @@ export const uploadProfilePicture = async (req, res, next) => {
 
 
 
-
+// get user by Name : only finds profile pic : used in AuthoImg.jsx
+export const getUserByName = async (req, res, next) => {
+  const { name } = req.params;
+  try{
+    const usr = await User.findOne({name: name})  
+    if(!usr){
+      return res.status(404).json({message: "user not found"})
+    }
+    res.status(200).json(usr.ProfilePic);
+  }catch(err){
+    next(err)
+    res.status(500).json({message: "server error"})
+  }
+};
 
 
 export const testbro = async (req, res, next) => {

@@ -4,7 +4,7 @@ import { verifyToken } from "../Verify.js"
 import {redbro } from "../Controllers/user.js"
 import {follow} from "../Controllers/user.js"
 import {uploadProfilePicture} from "../Controllers/user.js"
-import {testbro} from "../Controllers/user.js"
+import {testbro , getUserByName} from "../Controllers/user.js"
 
 
 const router = express.Router()
@@ -23,5 +23,8 @@ router.put("/:id/follow", verifyToken, follow)
  router.put("/:id/uploadProfile", uploadProfilePicture)
 
  router.put("/:id/test" , testbro)
+
+ router.get("/userProfile/:name", getUserByName)
+
 
 export default router

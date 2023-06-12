@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactQuill from 'react-quill';
 import { useState , useEffect } from 'react';
+import AuthoImg from './AuthoImg';
 
 function BlogCards(props) {
   const {imgUrl , title , desc , blog_id  , Author , time} = props
@@ -20,7 +21,7 @@ const formattedDate = date.toLocaleString('en-IN', options);
               <div>
                 <div className='flex gap-4'>    
                     <div className='ml-5 mt-4'>
-                    <img src='https://pbs.twimg.com/media/FlcOGr8WAAEsCHG.jpg:large' className='rounded-full h-10 w-10' />
+                    <AuthoImg author_name={Author} />
                         </div>
                         <div className='mt-4'>
                             <div>

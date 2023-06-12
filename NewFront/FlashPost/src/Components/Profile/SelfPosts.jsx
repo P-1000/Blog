@@ -24,15 +24,15 @@ function SelfPosts() {
       {
         blogs.map((blog) => (
          
-      <div className='row  w-full p-2 m-2 shadow-xl hover:shadow-sm transition-all delay-75'>
+      <div className='row   p-2 m-2 shadow-xl hover:shadow-sm transition-all delay-75'>
         <div className=''>
         <Link to={`/blog/Naruto/${blog._id}`}>
-          <div className='card-body'>
-            <img src={blog.imgUrl} alt='' className='img-fluid rounded-start' />
+          <div className=''>
+            <img src={blog.imgUrl} alt='' className='object-contain lazy-image-preview' />
         </div>
         </Link>
         <div>
-          <div className='card-body'>
+          <div className='w-ful h- full p-1 m-[1px]  text-clip'>
             <h1 className='font-semibold from-neutral-600 p-2'>{blog.title}</h1>
             </div>
             </div>
