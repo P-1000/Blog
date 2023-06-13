@@ -5,11 +5,16 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function BlogCardFooter(props) {
+  const [countTag, setCountTag] = useState(0);
   const [like, setLike] = useState(props.like);
   const [isLiked, setIsLiked] = useState(false);
 
+  const { tag } = props;
   useEffect(() => {
-    console.log(like);
+
+    tag.map((tag) => {
+      setCountTag((prev)=>prev+1)
+    });
   }, []); // Empty dependency array ensures the effect runs only once when component mounts
 
   async function handleLike() {
@@ -26,7 +31,9 @@ function BlogCardFooter(props) {
     }
   }
 
-  const { tag } = props;
+
+
+
 
   return (
     <div className='flex justify-between mt-4'>
@@ -46,7 +53,12 @@ function BlogCardFooter(props) {
                 {tag ? tag[1] : 'FlashPost'}
               </p>
             </Link>
-            <p className='border text-[.8rem] font-medium rounded-full px-[14px] py-[1px]'>8+</p>
+            <p className='border text-[.8rem] font-medium rounded-full px-[14px] py-[1px]'>
+              {countTag ? countTag : 0}
+              <span className='font-medium'>
+                +
+              </span>
+            </p>
           </div>
         </div>
       </div>

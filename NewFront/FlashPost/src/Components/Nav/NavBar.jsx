@@ -110,7 +110,7 @@ function NavBar() {
             </button>
         </div>
         <button 
-            onClick={()=>navigate('/')}
+            onClick={()=>navigate('/signup')}
             className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
                 font-semibold text-secondary mr-2 hover:bg-gray-100'>
                 <p> SignUp</p>

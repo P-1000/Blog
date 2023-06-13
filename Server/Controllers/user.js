@@ -102,6 +102,28 @@ export const fetchUserBookmarks = async (req, res, next) => {
   }
 };
 
+// edit user profile :
+export const editProfile = async (req, res, next) => {
+  const { id } = req.params;
+  const { bio, name, email } = req.body;
+  try {
+    const user = await User.findById(id);
+    if(!user) return res.status(404).json({message: "user not found"})
+    if (user._id.toString() === id) {
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { $set: { bio, name, email } },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } else {
+      return res.status(403).json({ message: "You can update only your account!" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 
 export const testbro = async (req, res, next) => {
   res.status(200).json({message: "test bro"})

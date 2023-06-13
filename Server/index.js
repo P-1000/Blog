@@ -178,16 +178,39 @@ app.get("/api/tags", async (req, res) => {
 //get tags from db:
 app.get("/api/TopTags", async (req, res) => {
   try {
-    const topTags = await Tag.find()
-      .sort({ count: -1 }) // Sort tags in descending order of count
-      .limit(8); // Get only the top 8 tags
+    const tags = await Tag.find()
+  .sort({ count: -1 })
+  .lean(); // Adding .lean() to get plain JavaScript objects instead of Mongoose documents
 
-    res.json(topTags);
+// Set to store unique transformed tags
+const uniqueTags = new Set();
+
+// Array to store unique tag objects
+const transformedTags = [];
+
+// Iterate over each tag
+tags.forEach((tag) => {
+  // Transform the tag name (trim whitespace, convert to lowercase)
+  const transformedTag = tag.name.trim().toLowerCase();
+
+  // Skip if the transformed tag already exists in the Set
+  if (uniqueTags.has(transformedTag)) {
+    return;
+  }
+
+  // Add the transformed tag to the Set and the array
+  uniqueTags.add(transformedTag);
+  transformedTags.push({ name: transformedTag, count: tag.count });
+});
+
+res.json(transformedTags.slice(0, 12));
+
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
+
 
 
 

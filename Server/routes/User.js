@@ -4,7 +4,7 @@ import { verifyToken } from "../Verify.js"
 import {redbro } from "../Controllers/user.js"
 import {follow} from "../Controllers/user.js"
 import {uploadProfilePicture} from "../Controllers/user.js"
-import {testbro , getUserByName , fetchUserBookmarks} from "../Controllers/user.js"
+import {testbro , getUserByName , fetchUserBookmarks , editProfile} from "../Controllers/user.js"
 
 
 const router = express.Router()
@@ -28,6 +28,10 @@ router.put("/:id/follow", verifyToken, follow)
 
  //fetch user bookmarks : 
 router.get("/:id/bookmarks",  fetchUserBookmarks)
+
+//Edit user profile :
+router.put("/:id/editProfile", verifyToken, editProfile)
+
 
 
 export default router

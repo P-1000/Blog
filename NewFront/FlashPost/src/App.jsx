@@ -14,6 +14,7 @@ import SearchRes from './Components/Search/SearchRes'
 import Profile from './Components/Profile/Profile'
 import Profile_Page from './Components/Profile/Profile_Page'
 import Bookmark from './Components/Bookmarks/Bookmark'
+import Register from './Components/auth/Register'
 
 function App() {
 
@@ -28,6 +29,9 @@ function App() {
     </Routes>
     <Routes>
         <Route path='/home' element={<Home/>} />
+    </Routes>
+    <Routes>
+        <Route path='/signup' element={<Register/>} />
     </Routes>
     <Routes>
         <Route path='/search/:query' element={<SearchRes/>} />
