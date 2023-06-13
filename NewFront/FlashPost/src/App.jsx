@@ -13,6 +13,7 @@ import EditPost from './Components/MainContent/EditPost'
 import SearchRes from './Components/Search/SearchRes'
 import Profile from './Components/Profile/Profile'
 import Profile_Page from './Components/Profile/Profile_Page'
+import Bookmark from './Components/Bookmarks/Bookmark'
 
 function App() {
 
@@ -42,7 +43,10 @@ function App() {
     </Routes>
     <Routes>
         <Route path='Edit/:blogId' element={<EditPost/>} />
-    </Routes> 
+    </Routes>
+    <Routes>
+        <Route path='/Bookmarks' element={<Bookmark/>} />
+    </Routes>  
     <Routes>
         <Route path='/Write' element={<CreatePost/>} />
     </Routes>

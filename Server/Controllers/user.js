@@ -77,12 +77,28 @@ export const getUserByName = async (req, res, next) => {
   try{
     const usr = await User.findOne({name: name})  
     if(!usr){
-      return res.status(404).json({message: "user not found"})
+      return res.status(404).json('https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=1380&t=st=1686593562~exp=1686594162~hmac=f005e8ed7cd56c39de3f6f72ab0b1b59e49341632842e37dd41b151dfac52adc')
     }
     res.status(200).json(usr.ProfilePic);
   }catch(err){
     next(err)
     res.status(500).json({message: "server error"})
+  }
+};
+
+
+// fetch user bookmarks :
+export const fetchUserBookmarks = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+   //find user by name
+   const user = await User.findOne({name: id});
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.Bookmarks);
+  } catch (err) {
+    next(err);
   }
 };
 

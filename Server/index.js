@@ -12,7 +12,7 @@ import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
 import Fuse from 'fuse.js';
 import User from "./Models/User.js"
-import { followFunc } from "./Controllers/auth.js"
+import { followFunc , unfollowFunc } from "./Controllers/auth.js"
 import { createError } from "./error.js"
 import { verifyToken } from "./Verify.js"
 
@@ -134,29 +134,36 @@ app.get("/api/faker", async (req, res) => {
     }
 });
 
-
 // count all the tags in the db
 app.get("/api/tags", async (req, res) => {
   try {
     const blogs = await blog.find();
     const tags = blogs.map((blog) => blog.tags);
     const alltags = tags.flat();
-    //remove spaces in front and back of tags
-    alltags.forEach((tag, index) => {
-      alltags[index] = tag.trim();
-    });
+    
+    // Remove null tags and tags that contain only spaces
+    const cleanedTags = alltags.filter((tag) => tag && tag.trim() !== '');
+
+    // Convert tags to lowercase and trim whitespace
+    const formattedTags = cleanedTags.map((tag) => tag.trim().toLowerCase());
+
     const tagcount = {};
-    alltags.forEach((tag) => {
+    formattedTags.forEach((tag) => {
       tagcount[tag] = (tagcount[tag] || 0) + 1;
     });
-    // Loop through each unique tag and save it to the database
+
+    // Get the top 20 tags
     const uniqueTags = Object.keys(tagcount);
-    for (let i = 0; i < uniqueTags.length; i++) {
-      const tag = uniqueTags[i];
-      if (tag) { // check if tag is not empty
-        const tagModel = new Tag({ name: tag, count: tagcount[tag] });
-        await tagModel.save();
-      }
+    const sortedTags = uniqueTags.sort((a, b) => tagcount[b] - tagcount[a]);
+    const topTags = sortedTags.slice(0, 20);
+
+    // Loop through each unique tag and save it to the database
+    for (let i = 0; i < topTags.length; i++) {
+      const tag = topTags[i];
+      const count = tagcount[tag];
+      const tagModel = new Tag({ name: tag, count });
+      
+      await tagModel.save();
     }
 
     res.json(tagcount);
@@ -166,16 +173,22 @@ app.get("/api/tags", async (req, res) => {
   }
 });
 
+
+
 //get tags from db:
-app.get('/api/TopTags' , async(req , res)=>{
+app.get("/api/TopTags", async (req, res) => {
   try {
-    const result = await Tag.find().sort({ count: -1 }).limit(8);
-    //response with result
-    res.json(result)
-  } catch (error) {
-    console.log(error)
+    const topTags = await Tag.find()
+      .sort({ count: -1 }) // Sort tags in descending order of count
+      .limit(8); // Get only the top 8 tags
+
+    res.json(topTags);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
   }
-})
+});
+
 
 
 app.use((err,req,res,next)=>{
@@ -203,7 +216,7 @@ app.get("/api/deletefakerblogs", async (req, res) => {
 //follow user function : 
 app.post("/api/follow", followFunc);
 
-
+app.post("/api/unfollow", unfollowFunc);
 
 app.listen(3000 , ()=>{
     console.log("Server running on port 3000")
