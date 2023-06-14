@@ -1,5 +1,6 @@
 import React, { useEffect , useState } from 'react'
 import { Link } from 'react-router-dom'
+import TimeLine from './TimeLine'
 
 function SelfPosts() {
 
@@ -13,12 +14,11 @@ function SelfPosts() {
       fetchPosts()
     }, [])
 
-    console.log(blogs)
 
 
   return (
     <div>
-       <div className='flex flex-wrap w-full'>
+       {/* <div className='flex flex-wrap w-full'>
         <div className="container mt-2 flex">
    
       {
@@ -43,7 +43,11 @@ function SelfPosts() {
       } 
       
        </div>
-       </div>
+       </div> */}
+
+<div>
+  <TimeLine blogs={blogs} />
+</div>
 
     </div>
   )
