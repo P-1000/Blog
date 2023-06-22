@@ -242,8 +242,8 @@ app.post("/api/follow", followFunc);
 app.post("/api/unfollow", unfollowFunc);
 
 app.listen(3000 , ()=>{
+  connect()
     console.log("Server running on port 3000")
-    connect()
 })
 
 
