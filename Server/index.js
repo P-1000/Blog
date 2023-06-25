@@ -5,8 +5,8 @@ import userRoutes from "./routes/User.js"
 import authRoutes from "./routes/auth.js"
 import cookieparser from "cookie-parser"
 import cors from 'cors';
-import blogRouter from "./routes/blog.js"
-import blog_router from "./routes/blog.js"
+import blogRouter from "./routes/Blog.js"
+import blog_router from "./routes/Blog.js"
 import blog from "./Models/blog.js"
 import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
