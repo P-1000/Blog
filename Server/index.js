@@ -44,11 +44,14 @@ app.use(express.json())
 
 app.get("/", (req, res) => {
     console.log("Server Running Bro!")
+    res.send("Server Running Bro!")
 })
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/blogs", blog_router)
+
+
 
 
 
