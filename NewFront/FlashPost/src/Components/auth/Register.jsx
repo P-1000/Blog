@@ -17,7 +17,7 @@ const Register = () => {
    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('http://localhost:3000/api/auth/signup', {name,password , email});
+      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signup', {name,password , email});
       alert('User Created')
       navigate('/')
    } catch (error) {

@@ -22,7 +22,7 @@ function NavBar() {
     const [user, setUser] = useState([]);
      useEffect(()=>{
        async function fetchData(){
-         const res = await axios.get('http://localhost:3000/api/auth/read', config)
+         const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
           console.log(res.data)
             setUser(res.data)
          dispatch(loginSuccess(res.data));

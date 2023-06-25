@@ -46,7 +46,7 @@ export default function BasicPopover(props) {
 
   async function deletePost(id){
    try {
-    const del_ = await axios.delete(`http://localhost:3000/api/blogs/delete/${id}` , config)
+    const del_ = await axios.delete(`https://back-e0rl.onrender.com/api/blogs/delete/${id}` , config)
     alert("Post Deleted")
     navigate('/home')
    } catch (error) {

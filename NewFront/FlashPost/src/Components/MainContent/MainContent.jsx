@@ -17,14 +17,14 @@ function MainContent() {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await axios.get('http://localhost:3000/api/blogs/allBlogs', config);
+      const response = await axios.get('https://back-e0rl.onrender.com/api/blogs/allBlogs', config);
       const blog_data = response.data;
       const rev = response.data.reverse();
       setBlogs(rev);
     };
 
     const fetchTrendingBlogs = async () => {
-      const response = await axios.get('http://localhost:3000/api/blogs/trending');
+      const response = await axios.get('https://back-e0rl.onrender.com/api/blogs/trending');
       const blog_data = response.data;
       setTrendingBlogs(blog_data);
     };
@@ -34,7 +34,7 @@ function MainContent() {
   }, []);
 
   const fetchBlogsre = async () => {
-    const response = await axios.get('http://localhost:3000/api/blogs/allBlogs', config);
+    const response = await axios.get('https://back-e0rl.onrender.com/blogs/allBlogs', config);
     const blog_data = response.data;
     const rev = response.data.reverse();
     setBlogs(rev);

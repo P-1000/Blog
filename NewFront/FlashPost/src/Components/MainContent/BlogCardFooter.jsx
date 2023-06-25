@@ -20,13 +20,13 @@ function BlogCardFooter(props) {
   async function handleLike() {
     if (isLiked) {
       setLike(like - 1);
-      const response = await axios.put(`http://localhost:3000/api/blogs/dislike/${props.id}`);
+      const response = await axios.put(`https://back-e0rl.onrender.com/api/blogs/dislike/${props.id}`);
       setIsLiked(false);
       console.log(response);
     } else {
       setLike(like + 1);
       setIsLiked(true);
-      const response = await axios.put(`http://localhost:3000/api/blogs/like/${props.id}`);
+      const response = await axios.put(`https://back-e0rl.onrender.com/api/blogs/like/${props.id}`);
       console.log(response);
     }
   }
