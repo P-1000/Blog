@@ -33,9 +33,9 @@ app.use(cors({
 
 const connect = () =>{
     console.log("waiting for the Db")
-    mongoose.connect(process.env.MONGO).then(()=>{
-        console.log("Database connected")
-    }).catch(err => {throw err})
+    // mongoose.connect(process.env.MONGO).then(()=>{
+    //     console.log("Database connected")
+    // }).catch(err => {throw err})
 }
 
 
