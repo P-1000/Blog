@@ -50,4 +50,4 @@ const BlogSchema = new mongoose.Schema(
   { timestamps: true } 
 );
 
-export default mongoose.model("blog", BlogSchema);   
+export default mongoose.model("Blog", BlogSchema);   
