@@ -10,7 +10,7 @@ const Home = (props) => {
       const mappedItems = blogs.map((blog) => ({
         title: blog.title,
         cardTitle: blog.Author,
-        url: "http://localhost:5173/",
+        url: "https://back-e0rl.onrender.com/",
         cardSubtitle: blog.desc,
         cardDetailedText: blog.updatedAt,
         media: {

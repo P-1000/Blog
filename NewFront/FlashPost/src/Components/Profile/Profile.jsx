@@ -82,7 +82,7 @@ function Profile() {
     },[]);
     
     const getUser = async () => {
-      const res = await axios.get(`http://localhost:3000/api/auth/find/${User1}`);
+      const res = await axios.get(`https://back-e0rl.onrender.com/api/auth/find/${User1}`);
       const data = await res.data;
       setUser(data[0]);
       const userProfilePic = user.ProfilePic;
@@ -105,7 +105,7 @@ const followID = user?._id;
 
  // follow button :
     async function follow() {
-        const res = await axios.post('http://localhost:3000/api/follow', 
+        const res = await axios.post('https://back-e0rl.onrender.com/api/follow', 
         {
           userId: us._id,  //current user from local storage bro marchipoku : 
           followId: followID ? followID : null,    //user of profile : from params name : User
@@ -117,7 +117,7 @@ const followID = user?._id;
 
     //Unfollow button :
     async function Unfollow() {
-      const res = await axios.post('http://localhost:3000/api/unfollow',
+      const res = await axios.post('https://back-e0rl.onrender.com/api/unfollow',
       {
         userId: us._id,  //current user from local storage bro marchipoku :
         unfollowId: followID ? followID : null,    //user of profile : from params name : User
@@ -185,7 +185,7 @@ const handleFile = async(file1) => {
 //upload profile pic to db :
 const uploadProfilePic = async (url) => {
   try {
-    const res = await axios.put(`http://localhost:3000/api/users/${us._id}/uploadProfile`,
+    const res = await axios.put(`https://back-e0rl.onrender.com/api/users/${us._id}/uploadProfile`,
     {
       bodyPicture: url,
     }, config);

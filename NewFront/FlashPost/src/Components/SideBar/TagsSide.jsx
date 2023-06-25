@@ -9,7 +9,7 @@ function TagsSide() {
     
     useEffect(()=>{
       async function getTags(){
-        const TagReq = await axios.get('http://localhost:3000/api/TopTags');
+        const TagReq = await axios.get('https://back-e0rl.onrender.com/api/TopTags');
         setTags(TagReq.data)
         console.log(tags , "tags bro")
       }

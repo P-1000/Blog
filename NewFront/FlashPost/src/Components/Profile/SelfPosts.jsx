@@ -7,7 +7,7 @@ function SelfPosts() {
     const [blogs, setBlogs] = useState([]);
     useEffect(() => {
       const fetchPosts = async () => {
-        const res = await fetch('http://localhost:3000/api/blogs/author/Naruto')
+        const res = await fetch('https://back-e0rl.onrender.com/api/blogs/author/Naruto')
         const data = await res.json()
         setBlogs(data)
       }
