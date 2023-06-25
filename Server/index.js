@@ -51,6 +51,11 @@ app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/blogs", blog_router)
 
+// test route for deployment send json data
+app.get("/api/test", (req, res) => {
+    res.json({ message: "success" })
+})
+
 
 
 
