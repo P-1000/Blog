@@ -1,5 +1,5 @@
 // import Blog from '../Models/blog.js'
-import Mblog from './Mblog.js';
+import Blog from './Mblog.js';
 import { createError } from '../error.js'
 import express from 'express'
 import multer from 'multer';
