@@ -1,20 +1,21 @@
-import Blog from '../Models/blog.js'
+// import Blog from '../Models/blog.js'
+import Mblog from './Mblog.js';
 import { createError } from '../error.js'
 import express from 'express'
 import multer from 'multer';
 import path from 'path';
 
 // Configure multer options
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname);
+//   }
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 // creating new blog
 export const addBlog = async (req, res, next) => {
