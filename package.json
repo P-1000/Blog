@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "git_cmd_cli": "^1.0.0"
+  }
+}
