@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "git_cmd_cli": "^1.0.0"
+    "jutsu-git": "^1.1.0"
   }
 }
