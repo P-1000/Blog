@@ -45,7 +45,8 @@ function NavBar() {
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
         <div className='col-span-3'>
            <a href='/Home'>
-           <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8' />
+           <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8 mt-[5px] hidden lg:block' />
+           <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8 mt-[5px] block lg:hidden' />
            </a>
         </div>
         <div className='flex col-span-6 gap-4'>
