@@ -8,6 +8,7 @@ import cors from 'cors';
 // import blogRouter from "./routes/Blog.js"
 import blog_router from "./routes/Blog.js"
 // import blog from "./Models/blog.js"
+import blog from "./Controllers/Mblog.js"
 import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
 import Fuse from 'fuse.js';
@@ -63,24 +64,24 @@ app.get("/api/test", (req, res) => {
 
 
 //search db for blogs with title, tags, desc : without any filter or pagination 
-// app.get("/api/search", async (req, res) => {
-//   try {
-//     const query = req.query.query;
-//     const options = {
-//       keys: ["title", "tags", "desc" , "content" , "Author"],
-//       includeScore: true,
-//       threshold: 0.4,
-//     };
-//     const blogs = await blog.find();
-//     const fuse = new Fuse(blogs, options);
-//     const result = fuse.search(query);
-//     const matchedBlogs = result.map(({ item }) => item);
-//     res.json(matchedBlogs);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error" || "unAuth" });
-//   }
-// });
+app.get("/api/search", async (req, res) => {
+  try {
+    const query = req.query.query;
+    const options = {
+      keys: ["title", "tags", "desc" , "content" , "Author"],
+      includeScore: true,
+      threshold: 0.4,
+    };
+    const blogs = await blog.find();
+    const fuse = new Fuse(blogs, options);
+    const result = fuse.search(query);
+    const matchedBlogs = result.map(({ item }) => item);
+    res.json(matchedBlogs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" || "unAuth" });
+  }
+});
 
 //search db for blogs with title, tags, desc : with filter  and pagination
 // app.get("/api/search/filter", async (req, res) => {

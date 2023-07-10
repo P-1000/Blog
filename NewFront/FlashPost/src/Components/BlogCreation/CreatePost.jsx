@@ -91,7 +91,7 @@ function QuillEditor() {
     setTags(uniqueTags);
 
     try {
-      const res = await axios.post('http://localhost:3000/api/blogs/uploadBlog',  {
+      const res = await axios.post('ttps://back-e0rl.onrender.com/api/blogs/uploadBlog',  {
         title,
         imgUrl: coverUrl,
         desc:description,
