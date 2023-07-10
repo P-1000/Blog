@@ -9,5 +9,11 @@
   "public": "public",
   "headers": {
     "X-Powered-By": "Vite"
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
