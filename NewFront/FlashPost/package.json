@@ -36,7 +36,8 @@
     "react-router-dom": "^6.14.0",
     "redux": "^4.2.1",
     "slate": "^0.91.4",
-    "slate-react": "^0.92.0"
+    "slate-react": "^0.92.0",
+    "vite-plugin-ssr": "^0.4.133"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
