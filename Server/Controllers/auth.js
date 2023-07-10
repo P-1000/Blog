@@ -82,6 +82,33 @@ export const followFunc = async (req, res) => {
     }
   }
 
+
+//unfollow user
+export const unfollowFunc = async (req, res) => {
+    try {
+      const { userId, unfollowId } = req.body;
+      if(!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(unfollowId)){
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+      const [cu, fu] = await Promise.all([User.findById(userId), User.findById(unfollowId)]);
+      if(!cu && !fu){
+        return res.status(404).json({ message: "User not found" });
+      }
+      if(!cu.Following.includes(unfollowId)){
+        return res.status(403).json({ message: "You don't follow this user" });
+      }
+      await User.bulkWrite([
+        { updateOne: { filter: { _id: cu._id }, update: { $pull: { Following: unfollowId } } } },
+        { updateOne: { filter: { _id: fu._id }, update: { $pull: { Followers: userId } } } },
+      ]);
+      return res.status(200).json({ message: "User has been unfollowed" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  }
+
+
   //find user by name
 export const findUserByName = async (req, res) => {
   try{

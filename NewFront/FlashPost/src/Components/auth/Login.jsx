@@ -17,7 +17,7 @@ const Login = () => {
    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('http://localhost:3000/api/auth/signin', {name,password});
+      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signin', {name,password});
       //setting token to local storage
       localStorage.setItem("jwt", JSON.stringify(res.data.token))
       document.cookie = `token=${res.data.token}`;
@@ -30,7 +30,7 @@ const Login = () => {
         headers: { Authorization: `Bearer ${tok}` }
       };
       
-      axios.get('http://localhost:3000/api/auth/read', config)
+      axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
   .then(response => {
    console.log("succuess login")
   })

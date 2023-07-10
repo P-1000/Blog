@@ -1,8 +1,23 @@
 import React from 'react'
 import {MdOutlineExplore} from 'react-icons/md'
 import TagsSide from './TagsSide'
+import { useNavigate } from 'react-router-dom'
 
 function SideNav() {
+   const navigate = useNavigate()
+   const handleExplore = () => {
+      navigate('/')
+   }
+   const handleDrafts = () => {
+      navigate('/Drafts')
+   }
+   const handleBookmarks = () => {
+      navigate('/Bookmarks')
+   }
+   const handleAbout = () => {
+      navigate('/About')
+   }
+
   return (
     <div className='mt-3 p-5 mx-1 sticky top-[-1px] '>
         <div className='border rounded-md  bg-white   w-48 font-bold text-primary py-6'>
@@ -14,7 +29,9 @@ function SideNav() {
            <a className='pb-3  p-2 cursor-pointer hover:bg-[#f5f5f5]'>
               <MdOutlineExplore className='inline-block mr-2 text-2xl'/>Drafts
            </a>
-           <a className='pb-3 p-2 cursor-pointer hover:bg-[#f5f5f5]'>
+           <a 
+           onClick={handleBookmarks}
+           className='pb-3 p-2 cursor-pointer hover:bg-[#f5f5f5]'>
               <MdOutlineExplore className='inline-block mr-2 text-2xl'/>Bookmarks
            </a>
            <a className='pb-3  p-2 cursor-pointer hover:bg-[#f5f5f5]'>

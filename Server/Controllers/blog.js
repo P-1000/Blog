@@ -1,20 +1,21 @@
-import Blog from '../Models/blog.js'
+// import Blog from '../Models/blog.js'
+import Blog from './Mblog.js';
 import { createError } from '../error.js'
 import express from 'express'
 import multer from 'multer';
 import path from 'path';
 
 // Configure multer options
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname);
+//   }
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 // creating new blog
 export const addBlog = async (req, res, next) => {
@@ -64,18 +65,18 @@ export const updateBlog = async (req, res, next) => {
 export const deleteBlog = async (req, res, next) => {
   const blogId = req.params.bid;
   try {
-    if(blogId.userId = req.user.id){
-      const deletedBlog = await Blog.findByIdAndDelete(blogId);
-    }
-    if (!deletedBlog) {
+    const blog = await Blog.findById(blogId);
+    if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    if (deletedBlog.userId.toString() !== req.user.id) {
+    if (blog.userId !== req.user.id) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    // delete blog
+    await Blog.findByIdAndDelete(blogId);
     res.status(200).json({ message: "Blog deleted successfully" });
-  } catch (error) {
-    next(error)
+  }catch (err) {
+    next(err);
   }
 }
 
@@ -105,10 +106,54 @@ export const likeBlog = async (req , res , next) =>{
       const blog = await Blog.findById(req.params.bid)
       blog.likes += 1
       const updatedBlog = await blog.save()
-      res.status(200).json(updatedBlog)
+      res.status(200).json(updatedBlog).message("Liked")
   }catch(err){
     next(err)
   }
 }
 
+// decrement likes count for a blog :
+export const unlikeBlog = async (req , res , next) =>{
+  try {
+    
+    const blog = await Blog.findById(req.params.bid)
+    blog.likes -= 1;
+    const updatedBlog = await blog.save()
+    res.status(200).json(updatedBlog)
+  } catch (error) {
+      next(error)
+  }
+}
 
+// trending blogs : 
+export const trendingBlogs = async (req , res , next) =>{
+  try{
+    // fetch only 30 blogs
+    const blogs = await Blog.find().sort({likes : -1}).limit(30)
+    res.status(200).json(blogs)
+  }
+  catch(err){ next(err)} }
+
+
+  //find blogs by author : 
+
+  export const findBlogsByAuthor = async (req , res , next) =>{
+    try{
+      const blogs = await Blog.find({Author : req.params.author})
+      res.status(200).json(blogs)
+    }catch{
+      next(err);
+      res.status(err)
+    }
+  }
+
+  //get blogs by following authors :
+  export const getBlogsByFollowingAuthors = async (req , res , next) =>{
+    try{
+      const blogs = await Blog.find({Author : req.params.author})
+      res.status(200).json(blogs)
+    }catch{
+      next(err);
+      res.status(err)
+    }
+  }
