@@ -1,14 +1,22 @@
 {
-    "name": "flashpost",
-    "version": "1.0.0",
-    "framework": "vite",
-    "build": {
-      "command": "npm run build",
-      "ignore": ["node_modules/*", ".git/*"]
-    },
-    "public": "public",
-    "headers": {
-      "X-Powered-By": "Vite"
+  "framework": "vite",
+  "build": {
+    "render": {
+      "entry": "index.html"
     }
-  }
-  
+  },
+  "devCommand": "vite",
+  "functions": [],
+  "headers": [],
+  "ignoreCommand": "",
+  "installCommand": "npm install",
+  "outputDirectory": "dist",
+  "public": "public",
+  "redirects": [],
+  "rewrites": [],
+  "trailingSlash": true,
+  "vite": {
+    "config": "./vite.config.js"
+  },
+  "crons": []
+}
