@@ -1,22 +1,8 @@
 {
-  "framework": "vite",
-  "build": {
-    "render": {
-      "entry": "index.html"
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  },
-  "devCommand": "vite",
-  "functions": [],
-  "headers": [],
-  "ignoreCommand": "",
-  "installCommand": "npm install",
-  "outputDirectory": "dist",
-  "public": "public",
-  "redirects": [],
-  "rewrites": [],
-  "trailingSlash": true,
-  "vite": {
-    "config": "./vite.config.js"
-  },
-  "crons": []
+  ]
 }
