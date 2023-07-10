@@ -1,0 +1,14 @@
+{
+    "name": "flashpost",
+    "version": "1.0.0",
+    "framework": "vite",
+    "build": {
+      "command": "npm run build",
+      "ignore": ["node_modules/*", ".git/*"]
+    },
+    "public": "public",
+    "headers": {
+      "X-Powered-By": "Vite"
+    }
+  }
+  

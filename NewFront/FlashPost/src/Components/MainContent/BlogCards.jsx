@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactQuill from 'react-quill';
 import { useState , useEffect } from 'react';
+import AuthoImg from './AuthoImg';
 
 function BlogCards(props) {
   const {imgUrl , title , desc , blog_id  , Author , time} = props
@@ -20,7 +21,7 @@ const formattedDate = date.toLocaleString('en-IN', options);
               <div>
                 <div className='flex gap-4'>    
                     <div className='ml-5 mt-4'>
-                    <img src='https://pbs.twimg.com/media/FlcOGr8WAAEsCHG.jpg:large' className='rounded-full h-10 w-10' />
+                    <AuthoImg author_name={Author} />
                         </div>
                         <div className='mt-4'>
                             <div>
@@ -32,7 +33,7 @@ const formattedDate = date.toLocaleString('en-IN', options);
                             </div>
                             </div>
                     <div className='flex gap-5 '>
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col w-8/12'>
                            <div className='mt-4 ml-5'>
                                 <h1 className='text-xl font-bold text-primary hover:text-secondary '>
                                {title}
@@ -40,7 +41,7 @@ const formattedDate = date.toLocaleString('en-IN', options);
                                 </div>
 
                              <div>
-                             <div className='w-[27rem]  mt-1'>
+                             <div className='w-full  mt-1'>
                                 {/* <p className='text-sm text-gray-500 ml-5 font-normal text-ellipsis  overflow-hidden ' 
                                 dangerouslySetInnerHTML={{__html:desc}} > */}
                                 <p className='text-sm text-gray-500 ml-5 font-normal h-24 text-ellipsis overflow-hidden '>
@@ -49,11 +50,11 @@ const formattedDate = date.toLocaleString('en-IN', options);
                                 </div>
                              </div>   
                            </div>
-                           <div>
-                           <div className=' mx-4'>
+                           <div className='w-4/12'>
+                           <div className=' mx-2 w-full float-right'>
                           
                 <img src={imgUrl}
-                className='rounded-md  w-full border-primary shadow-lg hover:shadow-md transition-all' />
+                className='rounded-md  box-border object-cover border-primary shadow-lg hover:shadow-md transition-all' />
                 </div>
                            </div>
                     </div>

@@ -23,7 +23,7 @@ const search = query
 console.log(search)
 const [data , setData] = useState([])
 async function handleSearch(){
-    const res = await axios.get(`http://localhost:3000/api/search?query=${search}`)
+    const res = await axios.get(`https://back-e0rl.onrender.com/api/search?query=${search}`)
     console.log(res.data)
     const data = res.data
     setData(data)

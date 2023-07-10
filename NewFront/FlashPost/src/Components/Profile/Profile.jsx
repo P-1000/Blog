@@ -1,6 +1,6 @@
 import React from 'react'
 import {CiShare1} from 'react-icons/ci'
-import {HiPlus} from 'react-icons/hi'
+import {HiBackspace, HiBan, HiCreditCard, HiPlus} from 'react-icons/hi'
 import {AiFillFacebook, AiFillGithub, AiFillWeiboSquare} from 'react-icons/ai'
 import {AiFillLinkedin} from 'react-icons/ai'
 import {AiFillTwitterCircle} from 'react-icons/ai'
@@ -12,7 +12,7 @@ import {SiJavascript} from 'react-icons/si'
 import {SiTypescript} from 'react-icons/si'
 import {TiHtml5} from 'react-icons/ti'
 import {FaReact} from 'react-icons/fa'
-import {RiVuejsFill} from 'react-icons/ri'
+import {RiProductHuntFill, RiVuejsFill} from 'react-icons/ri'
 import {SiNextdotjs} from 'react-icons/si'
 import {DiNodejs} from 'react-icons/di'
 import {DiMongodb} from 'react-icons/di'
@@ -21,12 +21,15 @@ import {SiTailwindcss} from 'react-icons/si'
 import {SiRedux} from 'react-icons/si'
 import {FaJava} from 'react-icons/fa'
 import SelfPosts from './SelfPosts'
+import {AiFillEdit} from 'react-icons/ai'
 import { useEffect , useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { json, useParams } from 'react-router-dom'
 import ImageKit from 'imagekit';
 import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekitio-react'
 import { useRef } from 'react'
 import axios from 'axios'
+import { Modal } from '@mui/material'
+
 
 
 function Profile() {
@@ -67,6 +70,9 @@ function Profile() {
     const User1 = User.slice(1);
 //current user
     const usr =  localStorage.getItem('user');
+
+   
+
     const us = JSON.parse(usr);
 
     useEffect(() => {
@@ -76,7 +82,7 @@ function Profile() {
     },[]);
     
     const getUser = async () => {
-      const res = await axios.get(`http://localhost:3000/api/auth/find/${User1}`);
+      const res = await axios.get(`https://back-e0rl.onrender.com/api/auth/find/${User1}`);
       const data = await res.data;
       setUser(data[0]);
       const userProfilePic = user.ProfilePic;
@@ -86,17 +92,41 @@ function Profile() {
       countFollowing(data[0].Following);
   }
 
+
 const followID = user?._id;
+
+
+ //check if current user is following the user of profile :
+ const currentUser = JSON.parse(localStorage.getItem('user'));
+ let isFollowing = currentUser.Following?.includes(user._id);
+
+ const [isf, setF] = useState(isFollowing);
+
 
  // follow button :
     async function follow() {
-        const res = await axios.post('http://localhost:3000/api/follow', 
+        const res = await axios.post('https://back-e0rl.onrender.com/api/follow', 
         {
           userId: us._id,  //current user from local storage bro marchipoku : 
           followId: followID ? followID : null,    //user of profile : from params name : User
         }, config);
         console.log(res.data);
+        setF(!isf);
+        getUser();
     }
+
+    //Unfollow button :
+    async function Unfollow() {
+      const res = await axios.post('https://back-e0rl.onrender.com/api/unfollow',
+      {
+        userId: us._id,  //current user from local storage bro marchipoku :
+        unfollowId: followID ? followID : null,    //user of profile : from params name : User
+      }, config);
+      console.log(res.data);
+     setF(!isf);
+     getUser();
+  }
+
 
      //count followers :
      const countFollowers = (followers) => {
@@ -155,7 +185,7 @@ const handleFile = async(file1) => {
 //upload profile pic to db :
 const uploadProfilePic = async (url) => {
   try {
-    const res = await axios.put(`http://localhost:3000/api/users/${us._id}/uploadProfile`,
+    const res = await axios.put(`https://back-e0rl.onrender.com/api/users/${us._id}/uploadProfile`,
     {
       bodyPicture: url,
     }, config);
@@ -166,6 +196,14 @@ const uploadProfilePic = async (url) => {
   }
 }
 
+
+//is the profile is of current user :
+const isCurrentUser = us._id === user._id;
+
+
+
+
+ 
 
   return (
     <>
@@ -192,7 +230,10 @@ const uploadProfilePic = async (url) => {
                                           , a software developer with a passion for creating elegant and efficient solutions to complex problems. Through my blog.</p>
                                  </div>
                                  <div className='flex gap-4 mt-4'>
-                                    <h1 className='flex gap-1'>
+                                
+                                    <h1 
+                                    // onClick={() => setUserReactions(user?.Reactions)}
+                                    className='flex gap-1'>
                                         <span className='text-sm font-semibold'>
                                             {userFollowersCount ? userFollowersCount : 0}
                                         </span>
@@ -212,22 +253,57 @@ const uploadProfilePic = async (url) => {
                                </div>
                             </div>
                 {/* side follow and buttons   */}
+                          {
+                            isCurrentUser ? 
+
+                            <div>
                             <div className='mt-8 mr-28'>   
                                 <div 
-                                onClick={follow}
+                                
                                 className='flex gap-4 '>
                                    <div className='border rounded-full mt-1 h-10 w-10'>
                                    <CiShare1 className='text-xl  mt-[10px] mx-[9.2px]'/>
                                    </div>
                                     {/* <button className='bg-primary text-white font-semibold py-2 px-4 rounded-md'>Share</button> */}
-                                   <div className='flex gap-[6px] bg-primary text-white font-semibold py-2 px-4 rounded-full'>
-                                    <HiPlus className='text-xl  mt-[4.7px] '/>
-                                    <button className='pr-1'>Follow</button>
+                                   <div className='flex flex-row-reverse gap-[6px] bg-primary text-white font-semibold py-2 px-4 rounded-full'>
+                                   <AiFillEdit  className='text-xl  mt-[4.7px] '/>
+                                  <button 
+                                    // onClick={Unfollow}
+                                    className='pr-1'>Edit</button>
                                    </div>
                                     
                                     
                             </div>
                             </div>
+                            </div>
+                            
+                               : <div className='mt-8 mr-28'>   
+                                <div 
+                                
+                                className='flex gap-4 '>
+                                   <div className='border rounded-full mt-1 h-10 w-10'>
+                                   <CiShare1 className='text-xl  mt-[10px] mx-[9.2px]'/>
+                                   </div>
+                                    {/* <button className='bg-primary text-white font-semibold py-2 px-4 rounded-md'>Share</button> */}
+                                   <div className='flex flex-row-reverse gap-[6px] bg-primary text-white font-semibold py-2 px-4 rounded-full'>
+                                  {
+                                    isFollowing ?   <HiBackspace  className='text-xl  mt-[4.7px] '/> : <HiPlus className='text-xl  mt-[4.7px] '/>
+                                  }
+                                   {
+                                    isFollowing ? 
+                                    <button 
+                                    onClick={Unfollow}
+                                    className='pr-1'>Unfollow</button>
+                                     : 
+                                     <button  onClick={follow}
+                                    className='pr-1'>Follow</button>
+                                   }
+                                   </div>
+                                    
+                                    
+                            </div>
+                            </div>
+                          }
                             </div>
                             {/* social buttons   */}
                  <div className='border py-3 float-center rounded-md mx-20 pb-2 mb-2'>

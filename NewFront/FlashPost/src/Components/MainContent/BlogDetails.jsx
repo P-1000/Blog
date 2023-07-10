@@ -19,7 +19,7 @@ function BlogDetails() {
   useEffect(()=>{
     try {
       const fetchBlog = async () => {
-        const response = await axios.get(`http://localhost:3000/api/blogs/blog/${blogId}`, config);
+        const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
         console.log(response.data , "blog data ");
         const blog_data = response.data
         setBlog(blog_data);

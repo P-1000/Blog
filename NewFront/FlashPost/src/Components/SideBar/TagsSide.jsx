@@ -6,9 +6,10 @@ import {Link , useNavigate} from 'react-router-dom'
 function TagsSide() {
     const navigate = useNavigate();
     const [tags , setTags] = useState([]);
+    
     useEffect(()=>{
       async function getTags(){
-        const TagReq = await axios.get('http://localhost:3000/api/TopTags');
+        const TagReq = await axios.get('https://back-e0rl.onrender.com/api/TopTags');
         setTags(TagReq.data)
         console.log(tags , "tags bro")
       }

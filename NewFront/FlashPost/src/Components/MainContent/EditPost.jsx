@@ -54,7 +54,7 @@ function EditPost() {
 
   useEffect(() => {
         async function fetchData() {
-            const res = await axios.get(`http://localhost:3000/api/blogs/blog/${blogId}`, config);
+            const res = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
             console.log(res.data)
             setTitle(res.data.title);
             setDescription(res.data.desc);
@@ -114,7 +114,7 @@ function EditPost() {
     const html = editorRef.current.firstChild.innerHTML;
     try {
         console.log(i , "updated img")
-      const res = await axios.put(`http://localhost:3000/api/blogs/update/${blogId}`,  {
+      const res = await axios.put(`https://back-e0rl.onrender.com/api/blogs/update/${blogId}`,  {
         title,
         imgUrl: i,
         desc:description,

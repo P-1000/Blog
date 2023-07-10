@@ -22,7 +22,7 @@ function NavBar() {
     const [user, setUser] = useState([]);
      useEffect(()=>{
        async function fetchData(){
-         const res = await axios.get('http://localhost:3000/api/auth/read', config)
+         const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
           console.log(res.data)
             setUser(res.data)
          dispatch(loginSuccess(res.data));
@@ -50,7 +50,7 @@ function NavBar() {
         </div>
         <div className='flex col-span-6 gap-4'>
             <div>
-                <button
+                <button onClick={()=>navigate('/Home')}
                     className='border border-gray-300 rounded-full px-4 py-2 text-sm  
                     font-semibold text-gray-700 mr-2 hover:bg-gray-100'
                 >Your Feed</button>
@@ -110,7 +110,7 @@ function NavBar() {
             </button>
         </div>
         <button 
-            onClick={()=>navigate('/')}
+            onClick={()=>navigate('/signup')}
             className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
                 font-semibold text-secondary mr-2 hover:bg-gray-100'>
                 <p> SignUp</p>

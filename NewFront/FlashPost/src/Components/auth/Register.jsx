@@ -17,28 +17,9 @@ const Register = () => {
    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('http://localhost:3000/api/auth/signin', {name,password});
-      //setting token to local storage
-      localStorage.setItem("jwt", JSON.stringify(res.data.token))
-      document.cookie = `token=${res.data.token}`;
-      //get token from local storage
-      const token = localStorage.getItem('jwt');
-      const tok = JSON.parse(token);
-      console.log(tok)
-
-      const config = {
-        headers: { Authorization: `Bearer ${tok}` }
-      };
-      
-      axios.get('http://localhost:3000/api/auth/read', config)
-  .then(response => {
-   console.log("succuess login")
-  })
-  .catch(error => {
-    console.log(error)
-  });
-      console.log(tok + "slkafjlsk")
-      navigate('/home')
+      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signup', {name,password , email});
+      alert('User Created')
+      navigate('/')
    } catch (error) {
      dispatch(loginFailure())
    }
@@ -46,7 +27,7 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create FlashPost Account</h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
