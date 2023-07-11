@@ -10,6 +10,8 @@ function BlogCardFooter(props) {
   const [isLiked, setIsLiked] = useState(false);
 
   const { tag } = props;
+
+
   useEffect(() => {
 
     tag.map((tag) => {
@@ -38,22 +40,22 @@ function BlogCardFooter(props) {
   return (
     <div className='flex justify-between mt-4'>
       <div>
-        <div className='flex gap-8'>
-          <div className='ml-5'>
+        <div className='flex gap-4 lg:gap-8'>
+          <div className='ml-5 hidden lg:block'>
             <BsBookmarkPlus className='text-2xl text-primary-500' />
           </div>
-          <div className='flex gap-[.2em]'>
+          <div className='flex gap-[.2em] ml-5'>
             <Link to={`/search/${tag ? tag[0] : 'Blog'}`}>
-              <p className='border text-[.8rem] font-medium rounded-full px-[14px] py-[1px]'>
+              <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
                 {tag ? tag[0] : 'Blog'}
               </p>
             </Link>
             <Link to={`/search/${tag ? tag[1] : 'FlashPost'}`}>
-              <p className='border text-[.8rem] font-medium rounded-full px-[14px] py-[1px]'>
+              <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
                 {tag ? tag[1] : 'FlashPost'}
               </p>
             </Link>
-            <p className='border text-[.8rem] font-medium rounded-full px-[14px] py-[1px]'>
+            <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
               {countTag ? countTag : 0}
               <span className='font-medium'>
                 +
@@ -65,8 +67,8 @@ function BlogCardFooter(props) {
 
       <div>
         <div className='mx-10'>
-          <button>
-            <SlLike onClick={handleLike} className='text-2xl text-primary-500' />
+          <button className='flex lg:block gap-1 flex-row-reverse'>
+            <SlLike onClick={handleLike} className='lg:text-2xl text-xl text-primary-500' />
             {like}
           </button>
         </div>

@@ -46,13 +46,13 @@ function NavBar() {
         <div className='col-span-3'>
            <a href='/Home'>
            <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8 mt-[5px] hidden lg:block' />
-           <img src='../Images/logo-standard.png' alt='logo' className='h-6 lg:h-8 mt-[5px] block lg:hidden' />
+           <img src='../Images/favicon.png' alt='logo' className='h-12 mt-[7px] block lg:hidden' />
            </a>
         </div>
         <div className='flex col-span-6 gap-4'>
             <div>
                 <button onClick={()=>navigate('/Home')}
-                    className='border border-gray-300 rounded-full px-4 py-2 text-sm  
+                    className='border hidden lg:block border-gray-300 rounded-full px-4 py-2 text-sm  
                     font-semibold text-gray-700 mr-2 hover:bg-gray-100'
                 >Your Feed</button>
             </div>

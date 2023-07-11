@@ -13,10 +13,10 @@ function ContentMenu({ category, onCategoryChange }) {
       
 
   return (
-    <div className='border-b-[1px]'>
+    <div className='border-b-[1px] w-full'>
       <div>
-        <div className='flex justify-between mx-5'>
-          <div className='flex gap-6'>
+        <div className='flex justify-between mx-12'>
+          <div className='flex lg:gap-6 gap-24'>
             <div
               onClick={() => changeCategory('personalised')}
               className='flex items-center gap-2 mb-2'
@@ -39,7 +39,7 @@ function ContentMenu({ category, onCategoryChange }) {
 
             <div
               onClick={() => changeCategory('mostRecent')}
-              className='flex items-center mb-2 gap-2'
+              className=' items-center mb-2 gap-2 hidden lg:flex'
             >
               <BiTimeFive className='text-[20px]' />
               <p className={category === 'mostRecent' ? 'text-md text-primary hover:text-secondary' : 'text-sm text-gray-500'}>
@@ -49,7 +49,7 @@ function ContentMenu({ category, onCategoryChange }) {
 
             <div
               onClick={() => changeCategory('sort')}
-              className='flex items-center mb-2 gap-2'
+              className='lg:flex hidden items-center mb-2 gap-2'
             >
               <HiTrendingUp className='text-[20px]' />
               <p className={category === 'sort' ? 'text-md text-primary hover:text-secondary' : 'text-sm text-gray-500'}>

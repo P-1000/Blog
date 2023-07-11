@@ -2,7 +2,7 @@ import React from "react";
 
 function DraftsSide() {
   return (
-    <div className="px-5">
+    <div className="px-5 ">
       <div className="border rounded-md  bg-white   w-full font-bold text-primary py-6">
         <h1 className="mx-4 border-b">Drafts</h1>
         <div className="border-b-[1px] ">
