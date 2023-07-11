@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
  import { useDispatch } from 'react-redux';
  import { loginStart, loginFailure } from '../../redux/userSlice';
+ import { ToastContainer, toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -18,14 +20,15 @@ const Register = () => {
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
       const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signup', {name,password , email});
-      alert('User Created')
       navigate('/')
+      toast.success("Account Created Successfully");
    } catch (error) {
      dispatch(loginFailure())
    }
   };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create FlashPost Account</h2>
       </div>
@@ -99,6 +102,9 @@ const Register = () => {
 </div>
 </div>
 </div>
+
+
+
   )
 }
 export default Register;

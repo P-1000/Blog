@@ -6,6 +6,9 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageKit from 'imagekit';
 import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekitio-react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function QuillEditor() {
@@ -24,6 +27,9 @@ function QuillEditor() {
  const config = {
      headers: { Authorization: `Bearer ${tok}` }
  }
+
+
+
   useEffect(() => {
     if (editorRef.current) {
       quillRef.current = new Quill(editorRef.current, {
@@ -53,6 +59,8 @@ function QuillEditor() {
 
 
 
+
+
   function handleTitleInput(event) {
     setTitle(event.target.value);
   }
@@ -68,6 +76,7 @@ function QuillEditor() {
     setTags(tagsArray)
   }
 
+  // blog upload function : 
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -91,6 +100,9 @@ function QuillEditor() {
     setTags(uniqueTags);
 
     try {
+
+      toast.info("Uploading blog...");
+
       const res = await axios.post('https://back-e0rl.onrender.com/api/blogs/uploadBlog',  {
         title,
         imgUrl: coverUrl,
@@ -99,6 +111,10 @@ function QuillEditor() {
         Author:currentUser.name,
        content: JSON.stringify(delta)
       } , config);
+
+      toast.success("Blog uploaded successfully");
+      
+
    //   console.log(res.data);
     } catch (error) {
       console.log(error);
@@ -161,6 +177,8 @@ const handleImageUpload = async (file) => {
  {
   postImage &&   <img src={postImage.Cover} alt='error bro' />
  }
+
+ <ToastContainer />
     </>
   );
 }
