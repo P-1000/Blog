@@ -26,7 +26,7 @@ This repository follows a specific structure:
 
 The Flashpost Blog is hosted separately for the frontend and backend:
 
-- **Frontend**: The frontend is hosted on Vercel and can be accessed at [https://flashpost.vercel.app](https://flashpost.vercel.app).
+- **Frontend**: The frontend is hosted on Netlify and can be accessed at [https://flashpost.netlify.app](https://flashpost.netilify.app).
 - **Backend**: The backend is hosted on Render and can be accessed at [https://flashpost-backend.render.com](https://flashpost-backend.render.com).
 
 ## Getting Started
