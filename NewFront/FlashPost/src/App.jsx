@@ -12,6 +12,7 @@ import Profile_Page from './Components/Profile/Profile_Page';
 import Register from './Components/auth/Register';
 import SearchRes from './Components/Search/SearchRes';
 import Forgot from "./Components/auth/Forgot";
+import Reset from "./Components/auth/Reset";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Auth />} />
         <Route path="/login" element={< Auth/>} />
         <Route path="/forgot-password" element={<Forgot />} />
+        <Route path="/reset/:token/:email" element={<Reset />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/search/:query" element={<SearchRes />} />

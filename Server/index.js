@@ -15,6 +15,7 @@ import Fuse from 'fuse.js';
 import { followFunc , sendMail, unfollowFunc } from "./Controllers/auth.js"
 import { createError } from "./error.js"
 import { verifyToken } from "./Verify.js"
+import User from "./Models/User.js"
 
 
 // import algoliasearch from 'algoliasearch';
@@ -249,6 +250,8 @@ app.post("/api/unfollow", unfollowFunc);
 app.post("/api/sendmail" , sendMail);
 
 // password rest : 
+
+//get all the info about user 
 
 
 

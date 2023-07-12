@@ -1,17 +1,41 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const Forgot = () => {
+    const resetpassword = async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        toast.info("Sending Email")
+        try{
+            const res = await axios.post('http://localhost:3000/api/auth/password-rest', {email});
+            console.log(res)
+            if(res.status === 200){
+                toast.success("Email Sent Successfully")
+            }
+        }
+        catch(error){
+            toast.error(error.response.data.message)
+            console.log(error)
+        }
+
+    }
+
   return (
-    <main id="content" role="main" className="w-full max-w-md mx-auto p-6 mt-24 ">
+  <div>
+      <main id="content" role="main" className="w-full max-w-md mx-auto p-6 mt-24 ">
       <div className="mt-7 bg-white rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700 border-2 border-indigo-300">
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Forgot password?</h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Remember your password?
-              <a className="text-blue-600 decoration-2 hover:underline font-medium" href="#">
+              <Link  to={"/login"}
+               className="text-blue-600 decoration-2 hover:underline font-medium" >
                 Login here
-              </a>
+              </Link>
             </p>
           </div>
 
@@ -33,8 +57,8 @@ const Forgot = () => {
                   <p className="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email address so we can get back to you</p>
                 </div>
                 <button
-                  type="submit"
-                  className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+                    onClick={resetpassword}
+                  className="py-3 px-4  text-primary inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold hover:text-white bg-secondary hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
                 >
                   Reset password
                 </button>
@@ -56,6 +80,9 @@ const Forgot = () => {
         </a>
       </p>
     </main>
+      
+    <ToastContainer />
+  </div>
   );
 };
 

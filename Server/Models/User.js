@@ -34,6 +34,16 @@ const userSchema = new mongoose.Schema({
     TechStack: {
         type: [String],
     },
+    Tags: {
+        type: [String],
+    },
+    resetToken : {
+        type : String,
+    },
+    resetTokenExpiry : {
+        type : Date,
+    },
+
 
 },{timestamps:true});
 

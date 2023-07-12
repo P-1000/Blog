@@ -163,6 +163,10 @@ export const sendMail = async (req, res) => {
   }
 };
 
+// mail config 
+
+
+
 // password reset :
 
 //token generator :
@@ -172,7 +176,77 @@ const generateResetToken = () => {
 };
 
 export const passwordReset = async (req, res) => {
- 
-  
+
+  const { email } = req.body;
+
+  try {
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_HOST,
+        pass: process.env.PASSWORD,
+      },
+    });
+    
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const token = generateResetToken();
+    user.resetToken = token;
+    user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+
+    // send email
+    const mailOptions = {
+      from: process.env.EMAIL_HOST,
+      to: email,
+      subject: 'Password Reset Request for FlashPost',
+      html: `
+        <p>Hi ${user.name},</p>
+        <p>You have requested to reset your password.</p>
+        <p>Click this <a href="http://localhost:5173/reset/${token}/${email}">link</a> to reset your password.</p>
+        <p>If you did not request a password reset, please ignore this email.</p>
+      `,
+        
+    }
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Message sent: %s', info.messageId);
+    res.status(200).json({ message: 'Password reset email sent successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to send password reset email.' });
+  }
 
 };
+
+
+
+// validate reset token and update password
+export const validateLoanToken = async (req, res) => {
+  const { token } = req.params;
+  const {email} = req.body
+  const { password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.resetToken !== token) return res.status(400).json({ message: 'Invalid token' });
+    if (Date.now() > user.resetTokenExpiry) return res.status(400).json({ message: 'Token expired' });
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    user.password = hash;
+    user.resetToken = null;
+    user.resetTokenExpiry = null;
+    await user.save();
+
+    res.status(200).json({ message: 'Password updated successfully!' });
+  } catch (error) {
+   next(error)
+    res.status(500).json({ message: 'Failed to update password.' });
+  }
+};
+
+    
