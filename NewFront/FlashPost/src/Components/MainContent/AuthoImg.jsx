@@ -8,8 +8,6 @@ function AuthoImg(props) {
         const fetchUserProfile = async () => {
             const res = await fetch(`https://back-e0rl.onrender.com/api/users/userProfile/${author_name}`);
             const data = await res.json()
-            console.log(data)
-            console.log(data)
             setAuthor_Image(data);
         }
         fetchUserProfile();

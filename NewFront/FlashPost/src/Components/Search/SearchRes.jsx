@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState , useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios'
 import SearchCard from './SearchCard';
 import SideNav from '../SideBar/SideNav';
@@ -24,7 +24,6 @@ console.log(search)
 const [data , setData] = useState([])
 async function handleSearch(){
     const res = await axios.get(`https://back-e0rl.onrender.com/api/search?query=${search}`)
-    console.log(res.data)
     const data = res.data
     setData(data)
 }
@@ -35,14 +34,18 @@ useEffect(() => {
   return (
  <>
    <div className='flex'>
-    <div>
+    <div className='hidden lg:block'>
       <SideNav />
     </div>
       <div className='w-9/12 mt-8 rounded-md bg-white border'>
       <div className=''>
             {
                 data.map((item) => {
-                    return <SearchCard key={item.blog_id} {...item} />
+                    return (
+                      <Link to={`/blog/@${item.Author}/${item._id}`}>
+                      <SearchCard key={item.blog_id} {...item} />
+                      </Link>
+                    )
                 })
             }
         </div>

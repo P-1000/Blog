@@ -6,7 +6,7 @@ function Profile_Page() {
   return (
     <>
         <div className='flex'>
-        <div>
+        <div className='hidden lg:block'>
           <SideNav/>
             </div>
             <div className='mr-5'>

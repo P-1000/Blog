@@ -39,7 +39,9 @@ function BlogDetails() {
         {/* author details  */}
         <Author 
         post_id={blogId}
-        name={blog.Author}/>
+        name={blog.Author}
+        
+        />
     </div>
 
     <div className='w-8/12 mx-20 my-10'>
