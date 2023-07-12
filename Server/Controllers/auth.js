@@ -2,7 +2,11 @@ import mongoose from "mongoose"
 import User from "../Models/User.js"
 import bcrypt from "bcrypt"
 import { createError } from "../error.js"
+import randToken from 'rand-token';
 import jwt from "jsonwebtoken"
+import nodemailer from "nodemailer"
+import dotenv from "dotenv"
+
 
 export const signup = async(req, res , next) => {
         try {
@@ -128,3 +132,47 @@ export const findUserByName = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
 }
 }
+
+
+// rest password 
+
+export const sendMail = async (req, res) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_HOST,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_HOST,
+      to: 'earn.vpn@gmail.com',
+      subject: 'Hello from FlashPost',
+      text: 'This is a test email from FlashPost!',
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('Message sent: %s', info.messageId);
+    res.send('Email sent successfully!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to send email.' });
+  }
+};
+
+// password reset :
+
+//token generator :
+const generateResetToken = () => {
+  const token = randToken.uid(29);
+  return token;
+};
+
+export const passwordReset = async (req, res) => {
+ 
+  
+
+};

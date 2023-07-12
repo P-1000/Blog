@@ -19,7 +19,7 @@ blog_router.put("/update/:bid" , verifyToken , updateBlog )
 blog_router.delete("/delete/:bid" , verifyToken ,  deleteBlog )
 
 //get all blogs : 
-blog_router.get("/allBlogs", verifyToken , getAllBlogs )
+blog_router.get("/allBlogs" , getAllBlogs )
 
 //get blog by Id : 
 blog_router.get("/blog/:id",  getBlogById )

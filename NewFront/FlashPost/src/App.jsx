@@ -11,6 +11,7 @@ import Profile from './Components/Profile/Profile';
 import Profile_Page from './Components/Profile/Profile_Page';
 import Register from './Components/auth/Register';
 import SearchRes from './Components/Search/SearchRes';
+import Forgot from "./Components/auth/Forgot";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/login" element={< Auth/>} />
+        <Route path="/forgot-password" element={<Forgot />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/search/:query" element={<SearchRes />} />

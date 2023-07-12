@@ -2,7 +2,7 @@ import express from "express"
 import { verify } from "jsonwebtoken"
 import { signup , signin, cookie_read } from "../Controllers/auth.js"
 import { verifyToken } from "../Verify.js"
-import { findUserByName } from "../Controllers/auth.js"
+import { findUserByName , passwordReset} from "../Controllers/auth.js"
 
 
 const router = express.Router()
@@ -18,13 +18,16 @@ router.get("/read", verifyToken , cookie_read )
 
 
 //find user by name :
-router .get("/find/:name", findUserByName )
+router.get("/find/:name", findUserByName )
 
 // follow user
 
 
-//google login
-router.post("/signinG",   )
+// todo google login : 
+
+// password reset : 
+
+router.post("/password-rest"  , passwordReset)
 
 
 export default router

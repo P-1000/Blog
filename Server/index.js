@@ -12,9 +12,10 @@ import blog from "./Controllers/Mblog.js"
 import Tag from "./Models/Tags.js"
 import { faker } from '@faker-js/faker';
 import Fuse from 'fuse.js';
-import { followFunc , unfollowFunc } from "./Controllers/auth.js"
+import { followFunc , sendMail, unfollowFunc } from "./Controllers/auth.js"
 import { createError } from "./error.js"
 import { verifyToken } from "./Verify.js"
+
 
 // import algoliasearch from 'algoliasearch';
 // UKAHGWLA0Z
@@ -236,19 +237,23 @@ app.use((err,req,res,next)=>{
 
 
 
-
+//hxzlsowcdvwheybt
 
 //follow user function : 
 app.post("/api/follow", followFunc);
 
 app.post("/api/unfollow", unfollowFunc);
 
+// mail
+
+app.post("/api/sendmail" , sendMail);
+
+// password rest : 
+
+
+
 app.listen(3000 , ()=>{
+  console.log("starting server")
   connect()
     console.log("Server running on port 3000")
 })
-
-
-//K1x7Ne0KAIfLBzCa
-
-// mongodb+srv://earnvpn:<password>@cluster0.7xjnfdn.mongodb.net/?retryWrites=true&w=majority
