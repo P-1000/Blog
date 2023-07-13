@@ -50,6 +50,8 @@ export default function Reset() {
       const res = await axios.post(`https://back-e0rl.onrender.com/api/auth/validate-password-token/${token}` , {'email' : email , 'password' : password});
       console.log(res);
       toast.success(res.data.message);
+      const res2 = await axios.post(`https://back-e0rl.onrender.com/api/auth/password-reset-ack` , {'email' : email});
+
         // Reset the form fields
     setEmail('');
     setPassword('');
@@ -57,13 +59,9 @@ export default function Reset() {
 
     //send mail to user for conformation : 
 
-    const res2 = await axios.post(`https://back-e0rl.onrender.com/api/auth/password-reset-ack` , {'email' : email});
-
+   
     //navigate to login page 
-   setTimeout(() => {
-
     window.location.href = "/login"
-    }, 1000);
 
     } catch (error) {
       console.error(error);
