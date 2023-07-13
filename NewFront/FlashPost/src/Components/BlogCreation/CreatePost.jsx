@@ -83,12 +83,12 @@ function QuillEditor() {
     const delta = quillRef.current.getContents();
     const html = editorRef.current.firstChild.innerHTML;
     if(title === "" || description === "" || tags === "" || coverUrl === "" || html === ""){
-      alert("Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
     //check if the user is logged in or not
     if(!currentUser){
-      alert("Please login to continue");
+      toast.error("Please login to upload a blog");
       return;
     }
     // check tags : for not allowing duplicate tags and remove spaces in start and end
@@ -117,6 +117,7 @@ function QuillEditor() {
 
    //   console.log(res.data);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
   }

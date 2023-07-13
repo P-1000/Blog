@@ -2,7 +2,7 @@ import express from "express"
 import { verify } from "jsonwebtoken"
 import { signup , signin, cookie_read } from "../Controllers/auth.js"
 import { verifyToken } from "../Verify.js"
-import { findUserByName , passwordReset , validateLoanToken} from "../Controllers/auth.js"
+import { findUserByName , passwordReset , tokenValidation , passwordResetAck} from "../Controllers/auth.js"
 
 
 const router = express.Router()
@@ -29,7 +29,14 @@ router.get("/find/:name", findUserByName )
 
 router.post("/password-rest" ,  passwordReset)
 
-router.post("validate-password-token/:token" ,  validateLoanToken)
+// validate token :
+ router.post("/validate-password-token/:token" ,  tokenValidation)
+
+ //send mail to user for conformation :
+    router.post("/password-reset-ack" , passwordResetAck)
+
+
+
 
 
 export default router

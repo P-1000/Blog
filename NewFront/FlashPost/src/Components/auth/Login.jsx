@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
  import { useDispatch } from 'react-redux';
  import { loginStart, loginFailure } from '../../redux/userSlice';
+ import { ToastContainer, toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,18 +35,22 @@ const Login = () => {
       axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
   .then(response => {
    console.log("succuess login")
+   toast.success("Login Success")
   })
   .catch(error => {
     console.log(error)
+    toast.error("Login Failed")
   });
       console.log(tok + "slkafjlsk")
       navigate('/home')
    } catch (error) {
+      toast.error(error.response.data.message)
      dispatch(loginFailure())
    }
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+   <div>
+     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
       </div>
@@ -129,6 +135,8 @@ const Login = () => {
 
 
 </div>
+<ToastContainer />
+   </div>
   )
 }
 export default Login;

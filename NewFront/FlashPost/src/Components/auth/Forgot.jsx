@@ -10,7 +10,7 @@ const Forgot = () => {
         const email = document.getElementById("email").value;
         toast.info("Sending Email")
         try{
-            const res = await axios.post('http://localhost:3000/api/auth/password-rest', {email});
+            const res = await axios.post('https://back-e0rl.onrender.com/api/auth/password-rest', {email});
             console.log(res)
             if(res.status === 200){
                 toast.success("Email Sent Successfully")

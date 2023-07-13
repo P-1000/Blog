@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
 
 export default function Reset() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-  const { token, email } = useParams();
+
+
+  const { token } = useParams();
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -18,16 +25,53 @@ export default function Reset() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate the password
+    if(password !== confirmPassword){
+      toast.error("Password don't match")
+      return 
+    }
+
+
     // TODO: Implement password reset logic
     console.log('Token:', token);
-    console.log('Email:', email);
     console.log('New Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+    console.log('email:', email)
 
-    // Reset the form fields
+
+    validateToken();
+
+  
+
+
+  };
+
+  const validateToken = async () => {
+    try {
+      const res = await axios.post(`https://back-e0rl.onrender.com/api/auth/validate-password-token/${token}` , {'email' : email , 'password' : password});
+      console.log(res);
+      toast.success(res.data.message);
+        // Reset the form fields
+    setEmail('');
     setPassword('');
     setConfirmPassword('');
+
+    //send mail to user for conformation : 
+
+    const res2 = await axios.post(`https://back-e0rl.onrender.com/api/auth/password-reset-ack` , {'email' : email});
+
+    //navigate to login page 
+   setTimeout(() => {
+
+    window.location.href = "/login"
+    }, 1000);
+
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    }
   };
+
+
 
   return (
     <section className="bg-neutral-200 ">
@@ -45,11 +89,12 @@ export default function Reset() {
                 Your email
               </label>
               <input
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 name="email"
                 id="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
+                placeholder="Enter Your Email"
                 defaultValue={email}
                 required
               />
@@ -107,7 +152,7 @@ export default function Reset() {
               </div>
             </div>
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="w-full
               backdrop-filter backdrop-blur-sm bg-opacity-50 hover:bg-opacity-95 border border-gray-100
                text-white  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  bg-secondary"
@@ -117,6 +162,7 @@ export default function Reset() {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 }
