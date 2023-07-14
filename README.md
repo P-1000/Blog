@@ -10,9 +10,9 @@ Flashpost Blog is a fast and lightweight blog built using Vite, React.js, MongoD
 - Image handling using ImgKit CDN for efficient image processing and delivery.
 - Secure authentication system for user registration and login.
 - CRUD operations for managing blog posts, including create, read, update, and delete functionality.
-- Search functionality to find specific blog posts based on keywords.
-- Social sharing options for easily sharing blog posts on various platforms.
-- Commenting system to enable readers to engage and provide feedback.
+- Search functionality to find specific blog posts based on keywords and Creator.
+- Social sharing options for easily sharing blog posts on various platforms. (todo)
+- Commenting system to enable readers to engage and provide feedback. (Yet to implemet)
 - Separate frontend and backend folders for easy deployment and hosting.
 
 ## Repository Structure
@@ -27,8 +27,7 @@ This repository follows a specific structure:
 The Flashpost Blog is hosted separately for the frontend and backend:
 
 - **Frontend**: The frontend is hosted on Netlify and can be accessed at [https://flashpost.netlify.app](https://flashpost.netlify.app).
-- **Backend**: The backend is hosted on Render and can be accessed at [https://flashpost-backend.render.com](https://flashpost-backend.render.com).
-
+- **Backend**: The backend is hosted on Render .
 ## Getting Started
 
 To run the Flashpost Blog locally, follow these steps:
@@ -43,10 +42,4 @@ To run the Flashpost Blog locally, follow these steps:
 8. Start the frontend development server: `npm run dev`
 9. Access the Flashpost Blog in your browser at `http://localhost:3000`
 
-## Contributing
 
-Contributions to the Flashpost Blog are welcome! If you have any ideas, suggestions, or bug fixes, please feel free to submit a pull request.
-
-## License
-
-The Flashpost Blog is open source and released under the [MIT License](LICENSE). Feel free to modify and use the code for your own projects.
