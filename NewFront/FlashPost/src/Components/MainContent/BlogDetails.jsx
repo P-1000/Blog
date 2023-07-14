@@ -66,7 +66,7 @@ function BlogDetails() {
     
    </div>
    <div>
-    <AsideAuthor/>
+    <AsideAuthor Author= {blog.Author} />
    </div>
 </div>
     

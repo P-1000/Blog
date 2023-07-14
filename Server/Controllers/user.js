@@ -124,7 +124,18 @@ export const editProfile = async (req, res, next) => {
   }
 };
 
+// get user by name : 
+export const getUser_Name = async (req, res, next) => {
+  const { name } = req.params;
+  try{
+    const user = await User.findOne({name: name})
+    if(!user){
+      return res.status(404).json({message: "user not found"})
+    }
+    res.status(200).json(user);
+  }catch(err){
+    next(err)
+    res.status(500).json({message: "server error"})
+  }
+};
 
-export const testbro = async (req, res, next) => {
-  res.status(200).json({message: "test bro"})
-}
