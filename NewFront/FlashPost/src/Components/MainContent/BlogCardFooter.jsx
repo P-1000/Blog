@@ -20,6 +20,12 @@ function BlogCardFooter(props) {
   }, []); // Empty dependency array ensures the effect runs only once when component mounts
 
   async function handleLike() {
+
+    //check if the user is logged in or not if! logged in redirect to login page
+    if (!localStorage.getItem('jwt')) {
+    return   window.location.href = '/login';
+    }
+
     if (isLiked) {
       setLike(like - 1);
       const response = await axios.put(`https://back-e0rl.onrender.com/api/blogs/dislike/${props.id}`);
@@ -32,9 +38,6 @@ function BlogCardFooter(props) {
       console.log(response);
     }
   }
-
-
-
 
 
   return (
