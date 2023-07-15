@@ -22,9 +22,12 @@ function BlogCardFooter(props) {
   async function handleLike() {
 
     //check if the user is logged in or not if! logged in redirect to login page
-    if (!localStorage.getItem('jwt')) {
-    return   window.location.href = '/login';
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      window.location.href = '/login';
+      return;
     }
+
 
     if (isLiked) {
       setLike(like - 1);
