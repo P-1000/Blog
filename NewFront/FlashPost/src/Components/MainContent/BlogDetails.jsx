@@ -16,6 +16,9 @@ function BlogDetails() {
   const config = {
       headers: { Authorization: `Bearer ${tok}` }
   }
+
+const [authorDetails , setAuthorDetails] = useState([{}])
+
   useEffect(()=>{
     try {
       const fetchBlog = async () => {
@@ -23,13 +26,19 @@ function BlogDetails() {
         console.log(response.data , "blog data ");
         const blog_data = response.data
         setBlog(blog_data);
-        console.log(blog)
       }
       fetchBlog();
+      fetchUserProfile();
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   },[])
+
+  const fetchUserProfile = async () => {
+    const res = await fetch(`http://localhost:3000/api/users/${blog.Author}`);
+    const data = await res.json()
+    setAuthorDetails(data);
+  }
 
   return (
    <>
@@ -66,7 +75,7 @@ function BlogDetails() {
     
    </div>
    <div>
-    <AsideAuthor Author= {blog.Author} />
+    <AsideAuthor Author= {authorDetails} />
    </div>
 </div>
     
