@@ -42,12 +42,24 @@ function BlogCardFooter(props) {
     }
   }
 
+  const handleBookmarks = async () => {
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+
+    //todo : add blog to bookmarks
+
+  };
+
 
   return (
     <div className='flex justify-between mt-4'>
       <div>
         <div className='flex gap-4 lg:gap-8'>
-          <div className='ml-5 hidden lg:block'>
+          <div onClick={handleBookmarks}
+          className='ml-5 hidden lg:block'>
             <BsBookmarkPlus className='text-2xl text-primary-500' />
           </div>
           <div className='flex gap-[.2em] ml-5'>

@@ -33,6 +33,9 @@ router.put("/:id/editProfile", verifyToken, editProfile)
 
 router.get("/:name", getUser_Name)
 
+// add to bookmarks : 
+router.put("/:id/addBookmark", verifyToken, addBookmark)
+
 
 
 export default router

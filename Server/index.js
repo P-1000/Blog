@@ -28,7 +28,7 @@ dotenv.config()
 
 //Cors setup  : 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://flash-post.vercel.app/']
+  origin: ['http://localhost:5173', 'https://flash-post.vercel.app/' , 'https://flashpost.netlify.app/']
 }));
 
 

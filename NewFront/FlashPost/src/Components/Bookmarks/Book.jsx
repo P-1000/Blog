@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Book(props) {
   const [bookmarksid, setBookmarksid] = useState([]);
@@ -58,13 +60,24 @@ function Book(props) {
     return <div>Error: {error}</div>;
   }
 
+  console.log(bookmarks)
+
   return (
     <div>
       <div>
+      <div>
         {bookmarks.map((bookmark) => (
-          <div>{bookmark?.title}</div>
+          <div>
+          {bookmark?.title}
+          <div>
+          {bookmark?.desc}
+          </div>
+          <img src={bookmark?.imgUrl} alt="blog" />
+          </div>
         ))}
       </div>
+    </div>
+    <ToastContainer/>
     </div>
   );
 }

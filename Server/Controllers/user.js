@@ -139,3 +139,29 @@ export const getUser_Name = async (req, res, next) => {
   }
 };
 
+// add to bookmarks :
+export const addBookmark = async (req, res, next) => 
+{
+  const { id } = req.params;
+  const { blogId } = req.body;
+  try {
+    const user = await User.findById(id);
+    if(!user) return res.status(404).json({message: "user not found"})
+    if (user._id.toString() === id) {
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { $push: { Bookmarks: blogId } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "blog added to bookmarks",
+        updatedUser
+      });
+    }
+}
+catch (err) {
+    next(err);
+  }
+};
+
+
