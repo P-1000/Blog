@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BlogCards from '../MainContent/BlogCards';
+import { Link } from 'react-router-dom';
+import BlogCardFooter from '../MainContent/BlogCardFooter';
 
 function Book(props) {
   const [bookmarksid, setBookmarksid] = useState([]);
@@ -91,18 +94,41 @@ function Book(props) {
     <div>
       <div>
       <div>
-        {bookmarks.map((bookmark) => (
-          <div>
-          {bookmark?.title}
-          <div>
-          {bookmark?.desc}
-          </div>
-          <img src={bookmark?.imgUrl} alt="blog" />
-          </div>
+        {bookmarks.map((blog) => (
+         <div className='bg-white'>
+         <div className='border-b-[1px] ' key={blog._id}>
+                        <div>
+                          <div>
+                            <Link 
+                            className='border-b-[1px] border-gray-300 hover:bg-gray-100'
+                            to={`/blog/@${blog.Author}/${blog._id}`}>
+                              <BlogCards
+                                Author={blog.Author}
+                                desc={blog.desc}
+                                title={blog.title}
+                                imgUrl={blog.imgUrl}
+                                blog_id={blog._id}
+                                time={blog.createdAt}
+                              />
+                            </Link>
+                          </div>
+                          {blog.tags && (
+                            <div className='mb-3'>
+                              <BlogCardFooter 
+
+                              id={blog._id} like={blog.likes} tag={blog.tags} />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+         </div>
         ))}
       </div>
     </div>
     <ToastContainer/>
+    <div>
+   
+    </div>
     </div>
   );
 }

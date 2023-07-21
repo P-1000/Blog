@@ -12,7 +12,9 @@ function Bookmark() {
         <div className='flex'>
         <SideNav/>
         <div className='flex flex-col gap-0'>
-            <h1 className='text-3xl font-bold text-primary mt-6 mb-1'>Bookmarks</h1>
+            <h1  className='
+            text-3xl font-bold text-primary  mb-1 border-neutral-400 shadow-inner  text-center bg-white z-50 mt-8 rounded-md p-4 px-6 mr-1 '>
+            Bookmarks</h1>
             <div>
                 <Book/>
             </div>
