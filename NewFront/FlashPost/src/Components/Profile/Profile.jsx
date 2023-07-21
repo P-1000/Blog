@@ -232,6 +232,7 @@ const isCurrentUser = us._id === user._id;
           <div className='bg-white w-full  rounded-md mt-8 border-[1px] overflow-hidden'>
                 <div className='flex' >
                     <div className='flex justify-center items-center'>
+
                         <div className='p-10 ml-7 flex gap-6'>
                         <img 
                         onClick={handleProfilePicClick}
