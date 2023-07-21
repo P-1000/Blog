@@ -4,7 +4,7 @@ import { verifyToken } from "../Verify.js"
 import {redbro } from "../Controllers/user.js"
 import {follow} from "../Controllers/user.js"
 import {uploadProfilePicture} from "../Controllers/user.js"
-import {  getUserByName , fetchUserBookmarks , editProfile , getUser_Name} from "../Controllers/user.js"
+import {  getUserByName , fetchUserBookmarks , editProfile , getUser_Name , addBookmark} from "../Controllers/user.js"
 
 
 const router = express.Router()
