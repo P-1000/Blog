@@ -159,8 +159,29 @@ const [preview, setPreview] = useState(null);
     authenticationEndpoint:"localhost:5173",
   });
 
+
+  // check for current usr : 
+
+  const [currentUsrornot , setCurrentUsrornot] = useState(false);
+
+  function checkCurrentUser() {
+    if(us._id === user._id){
+      setCurrentUsrornot(true)
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   const handleProfilePicClick = () => {
-    fileInputRef.current.click();
+    if(checkCurrentUser()){
+      fileInputRef.current.click();
+    }
+   else{
+      return;
+    }
+
   };
 
 
