@@ -29,6 +29,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekitio-react'
 import { useRef } from 'react'
 import axios from 'axios'
 import { Modal } from '@mui/material'
+import FollowersModal from './FollowerModal'
 
 
 
@@ -87,7 +88,6 @@ function Profile() {
       setUser(data[0]);
       const userProfilePic = user.ProfilePic;
       setProfileImg(userProfilePic);
-      console.log(userProfilePic);
       countFollowers(data[0].Followers);
       countFollowing(data[0].Following);
   }
@@ -98,9 +98,13 @@ const followID = user?._id;
 
  //check if current user is following the user of profile :
  const currentUser = JSON.parse(localStorage.getItem('user'));
- let isFollowing = currentUser.Following?.includes(user._id);
+ const isFollowing = currentUser.Following?.includes(user._id);
+ const [isFollowing1, setF1] = useState(isFollowing);
 
- const [isf, setF] = useState(isFollowing);
+ useEffect(() => {
+  setF1(isFollowing);
+}, [isFollowing]);
+
 
 
  // follow button :
@@ -110,8 +114,9 @@ const followID = user?._id;
           userId: us._id,  //current user from local storage bro marchipoku : 
           followId: followID ? followID : null,    //user of profile : from params name : User
         }, config);
-        console.log(res.data);
+        setF1(true);
         setF(!isf);
+
         getUser();
     }
 
@@ -122,7 +127,7 @@ const followID = user?._id;
         userId: us._id,  //current user from local storage bro marchipoku :
         unfollowId: followID ? followID : null,    //user of profile : from params name : User
       }, config);
-      console.log(res.data);
+      setF1(false);
      setF(!isf);
      getUser();
   }
@@ -211,7 +216,6 @@ const uploadProfilePic = async (url) => {
       bodyPicture: url,
     }, config);
     getUser();
-    console.log(res.data);
   } catch (error) {
     console.log(error)
   }
@@ -220,7 +224,6 @@ const uploadProfilePic = async (url) => {
 
 //is the profile is of current user :
 const isCurrentUser = us._id === user._id;
-
 
 
 
@@ -255,17 +258,29 @@ const isCurrentUser = us._id === user._id;
                                 
                                     <h1 
                                     // onClick={() => setUserReactions(user?.Reactions)}
-                                    className='flex gap-1'>
+                                    className='flex '>
                                         <span className='text-sm font-semibold'>
-                                            {userFollowersCount ? userFollowersCount : 0}
+                                            {/* {userFollowersCount ? userFollowersCount : 0} */}
+                                            <FollowersModal 
+                                            followers={userFollowersCount} 
+                                            fof={false}  
+                                            following={userFollowingCount}
+                                            user={user}
+                                              />
                                         </span>
-                                        <span className='text-sm font-normal'>Followers</span>
+                                        {/* <span className='text-sm font-normal'>Followers</span> */}
                                     </h1>
-                                    <h1 className='flex gap-1'>
+                                    <h1 className='flex'>
                                         <span className='text-sm font-semibold'>
-                                            {userFollowingCount ? userFollowingCount : 0}
+                                            {/* {userFollowingCount ? userFollowingCount : 0} */}
                                         </span>
-                                        <span className='text-sm font-normal'>Following</span>
+                                        <FollowersModal 
+                                        followers={userFollowersCount} 
+                                        following={userFollowingCount}  
+                                        fof={true}
+                                        user={user}
+                                         />
+                                        {/* <span className='text-sm font-normal'>Following</span> */}
                                     </h1>
                                  </div>
                                  </div>
@@ -309,10 +324,10 @@ const isCurrentUser = us._id === user._id;
                                     {/* <button className='bg-primary text-white font-semibold py-2 px-4 rounded-md'>Share</button> */}
                                    <div className='flex flex-row-reverse gap-[6px] bg-primary text-white font-semibold py-2 px-4 rounded-full'>
                                   {
-                                    isFollowing ?   <HiBackspace  className='text-xl  mt-[4.7px] '/> : <HiPlus className='text-xl  mt-[4.7px] '/>
+                                    isFollowing1 ?   <HiBackspace  className='text-xl  mt-[4.7px] '/> : <HiPlus className='text-xl  mt-[4.7px] '/>
                                   }
                                    {
-                                    isFollowing ? 
+                                    isFollowing1 ? 
                                     <button 
                                     onClick={Unfollow}
                                     className='pr-1'>Unfollow</button>

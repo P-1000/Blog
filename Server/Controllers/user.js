@@ -132,6 +132,7 @@ export const getUser_Name = async (req, res, next) => {
     if(!user){
       return res.status(404).json({message: "user not found"})
     }
+    // dont send password as response :
     res.status(200).json(user);
   }catch(err){
     next(err)
@@ -161,6 +162,22 @@ export const addBookmark = async (req, res, next) =>
 }
 catch (err) {
     next(err);
+  }
+};
+
+
+//get user by id : 
+export const getUserById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+    res.status(500).json({ message: "server error" });
   }
 };
 
