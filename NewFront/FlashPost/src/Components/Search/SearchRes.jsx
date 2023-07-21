@@ -6,6 +6,7 @@ import SearchCard from './SearchCard';
 import SideNav from '../SideBar/SideNav';
 
 
+
 function SearchRes(props) {
   const {imgUrl , title , desc , blog_id  , Author , time} = props
   const [s , sc]  = useState('')
@@ -23,6 +24,20 @@ const search = query
 console.log(search)
 const [data , setData] = useState([])
 async function handleSearch(){
+  if(search === undefined){
+    return window.location.replace('/')
+  }
+  if(search === ''){
+    return window.location.replace('/')
+  }
+  if(search === null){
+    return window.location.replace('/')
+  }
+  
+// if seach is null or full of spaces then return
+if(search.trim() === ''){
+  return
+}
     const res = await axios.get(`https://back-e0rl.onrender.com/api/search?query=${search}`)
     const data = res.data
     setData(data)

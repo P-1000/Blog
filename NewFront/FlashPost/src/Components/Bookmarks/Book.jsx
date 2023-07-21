@@ -8,15 +8,41 @@ function Book(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const localuser = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState(localuser.name);
+
+
+  async function fetchLocalUser(){ 
+    setUser(localuser.name)
+    if(user === null){
+      fetchLocalUser()
+      if(user === null){
+      return window.location.replace('/Home')
+    }
+  }
+    if(user === undefined){
+      return window.location.replace('/Home')
+    }
+
+    return localuser.name ? localuser.name : null
+  }
+
+  
+
+
   useEffect(() => {
     const fetchBookmarkids = async () => {
+      fetchLocalUser()
       try {
-        const res = await fetch('https://back-e0rl.onrender.com/api/users/Naruto/bookmarks');
+        const res = await fetch(`https://back-e0rl.onrender.com/api/users/${user}/bookmarks`);
         const data = await res.json();
         setBookmarksid(data);
+        setLoading(false);
+       console.table(data)
       } catch (error) {
         console.log(error);
         setError('Error fetching bookmark IDs');
+        window.location.replace('/')
       }
     };
 
@@ -60,7 +86,6 @@ function Book(props) {
     return <div>Error: {error}</div>;
   }
 
-  console.log(bookmarks)
 
   return (
     <div>

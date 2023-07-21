@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
  import { useDispatch } from 'react-redux';
- import { loginStart, loginFailure } from '../../redux/userSlice';
+ import { loginStart, loginFailure , loginSuccess} from '../../redux/userSlice';
  import { ToastContainer, toast } from 'react-toastify';
  import 'react-toastify/dist/ReactToastify.css';
 
@@ -26,22 +26,20 @@ const Login = () => {
       //get token from local storage
       const token = localStorage.getItem('jwt');
       const tok = JSON.parse(token);
-      console.log(tok)
-
       const config = {
         headers: { Authorization: `Bearer ${tok}` }
       };
       
       axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
   .then(response => {
-   console.log("succuess login")
+    dispatch(loginSuccess(response.data));
    toast.success("Login Success")
   })
   .catch(error => {
     console.log(error)
     toast.error("Login Failed")
   });
-      console.log(tok + "slkafjlsk")
+      dispatch(loginSuccess(res.data));
       navigate('/home')
    } catch (error) {
       toast.error(error.response.data.message)
