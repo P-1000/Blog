@@ -14,12 +14,58 @@ const Register = () => {
 
    const dispatch = useDispatch();
   const navigate = useNavigate();
+
+
+  // form validation :
+  const validate = () => {
+    if (email.length === 0) {
+      toast.error("Email is required");
+      return false;
+    }
+    if (name.length === 0) {
+      toast.error("Name is required");
+      return false;
+    }
+    if (password.length === 0) {
+      toast.error("Password is required");
+      return false;
+    }
+    if(password.length < 6){
+      toast.error("Password must be atleast 6 characters long");
+      return false;
+    }
+    if(!email.includes("@")){
+      toast.error("Invalid Email");
+      return false;
+    }
+    if(name.length < 3){
+      toast.error("Username must be atleast 3 characters long");
+      return false;
+    }
+    if(name.includes(" ")){
+      toast.error("Username cannot contain spaces");
+      return false;
+    }
+    // no special characters allowed in username only alphabets , numbers and underscore allowed
+    var regex = /^[a-zA-Z0-9_]*$/;
+    if(!regex.test(name)){
+      toast.error("Username cannot contain special characters");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async(event) => {
     event.preventDefault();
+    // form validation :
+    const isValid = validate();
+    if(!isValid){
+      return;
+    }
    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signup', {name,password , email});
+      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signup', { name,password , email});
       navigate('/')
       toast.success("Account Created Successfully");
    } catch (error) {
@@ -27,6 +73,8 @@ const Register = () => {
       toast.error(error.response.data.message)
    }
   };
+
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <ToastContainer />

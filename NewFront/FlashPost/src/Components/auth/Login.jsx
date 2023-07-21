@@ -19,7 +19,7 @@ const Login = () => {
    dispatch(loginStart())
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signin', {name,password});
+      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signin', { name ,password});
       //setting token to local storage
       localStorage.setItem("jwt", JSON.stringify(res.data.token))
       document.cookie = `token=${res.data.token}`;
