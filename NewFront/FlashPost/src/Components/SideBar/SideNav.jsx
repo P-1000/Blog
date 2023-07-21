@@ -34,7 +34,8 @@ function SideNav() {
            className='pb-3 p-2 cursor-pointer hover:bg-[#f5f5f5]'>
               <MdOutlineExplore className='inline-block mr-2 text-2xl'/>Bookmarks
            </a>
-           <a className='pb-3  p-2 cursor-pointer hover:bg-[#f5f5f5]'>
+           <a href='https://www.github.com/p-1000 ' target='_blank' rel="noreferrer"
+            className='pb-3  p-2 cursor-pointer hover:bg-[#f5f5f5]'>
               <MdOutlineExplore className='inline-block mr-2 text-2xl'/>About
            </a>
          </div>
