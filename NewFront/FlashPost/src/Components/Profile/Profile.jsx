@@ -30,6 +30,9 @@ import { useRef } from 'react'
 import axios from 'axios'
 import { Modal } from '@mui/material'
 import FollowersModal from './FollowerModal'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Edit from './Edit'
 
 
 
@@ -115,7 +118,6 @@ const followID = user?._id;
           followId: followID ? followID : null,    //user of profile : from params name : User
         }, config);
         setF1(true);
-        setF(!isf);
 
         getUser();
     }
@@ -128,7 +130,6 @@ const followID = user?._id;
         unfollowId: followID ? followID : null,    //user of profile : from params name : User
       }, config);
       setF1(false);
-     setF(!isf);
      getUser();
   }
 
@@ -306,7 +307,9 @@ const isCurrentUser = us._id === user._id;
                                    <AiFillEdit  className='text-xl  mt-[4.7px] '/>
                                   <button 
                                     // onClick={Unfollow}
-                                    className='pr-1'>Edit</button>
+                                    className='pr-1'>
+                                    <Edit />
+                                    </button>
                                    </div>
                                     
                                     
@@ -405,6 +408,7 @@ const isCurrentUser = us._id === user._id;
               
 
           </div>
+          <ToastContainer />
     </>
   )
 }

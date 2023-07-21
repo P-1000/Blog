@@ -176,7 +176,7 @@ const handleImageUpload = async (file) => {
       <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
     </div>
  {
-  postImage &&   <img src={postImage.Cover} alt='error bro' />
+  postImage &&   <img src={postImage.Cover} alt='Image Loading' />
  }
 
  <ToastContainer />

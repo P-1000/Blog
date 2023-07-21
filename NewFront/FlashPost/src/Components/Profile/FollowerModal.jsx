@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Followers from "./Followers";
+import Following from "./Following";
 
 export default function Modal(props) {
   const [showModal, setShowModal] = React.useState(false);
   const { followers, following, fof, user } = props;
   const [flr, setFlr] = useState(user.Followers);
   const [flg, setFlg] = useState(user.Following);
+
 
 
 
@@ -18,7 +20,7 @@ export default function Modal(props) {
 
 
   async function fetchMembers(id) {
-    const res = await fetch(`http://localhost:3000/api/users/fetchId/${id}`);
+    const res = await fetch(`https://back-e0rl.onrender.com/api/users/fetchId/${id}`);
     const data = await res.json();
     setMembers((prevMembers) => [...prevMembers, data]); // Using the functional update to access the previous state.
   }
@@ -26,6 +28,7 @@ export default function Modal(props) {
   useEffect(() => {
     // Check if flr is not null or undefined before mapping
       flr?.forEach((id) => {
+        
         fetchMembers(id);
       });
 
@@ -83,7 +86,7 @@ export default function Modal(props) {
               {
                   fof ?
                    <div>
-                   Following
+                    <Following flr={user} />
                    </div>
                    :
                       <div> 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Followers(props) {
   const { flr } = props;
-  const flrs = flr.Followers;
+  const flrs = flr.Following;
   const [members, setMembers] = useState([]);
 
   async function fetchMembers(id) {
