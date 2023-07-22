@@ -27,26 +27,40 @@ export const redbro = async (req, res, next) => {
   };
 
   // follow user add to following array and increment followers
-export const follow = async (req, res, next) => {
-  if (req.params.id !== '64234329867fe897afe45cb0') {
+  export const follow = async (req, res, next) => {
+    const currentUserId = req.body.userId;
+    const followId = req.body.followId;
+  
     try {
-      const user = await User.findById(req.params.id);
-      if(!user) return res.status(404).json("user not found!")
-      const currentUser = await User.findById('64234329867fe897afe45cb0');
-      if (!user.followers.includes('64234329867fe897afe45cb0')) {
-        await user.updateOne({ $push: { followers: '64234329867fe897afe45cb0' } });
-        await currentUser.updateOne({ $push: { following: req.params.id } });
-        res.status(200).json("user has been followed");
+      if (currentUserId === followId) {
+        return res.status(403).json("You can't follow yourself");
+      }
+  
+      const user = await User.findById(followId).select('followers');
+      if (!user) {
+        return res.status(404).json("User not found!");
+      }
+  
+      const currentUser = await User.findById(currentUserId);
+      if (!currentUser) {
+        return res.status(404).json("Current user not found!");
+      }
+  
+      if (!user.followers.includes(currentUserId)) {
+        await Promise.all([
+          user.updateOne({ $push: { followers: currentUserId } }),
+          currentUser.updateOne({ $push: { following: followId } })
+        ]);
+  
+        return res.status(200).json("User has been followed");
       } else {
-        res.status(403).json("you already follow this user");
+        return res.status(403).json("You already follow this user");
       }
     } catch (err) {
       next(err);
     }
-  } else {
-    res.status(403).json("you can't follow yourself");
-  }
-}
+  };
+  
 
 //follow 
 
