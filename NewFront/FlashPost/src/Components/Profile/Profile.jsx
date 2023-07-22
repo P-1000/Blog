@@ -115,7 +115,7 @@ const followID = user?._id;
         const res = await axios.post('https://back-e0rl.onrender.com/api/follow', 
         {
           userId: us._id,  //current user from local storage bro marchipoku : 
-          followId: followID ? followID : null,    //user of profile : from params name : User
+          followId: followID ? followID : followID,    //user of profile : from params name : User
         }, config);
         setF1(true);
 
