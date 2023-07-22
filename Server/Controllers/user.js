@@ -31,6 +31,7 @@ export const follow = async (req, res, next) => {
   if (req.params.id !== '64234329867fe897afe45cb0') {
     try {
       const user = await User.findById(req.params.id);
+      if(!user) return res.status(404).json("user not found!")
       const currentUser = await User.findById('64234329867fe897afe45cb0');
       if (!user.followers.includes('64234329867fe897afe45cb0')) {
         await user.updateOne({ $push: { followers: '64234329867fe897afe45cb0' } });
