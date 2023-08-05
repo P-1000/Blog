@@ -49,7 +49,7 @@ app.use(express.json())
 
 app.get("/", (req, res) => {
     console.log("Server Running Bro!")
-    res.send("Server Running Bro!")
+    res.status(200).send("Server Running : Flashpost")
 })
 
 app.use("/api/auth", authRoutes)

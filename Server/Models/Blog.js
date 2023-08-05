@@ -38,7 +38,7 @@ const BlogSchema = new mongoose.Schema(
       type:String,
       required:true,
     },
-    Contetn:{
+    Content:{
       type:String,
       requried:true,
     },
@@ -46,9 +46,6 @@ const BlogSchema = new mongoose.Schema(
       type:Number,
       default:0,
     },
-    quillContent:{
-      type:Object,
-    }
   },
   { timestamps: true } 
 );

@@ -90,6 +90,26 @@ export const getAllBlogs = async (req, res, next) => {
     }
   }
 
+  //get blogs with pagination : or inifinite scrolling thing : 
+
+  export const getPageBlogs = async (req, res, next) => {
+    const limit = 6; 
+    const skip = req.params.skip || 0; // Number of blogs to skip
+  
+    try {
+      const blogs = await Blog.find().sort({createdAt : -1}).limit(limit).skip(skip);
+       res.status(200).json(blogs);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  
+
+
+
+
+
 //get a blog by id: 
 export const getBlogById = async (req , res , next) =>{
   try{
@@ -151,6 +171,8 @@ export const trendingBlogs = async (req , res , next) =>{
   export const getBlogsByFollowingAuthors = async (req , res , next) =>{
     try{
       const blogs = await Blog.find({Author : req.params.author})
+      // set timeout for 5 seconds
+
       res.status(200).json(blogs)
     }catch{
       next(err);

@@ -38,7 +38,7 @@ const BlogSchema = new mongoose.Schema(
       type:String,
       required:true,
     },
-    Contetn:{
+    Content:{
       type:String,
       requried:true,
     },

@@ -13,48 +13,84 @@ function MainContent() {
   };
   const [blogs, setBlogs] = useState([]);
   const [category, setCategory] = useState('personalised');
-  const [trendingBlogs, setTrendingBlogs] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      const response = await axios.get('https://back-e0rl.onrender.com/api/blogs/allBlogs', config);
+  const fetchBlogs = async (page) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blogsPage/${page}`, config);
       const blog_data = response.data;
-      const rev = response.data.reverse();
-      setBlogs(rev);
-    };
 
-    const fetchTrendingBlogs = async () => {
+      if (blog_data.length === 0) {
+        // No more blogs to load
+        setHasMore(false);
+      } else {
+        // If it's the first page, directly set the blogs
+        // Otherwise, append the new blogs to the existing ones
+        if (page === 1) {
+          setBlogs(blog_data);
+        } else {
+          setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
+        }
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error('Error fetching blogs:', error);
+    }
+  };
+
+  const fetchTrendingBlogs = async () => {
+    try {
       const response = await axios.get('https://back-e0rl.onrender.com/api/blogs/trending');
       const blog_data = response.data;
-      setTrendingBlogs(blog_data);
-    };
-
-    fetchBlogs();
-    fetchTrendingBlogs();
-  }, []);
-
-  const fetchBlogsre = async () => {
-    const response = await axios.get('https://back-e0rl.onrender.com/blogs/allBlogs', config);
-    const blog_data = response.data;
-    const rev = response.data.reverse();
-    setBlogs(rev);
+      setBlogs(blog_data);
+    } catch (error) {
+      console.error('Error fetching trending blogs:', error);
+    }
   };
+
+  useEffect(() => {
+    fetchBlogs(pageNumber);
+    fetchTrendingBlogs();
+  }, [pageNumber]);
+
+  const handleScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (!loading && hasMore) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasMore, loading]); // Add scroll event listener when hasMore or loading changes
 
   const handleCategoryChange = (category) => {
     setCategory(category);
     if (category === 'trending') {
-      setBlogs(trendingBlogs);
+      setBlogs([]); // Clear the blogs to reset infinite scroll
+      fetchTrendingBlogs();
+      setHasMore(true); // Reset hasMore flag
     } else if (category === 'personalised') {
-      fetchBlogsre();
-      setBlogs(blogs);
+      setBlogs([]); // Clear the blogs to reset infinite scroll
+      setPageNumber(1); // Reset page number to fetch from the beginning
+      setHasMore(true); // Reset hasMore flag
     }
   };
 
   return (
     <>
       <div className=''>
-        <div className='mt-3  pt-5'>
-          <div className='border rounded-md  bg-white   w-full font-bold text-primary py-6 '>
+        <div className='mt-3 pt-5'>
+          <div className='border rounded-md bg-white w-full font-bold text-primary py-6 '>
             <div className=''>
               <ContentMenu category={category} onCategoryChange={handleCategoryChange} />
             </div>
@@ -62,32 +98,32 @@ function MainContent() {
             <div>
               {blogs &&
                 blogs.map((blog) => {
-                  if (true) {
-                    return (
-                      <div className='border-b-[1px]' key={blog._id}>
+                  return (
+                    <div className='border-b-[1px]' key={blog._id}>
+                      <div>
                         <div>
-                          <div>
-                            <Link to={`/blog/@${blog.Author}/${blog._id}`}>
-                              <BlogCards
-                                Author={blog.Author}
-                                desc={blog.desc}
-                                title={blog.title}
-                                imgUrl={blog.imgUrl}
-                                blog_id={blog._id}
-                                time={blog.createdAt}
-                              />
-                            </Link>
-                          </div>
-                          {blog.tags && (
-                            <div className='mb-3'>
-                              <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
-                            </div>
-                          )}
+                          <Link to={`/blog/@${blog.Author}/${blog._id}`}>
+                            <BlogCards
+                              Author={blog.Author}
+                              desc={blog.desc}
+                              title={blog.title}
+                              imgUrl={blog.imgUrl}
+                              blog_id={blog._id}
+                              time={blog.createdAt}
+                            />
+                          </Link>
                         </div>
+                        {blog.tags && (
+                          <div className='mb-3'>
+                            <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
+                          </div>
+                        )}
                       </div>
-                    );
-                  }
+                    </div>
+                  );
                 })}
+              {loading && <div>Loading more blogs...</div>}
+              {!loading && !hasMore && <div>No more blogs to fetch.</div>}
             </div>
           </div>
         </div>

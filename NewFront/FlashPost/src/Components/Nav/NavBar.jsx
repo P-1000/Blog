@@ -9,7 +9,13 @@ import { loginStart, loginSuccess } from '../../redux/userSlice';
 import { useState , useEffect } from 'react'
 import axios from 'axios'
 import MouseOverPopover from './Profile.jsx'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function NavBar() {
+
+    
+
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -21,6 +27,8 @@ function NavBar() {
    
     const [user, setUser] = useState([]);
      useEffect(()=>{
+
+        
        async function fetchData(){
          const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
           console.log(res.data)
@@ -41,7 +49,8 @@ function NavBar() {
     }
 
   return (
-    <div className='border-b-[1px] bg-white'>
+  <>
+      <div className='border-b-[1px] bg-white'>
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
         <div className='col-span-3'>
            <a href='/Home'>
@@ -121,7 +130,10 @@ function NavBar() {
     }
 
     </div>
+    
     </div>
+    <ToastContainer />
+  </>
   )
 }
 
