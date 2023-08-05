@@ -13,7 +13,7 @@ function MainContent() {
   };
   const [blogs, setBlogs] = useState([]);
   const [category, setCategory] = useState('personalised');
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [loadedBlogIds, setLoadedBlogIds] = useState(new Set());
@@ -21,7 +21,7 @@ function MainContent() {
   const fetchBlogs = async (page) => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blogsPage/${page}`, config);
+      const response = await axios.get(`http://localhost:3000/api/blogs/blogsPage/${page}`);
       const blog_data = response.data;
 
       if (blog_data.length === 0) {
@@ -30,7 +30,7 @@ function MainContent() {
       } else {
         // If it's the first page, directly set the blogs
         // Otherwise, append the new blogs to the existing ones
-        if (page === 1) {
+        if (page === 0) {
           setBlogs(blog_data);
         } else {
           setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
@@ -39,6 +39,12 @@ function MainContent() {
         // Add the IDs of newly loaded blogs to the loadedBlogIds set
         const newBlogIds = new Set(blog_data.map((blog) => blog._id));
         setLoadedBlogIds((prevLoadedBlogIds) => new Set([...prevLoadedBlogIds, ...newBlogIds]));
+
+        // Check if the response contains fewer blogs than the requested limit
+        // If so, there are no more blogs to load
+        if (blog_data.length < 8) {
+          setHasMore(false);
+        }
       }
 
       setLoading(false);
@@ -59,9 +65,13 @@ function MainContent() {
   };
 
   useEffect(() => {
-    fetchBlogs(pageNumber);
-    fetchTrendingBlogs();
-  }, [pageNumber]);
+    if (category === 'personalised') {
+      fetchBlogs(pageNumber);
+    } else if (category === 'trending') {
+      fetchTrendingBlogs();
+      setHasMore(false); // No more blogs to fetch for trending
+    }
+  }, [category, pageNumber]);
 
   const handleScroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -82,12 +92,11 @@ function MainContent() {
     setCategory(category);
     if (category === 'trending') {
       setBlogs([]); // Clear the blogs to reset
-      fetchTrendingBlogs();
-      setHasMore(true); // Reset hasMore flag
+      setHasMore(false); // No more blogs to fetch
       setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     } else if (category === 'personalised') {
       setBlogs([]); // Clear the blogs to reset
-      setPageNumber(1); // Reset page number to fetch from the beginning
+      setPageNumber(0); // Reset page number to fetch from the beginning
       setHasMore(true); // Reset hasMore flag
       setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     }
