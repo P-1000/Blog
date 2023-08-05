@@ -140,9 +140,13 @@ function MainContent() {
                       </div>
                     );
                   })}
-              {loading && <div>Loading more blogs...</div>}
-              {!loading && !hasMore && blogs.length === 0 && <div>No blogs found.</div>}
-              {!loading && !hasMore && blogs.length > 0 && <div>No more blogs to fetch.</div>}
+              {loading && 
+              <div className='px-10 mt-2'>
+              Loading more blogs...
+              </div>
+              }
+              {!loading && !hasMore && blogs.length === 0 && <div className='px-10 mt-2'>No blogs found.</div>}
+              {!loading && !hasMore && blogs.length > 0 && <div className='px-10 mt-2'>No more blogs to fetch.</div>}
             </div>
           </div>
         </div>

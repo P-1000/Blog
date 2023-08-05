@@ -85,6 +85,8 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
+
+
 //search db for blogs with title, tags, desc : with filter  and pagination
 // app.get("/api/search/filter", async (req, res) => {
 //   try {
@@ -188,6 +190,59 @@ app.get("/api/search", async (req, res) => {
 
 
 //get tags from db:
+
+
+// list all the tags in the db and count them $
+
+app.get("/api/tags", async (req, res) => {
+  try {
+    const blogs = await blog.find();
+    const tags = blogs.map((blog) => blog.tags);
+    const alltags = tags.flat();
+    // Remove null tags and tags that contain only spaces
+    const cleanedTags = alltags.filter((tag) => tag && tag.trim() !== '');
+    // Convert tags to lowercase and trim whitespace
+    const formattedTags = cleanedTags.map((tag) => tag.trim().toLowerCase());
+    const tagcount = {};
+    formattedTags.forEach((tag) => {
+      tagcount[tag] = (tagcount[tag] || 0) + 1;
+    });
+    // Get the top 20 tags
+    const uniqueTags = Object.keys(tagcount);
+    const sortedTags = uniqueTags.sort((a, b) => tagcount[b] - tagcount[a]);
+    const topTags = sortedTags.slice(0, 20);
+    // Loop through each unique tag and save it to the database
+    for (let i = 0; i < topTags.length; i++) {
+      const tag = topTags[i];
+      const count = tagcount[tag];
+      const tagModel = new Tag({ name: tag, count });
+      await tagModel.save();
+    }
+    res.json(tagcount);
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+
+// // remove all tags from the db : 
+// app.get("/api/tags/remove", async (req, res) => {
+//   try {
+//     await Tag.deleteMany();
+//     res.json({ message: "success" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+
+
+
+
 app.get("/api/TopTags", async (req, res) => {
   try {
     const tags = await Tag.find()
