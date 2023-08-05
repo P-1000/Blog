@@ -40,7 +40,7 @@ function MainContent() {
 
   useEffect(() => {
     if (category === 'trending') {
-      setHasMore(false); // Disable infinite scroll for trending blogs
+      setHasMore(true); // Disable infinite scroll for trending blogs
     } else {
       setPage(1); // Reset the page to 1 when switching to personalised category
     }
@@ -107,8 +107,8 @@ function MainContent() {
                   </div>
                 </div>
               ))}
-              {loading && <div>Loading more blogs...</div>}
-              {!loading && !hasMore && <div>No more blogs to load.</div>}
+              {loading && <div className='text-center pt-5 animate-bounce'>Loading more blogs...</div>}
+              {!loading && !hasMore && <div  className='text-center pt-5 animate-pulse text-secondary' >No more blogs to load.</div>}
             </div>
           </div>
         </div>
