@@ -21,7 +21,7 @@ function MainContent() {
   const fetchBlogs = async (page) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/api/blogs/blogsPage/${page}`);
+      const response = await axios.get(`hhttps://back-e0rl.onrender.com/api/blogs/blogsPage/${page}`);
       const blog_data = response.data;
 
       if (blog_data.length === 0) {
