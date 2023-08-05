@@ -4,79 +4,56 @@ import { Link } from 'react-router-dom';
 import BlogCardFooter from './BlogCardFooter';
 import BlogCards from './BlogCards';
 import ContentMenu from './ContentMenu';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MainContent() {
-  const token = localStorage.getItem('jwt');
-  const tok = JSON.parse(token);
-  const config = {
-    headers: { Authorization: `Bearer ${tok}` },
-  };
   const [blogs, setBlogs] = useState([]);
   const [category, setCategory] = useState('personalised');
-  const [pageNumber, setPageNumber] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [loadedBlogIds, setLoadedBlogIds] = useState(new Set());
 
-  const fetchBlogs = async (page) => {
-    setLoading(true);
+  const fetchBlogs = async () => {
     try {
       const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blogsPage/${page}`);
       const blog_data = response.data;
 
       if (blog_data.length === 0) {
-        // No more blogs to load
         setHasMore(false);
       } else {
-        // If it's the first page, directly set the blogs
-        // Otherwise, append the new blogs to the existing ones
-        if (page === 0) {
-          setBlogs(blog_data);
-        } else {
-          setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
-        }
-
-        // Add the IDs of newly loaded blogs to the loadedBlogIds set
-        const newBlogIds = new Set(blog_data.map((blog) => blog._id));
-        setLoadedBlogIds((prevLoadedBlogIds) => new Set([...prevLoadedBlogIds, ...newBlogIds]));
-
-        // Check if the response contains fewer blogs than the requested limit
-        // If so, there are no more blogs to load
-        if (blog_data.length < 8) {
-          setHasMore(false);
-        }
+        setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
       }
-
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       console.error('Error fetching blogs:', error);
-    }
-  };
-
-  const fetchTrendingBlogs = async () => {
-    try {
-      const response = await axios.get('https://back-e0rl.onrender.com/api/blogs/trending');
-      const blog_data = response.data;
-      setBlogs(blog_data);
-    } catch (error) {
-      console.error('Error fetching trending blogs:', error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (category === 'personalised') {
-      fetchBlogs(pageNumber);
-    } else if (category === 'trending') {
-      fetchTrendingBlogs();
-      setHasMore(false); // No more blogs to fetch for trending
+    setLoading(true);
+    setHasMore(true);
+    setBlogs([]);
+    fetchBlogs();
+  }, [category]);
+
+  useEffect(() => {
+    if (category === 'trending') {
+      setHasMore(false); // Disable infinite scroll for trending blogs
+    } else {
+      setPage(1); // Reset the page to 1 when switching to personalised category
     }
-  }, [category, pageNumber]);
+  }, [category]);
+
+  const handleCategoryChange = (category) => {
+    setCategory(category);
+  };
 
   const handleScroll = () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (window.innerHeight + document.documentElement.scrollTop + 5 >= document.documentElement.offsetHeight) {
       if (!loading && hasMore) {
-        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        setPage((prevPage) => prevPage + 1);
       }
     }
   };
@@ -86,21 +63,14 @@ function MainContent() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [hasMore, loading]); // Add scroll event listener when hasMore or loading changes
+  }, [loading, hasMore]);
 
-  const handleCategoryChange = (category) => {
-    setCategory(category);
-    if (category === 'trending') {
-      setBlogs([]); // Clear the blogs to reset
-      setHasMore(false); // No more blogs to fetch
-      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
-    } else if (category === 'personalised') {
-      setBlogs([]); // Clear the blogs to reset
-      setPageNumber(0); // Reset page number to fetch from the beginning
-      setHasMore(true); // Reset hasMore flag
-      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
+  useEffect(() => {
+    if (page > 1) {
+      setLoading(true);
+      fetchBlogs();
     }
-  };
+  }, [page]);
 
   return (
     <>
@@ -112,45 +82,38 @@ function MainContent() {
             </div>
 
             <div>
-              {blogs &&
-                blogs
-                  .filter((blog, index, self) => self.findIndex((b) => b._id === blog._id) === index) // Filter out duplicates
-                  .map((blog) => {
-                    return (
-                      <div className='border-b-[1px]' key={blog._id}>
-                        <div>
-                          <div>
-                            <Link to={`/blog/@${blog.Author}/${blog._id}`}>
-                              <BlogCards
-                                Author={blog.Author}
-                                desc={blog.desc}
-                                title={blog.title}
-                                imgUrl={blog.imgUrl}
-                                blog_id={blog._id}
-                                time={blog.createdAt}
-                              />
-                            </Link>
-                          </div>
-                          {blog.tags && (
-                            <div className='mb-3'>
-                              <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
-                            </div>
-                          )}
-                        </div>
+              {loading && blogs.length === 0 && <div>Loading blogs...</div>}
+              {!loading && blogs.length === 0 && <div>No blogs found.</div>}
+              {blogs.map((blog) => (
+                <div className='border-b-[1px]' key={blog._id}>
+                  <div>
+                    <div>
+                      <Link to={`/blog/@${blog.Author}/${blog._id}`}>
+                        <BlogCards
+                          Author={blog.Author}
+                          desc={blog.desc}
+                          title={blog.title}
+                          imgUrl={blog.imgUrl}
+                          blog_id={blog._id}
+                          time={blog.createdAt}
+                        />
+                      </Link>
+                    </div>
+                    {blog.tags && (
+                      <div className='mb-3'>
+                        <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
                       </div>
-                    );
-                  })}
-              {loading && 
-              <div className='px-10 mt-2'>
-              Loading more blogs...
-              </div>
-              }
-              {!loading && !hasMore && blogs.length === 0 && <div className='px-10 mt-2'>No blogs found.</div>}
-              {!loading && !hasMore && blogs.length > 0 && <div className='px-10 mt-2'>No more blogs to fetch.</div>}
+                    )}
+                  </div>
+                </div>
+              ))}
+              {loading && <div>Loading more blogs...</div>}
+              {!loading && !hasMore && <div>No more blogs to load.</div>}
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }
