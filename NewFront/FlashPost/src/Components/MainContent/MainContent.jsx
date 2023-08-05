@@ -16,6 +16,7 @@ function MainContent() {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [loadedBlogIds, setLoadedBlogIds] = useState(new Set());
 
   const fetchBlogs = async (page) => {
     setLoading(true);
@@ -32,8 +33,14 @@ function MainContent() {
         if (page === 1) {
           setBlogs(blog_data);
         } else {
-          setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
+          // Filter out duplicate blogs
+          const uniqueBlogs = blog_data.filter((blog) => !loadedBlogIds.has(blog._id));
+          setBlogs((prevBlogs) => [...prevBlogs, ...uniqueBlogs]);
         }
+
+        // Add the IDs of newly loaded blogs to the loadedBlogIds set
+        const newBlogIds = new Set(blog_data.map((blog) => blog._id));
+        setLoadedBlogIds((prevLoadedBlogIds) => new Set([...prevLoadedBlogIds, ...newBlogIds]));
       }
 
       setLoading(false);
@@ -79,10 +86,12 @@ function MainContent() {
       setBlogs([]); // Clear the blogs to reset infinite scroll
       fetchTrendingBlogs();
       setHasMore(true); // Reset hasMore flag
+      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     } else if (category === 'personalised') {
       setBlogs([]); // Clear the blogs to reset infinite scroll
       setPageNumber(1); // Reset page number to fetch from the beginning
       setHasMore(true); // Reset hasMore flag
+      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     }
   };
 
