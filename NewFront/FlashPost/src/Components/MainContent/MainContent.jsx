@@ -16,7 +16,6 @@ function MainContent() {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [loadedBlogIds, setLoadedBlogIds] = useState(new Set());
 
   const fetchBlogs = async (page) => {
     setLoading(true);
@@ -28,19 +27,16 @@ function MainContent() {
         // No more blogs to load
         setHasMore(false);
       } else {
-        // If it's the first page, directly set the blogs
-        // Otherwise, prepend the new blogs to the existing ones
         if (page === 1) {
+          // If it's the first page, set the fetched blogs directly
           setBlogs(blog_data);
         } else {
-          // Filter out duplicate blogs
-          const uniqueBlogs = blog_data.filter((blog) => !loadedBlogIds.has(blog._id));
-          setBlogs((prevBlogs) => [...uniqueBlogs, ...prevBlogs]);
+          // Filter out any duplicate blogs before appending the new ones
+          setBlogs((prevBlogs) => {
+            const newBlogs = blog_data.filter((newBlog) => !prevBlogs.some((prevBlog) => prevBlog._id === newBlog._id));
+            return [...prevBlogs, ...newBlogs];
+          });
         }
-
-        // Add the IDs of newly loaded blogs to the loadedBlogIds set
-        const newBlogIds = new Set(blog_data.map((blog) => blog._id));
-        setLoadedBlogIds((prevLoadedBlogIds) => new Set([...prevLoadedBlogIds, ...newBlogIds]));
       }
 
       setLoading(false);
@@ -86,12 +82,10 @@ function MainContent() {
       setBlogs([]); // Clear the blogs to reset infinite scroll
       fetchTrendingBlogs();
       setHasMore(true); // Reset hasMore flag
-      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     } else if (category === 'personalised') {
       setBlogs([]); // Clear the blogs to reset infinite scroll
       setPageNumber(1); // Reset page number to fetch from the beginning
       setHasMore(true); // Reset hasMore flag
-      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     }
   };
 
@@ -106,31 +100,34 @@ function MainContent() {
 
             <div>
               {blogs &&
-                blogs.map((blog) => {
-                  return (
-                    <div className='border-b-[1px]' key={blog._id}>
-                      <div>
+                blogs
+                  .slice(0)
+                  .reverse() // Reverse the order of the array
+                  .map((blog) => {
+                    return (
+                      <div className='border-b-[1px]' key={blog._id}>
                         <div>
-                          <Link to={`/blog/@${blog.Author}/${blog._id}`}>
-                            <BlogCards
-                              Author={blog.Author}
-                              desc={blog.desc}
-                              title={blog.title}
-                              imgUrl={blog.imgUrl}
-                              blog_id={blog._id}
-                              time={blog.createdAt}
-                            />
-                          </Link>
-                        </div>
-                        {blog.tags && (
-                          <div className='mb-3'>
-                            <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
+                          <div>
+                            <Link to={`/blog/@${blog.Author}/${blog._id}`}>
+                              <BlogCards
+                                Author={blog.Author}
+                                desc={blog.desc}
+                                title={blog.title}
+                                imgUrl={blog.imgUrl}
+                                blog_id={blog._id}
+                                time={blog.createdAt}
+                              />
+                            </Link>
                           </div>
-                        )}
+                          {blog.tags && (
+                            <div className='mb-3'>
+                              <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               {loading && <div>Loading more blogs...</div>}
               {!loading && !hasMore && <div>No more blogs to fetch.</div>}
             </div>
