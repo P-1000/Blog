@@ -22,7 +22,7 @@ function SideNav() {
     <div className='mt-3 p-5 mx-1 sticky top-[-1px] '>
         <div className='border rounded-md  bg-white   w-48 font-bold text-primary py-6'>
 
-         <div className=' flex flex-col'>
+         <div className=' flex flex-col ml-2'>
          <a className='pb-3 p-2 cursor-pointer hover:bg-[#f5f5f5]'>
               <MdOutlineExplore className='inline-block mr-2 text-2xl '/>Explore
            </a>
