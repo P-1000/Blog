@@ -16,6 +16,7 @@ function MainContent() {
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [loadedBlogIds, setLoadedBlogIds] = useState(new Set());
 
   const fetchBlogs = async (page) => {
     setLoading(true);
@@ -27,16 +28,17 @@ function MainContent() {
         // No more blogs to load
         setHasMore(false);
       } else {
+        // If it's the first page, directly set the blogs
+        // Otherwise, append the new blogs to the existing ones
         if (page === 1) {
-          // If it's the first page, set the fetched blogs directly
           setBlogs(blog_data);
         } else {
-          // Filter out any duplicate blogs before appending the new ones
-          setBlogs((prevBlogs) => {
-            const newBlogs = blog_data.filter((newBlog) => !prevBlogs.some((prevBlog) => prevBlog._id === newBlog._id));
-            return [...prevBlogs, ...newBlogs];
-          });
+          setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
         }
+
+        // Add the IDs of newly loaded blogs to the loadedBlogIds set
+        const newBlogIds = new Set(blog_data.map((blog) => blog._id));
+        setLoadedBlogIds((prevLoadedBlogIds) => new Set([...prevLoadedBlogIds, ...newBlogIds]));
       }
 
       setLoading(false);
@@ -79,13 +81,15 @@ function MainContent() {
   const handleCategoryChange = (category) => {
     setCategory(category);
     if (category === 'trending') {
-      setBlogs([]); // Clear the blogs to reset infinite scroll
+      setBlogs([]); // Clear the blogs to reset
       fetchTrendingBlogs();
       setHasMore(true); // Reset hasMore flag
+      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     } else if (category === 'personalised') {
-      setBlogs([]); // Clear the blogs to reset infinite scroll
+      setBlogs([]); // Clear the blogs to reset
       setPageNumber(1); // Reset page number to fetch from the beginning
       setHasMore(true); // Reset hasMore flag
+      setLoadedBlogIds(new Set()); // Reset loaded blog IDs
     }
   };
 
@@ -101,8 +105,7 @@ function MainContent() {
             <div>
               {blogs &&
                 blogs
-                  .slice(0)
-                  .reverse() // Reverse the order of the array
+                  .filter((blog, index, self) => self.findIndex((b) => b._id === blog._id) === index) // Filter out duplicates
                   .map((blog) => {
                     return (
                       <div className='border-b-[1px]' key={blog._id}>
@@ -129,7 +132,8 @@ function MainContent() {
                     );
                   })}
               {loading && <div>Loading more blogs...</div>}
-              {!loading && !hasMore && <div>No more blogs to fetch.</div>}
+              {!loading && !hasMore && blogs.length === 0 && <div>No blogs found.</div>}
+              {!loading && !hasMore && blogs.length > 0 && <div>No more blogs to fetch.</div>}
             </div>
           </div>
         </div>

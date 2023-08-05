@@ -93,17 +93,18 @@ export const getAllBlogs = async (req, res, next) => {
   //get blogs with pagination : or inifinite scrolling thing : 
 
   export const getPageBlogs = async (req, res, next) => {
-    const limit = 6; 
-    const skip = req.params.skip || 0; // Number of blogs to skip
+    const limit = 8;
+    const page = req.params.skip || 0; // Number of the page to fetch
+    const skip = page * limit; // Calculate the number of blogs to skip
   
     try {
-      const blogs = await Blog.find().sort({createdAt : -1}).limit(limit).skip(skip);
-       res.status(200).json(blogs);
+      const blogs = await Blog.find().sort({ createdAt: -1 }).limit(limit).skip(skip);
+      res.status(200).json(blogs);
     } catch (err) {
       next(err);
     }
   };
-
+  
   
 
 
