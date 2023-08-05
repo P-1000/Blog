@@ -29,13 +29,13 @@ function MainContent() {
         setHasMore(false);
       } else {
         // If it's the first page, directly set the blogs
-        // Otherwise, append the new blogs to the existing ones
+        // Otherwise, prepend the new blogs to the existing ones
         if (page === 1) {
           setBlogs(blog_data);
         } else {
           // Filter out duplicate blogs
           const uniqueBlogs = blog_data.filter((blog) => !loadedBlogIds.has(blog._id));
-          setBlogs((prevBlogs) => [...prevBlogs, ...uniqueBlogs]);
+          setBlogs((prevBlogs) => [...uniqueBlogs, ...prevBlogs]);
         }
 
         // Add the IDs of newly loaded blogs to the loadedBlogIds set

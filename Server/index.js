@@ -192,7 +192,7 @@ app.get("/api/TopTags", async (req, res) => {
   try {
     const tags = await Tag.find()
   .sort({ count: -1 })
-  .lean(); // Adding .lean() to get plain JavaScript objects instead of Mongoose documents
+  .lean(); // return plain js object instead of mongoose object :  
 
 // Set to store unique transformed tags
 const uniqueTags = new Set();
