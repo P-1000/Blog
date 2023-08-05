@@ -25,8 +25,8 @@ function TagsSide() {
               <Link to={`/search/${item.name}`}
               >
                 <div 
-                className='flex justify-between mb-[7px] box-border cursor-pointer' style={{ width: '100%' }}>
-                <a className='text-[13px] font-normal text-gray-500 box-border hover:text-primary'>#{item.name}</a>
+                className='flex hover:tracking-wide hover:text-secondary justify-between mb-[7px] box-border cursor-pointer' style={{ width: '100%' }}>
+                <a className='text-[13px] font-normal text-gray-500 box-border hover:text-primary  transition-all'>#{item.name}</a>
                 <p className='border rounded-full h-[20px] box-border px-[8px] py-[1.2px] text-[10px] mt-[1px]'>+{item.count}</p>
               </div>
               </Link>
