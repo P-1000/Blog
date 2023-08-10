@@ -41,6 +41,7 @@ const BlogSchema = new mongoose.Schema(
     Content:{
       type:String,
       requried:true,
+      default:"FlashPost : Where Technology Touches Words: Flashpost Chronicles"
     },
     likes:{
       type:Number,

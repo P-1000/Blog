@@ -24,33 +24,31 @@ function QuillEditor() {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
-  // Initialize Quill editor on component mount
   useEffect(() => {
     quillRef.current = new Quill(editorRef.current, {
       modules: {
         toolbar: [
-          [{ header: [1, 2, 3, false] }],
+          [{ header: [1, 2, 3 ,4 , false] }],
+         
           ['bold', 'italic', 'underline', 'strike'],
           [{ 'color': [] }, { 'background': [] }],
           ['link'],
           [{ 'align': [] }],
           [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          ['clean']
-        ]
+          ['clean'],
+          ['code-block' ], ['image'], ['video']
+        ],
       },
       placeholder: 'Write something...',
       theme: 'snow'
     });
 
     quillRef.current.on('text-change', () => {
-      // Your text change logic here
       const delta = quillRef.current.getContents();
-      const html = editorRef.current.firstChild.innerHTML;
-      console.log(html);
+      // Your text change logic here
     });
   }, []);
 
-  // Event handlers
   const handleTitleInput = useCallback(event => {
     setTitle(event.target.value);
   }, []);
@@ -65,24 +63,20 @@ function QuillEditor() {
     setTags(tagsArray);
   }, []);
 
-  // Blog upload function
   const handleSubmit = async event => {
     event.preventDefault();
     const delta = quillRef.current.getContents();
-    const html = editorRef.current.firstChild.innerHTML;
 
-    if (title === "" || description === "" || tags === "" || coverUrl === "" || html === "") {
+    if (title === "" || description === "" || tags === "" || coverUrl === "" || delta === "") {
       toast.error("Please fill all the fields");
       return;
     }
 
-    // Check if the user is logged in or not
     if (!currentUser) {
       toast.error("Please login to upload a blog");
       return;
     }
 
-    // Check tags: For not allowing duplicate tags and remove spaces in start and end
     const tagsArray = tags.map(tag => tag.trim());
     const uniqueTags = [...new Set(tagsArray)];
     setTags(uniqueTags);
@@ -98,7 +92,7 @@ function QuillEditor() {
           desc: description,
           tags,
           Author: currentUser.name,
-          content: JSON.stringify(delta)
+          Content: JSON.stringify(delta),
         },
         config
       );
@@ -110,12 +104,11 @@ function QuillEditor() {
     }
   };
 
-  // Image upload function to imagekit.io
   const imagekit = new ImageKit({
     publicKey: "public_URvjzrf8cUDwCO0A6NK3VOYWg1U=",
     urlEndpoint: "https://ik.imagekit.io/cwq19b8fi",
     privateKey: "private_gR6kfpKknhbtLmBe7OXtwKJ19h0=",
-    authenticationEndpoint: "localhost:5173",
+    authenticationEndpoint: "http://localhost:5173/auth",
   });
 
   const handleImageUpload = async (file) => {
@@ -123,8 +116,8 @@ function QuillEditor() {
       const result = await imagekit.upload({
         file: file,
         fileName: file.name,
-        folder: '/Covers', // Specify the folder in ImageKit.io where you want to upload the image
-        tags: ['BlogCover', 'FlashPost', 'Pavan Patchikarla'], // Optional: add tags to the image
+        folder: '/Covers',
+        tags: ['BlogCover', 'FlashPost', 'Pavan Patchikarla'],
       });
       setCoverUrl(result.url);
       console.log('Image uploaded successfully:', result);
