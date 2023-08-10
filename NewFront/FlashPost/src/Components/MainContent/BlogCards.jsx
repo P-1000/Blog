@@ -5,13 +5,13 @@ import AuthoImg from './AuthoImg';
 import { BsBookmarkPlus } from 'react-icons/bs';
 
 function BlogCards(props) {
-  const {imgUrl , title , desc , blog_id  , Author , time} = props
+  const {imgUrl , title , desc , blog_id  , Author , createdAt  } = props.blog
   const [s , sc]  = useState('')
   const [coverImg , setcoverImg] = useState({})
 // Use the URL to display the image
 const img = new Image();
 
-const date = new Date(time);
+const date = new Date(createdAt);
 const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'Asia/Kolkata' };
 const formattedDate = date.toLocaleString('en-IN', options);
 

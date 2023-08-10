@@ -1,76 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import BlogCardFooter from './BlogCardFooter';
-import BlogCards from './BlogCards';
 import ContentMenu from './ContentMenu';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PersonalisedBlogs from './PersonalisedBlogs';
+import TrendingBlogs from './TrendingBlogs';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Spinner from '../Utils/Spinner';
 
 function MainContent() {
-  const [blogs, setBlogs] = useState([]);
+  const [personalisedBlogs, setPersonalisedBlogs] = useState([]);
+  const [trendingBlogs, setTrendingBlogs] = useState([]);
   const [category, setCategory] = useState('personalised');
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [personalisedPage, setPersonalisedPage] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
+  //flag for hasMore
+  const [more,setMore] = useState(true)
 
-  const fetchBlogs = async () => {
+  const fetchPersonalisedBlogs = async (page) => {
     try {
       const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blogsPage/${page}`);
       const blog_data = response.data;
-
-      if (blog_data.length === 0) {
-        setHasMore(false);
-      } else {
-        setBlogs((prevBlogs) => [...prevBlogs, ...blog_data]);
-      }
-      setLoading(false);
+      if(blog_data.length == 0) setMore(false)
+      return blog_data;
     } catch (error) {
-      console.error('Error fetching blogs:', error);
-      setLoading(false);
+      console.error('Error fetching personalised blogs:', error);
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    setHasMore(true);
-    setBlogs([]);
-    fetchBlogs();
-  }, [category]);
+  const fetchTrendingBlogs = async () => {
+    try {
+      const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/trending`);
+      const blog_data = response.data;
+      setTrendingBlogs(blog_data);
+    } catch (error) {
+      console.error('Error fetching trending blogs:', error);
+    }
+  };
+
+  const fetchMorePersonalisedBlogs = async () => {
+    setIsFetching(true);
+    try {
+      const nextPage = personalisedPage + 1;
+      const moreBlogData = await fetchPersonalisedBlogs(nextPage);
+      setPersonalisedBlogs(prevBlogs => [...prevBlogs, ...moreBlogData]);
+      setPersonalisedPage(nextPage);
+    } catch (error) {
+      console.error('Error fetching more personalised blogs:', error);
+    }
+    setIsFetching(false);
+  };
 
   useEffect(() => {
-    if (category === 'trending') {
-      setHasMore(true); // Disable infinite scroll for trending blogs
-    } else {
-      setPage(1); // Reset the page to 1 when switching to personalised category
-    }
-  }, [category]);
+    fetchPersonalisedBlogs(personalisedPage).then(blogData => {
+      setPersonalisedBlogs(blogData);
+    });
+    fetchTrendingBlogs();
+  }, []);
 
   const handleCategoryChange = (category) => {
     setCategory(category);
+    setPersonalisedPage(0);
   };
-
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop + 5 >= document.documentElement.offsetHeight) {
-      if (!loading && hasMore) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [loading, hasMore]);
-
-  useEffect(() => {
-    if (page > 1) {
-      setLoading(true);
-      fetchBlogs();
-    }
-  }, [page]);
 
   return (
     <>
@@ -82,33 +74,20 @@ function MainContent() {
             </div>
 
             <div>
-              {loading && blogs.length === 0 && <div>Loading blogs...</div>}
-              {!loading && blogs.length === 0 && <div>No blogs found.</div>}
-              {blogs.map((blog) => (
-                <div className='border-b-[1px]' key={blog._id}>
-                  <div>
-                    <div>
-                      <Link to={`/blog/@${blog.Author}/${blog._id}`}>
-                        <BlogCards
-                          Author={blog.Author}
-                          desc={blog.desc}
-                          title={blog.title}
-                          imgUrl={blog.imgUrl}
-                          blog_id={blog._id}
-                          time={blog.createdAt}
-                        />
-                      </Link>
-                    </div>
-                    {blog.tags && (
-                      <div className='mb-3'>
-                        <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags} />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-              {loading && <div className='text-center pt-5 animate-bounce'>Loading more blogs...</div>}
-              {!loading && !hasMore && <div  className='text-center pt-5 animate-pulse text-secondary' >No more blogs to load.</div>}
+              {category === 'personalised' && (
+                <InfiniteScroll
+                  dataLength={personalisedBlogs.length}
+                  next={fetchMorePersonalisedBlogs}
+                  hasMore={more}
+                  loader={<h4 className='mx-10 px-10 mt-10 text-center animate-bounce'>Loading More Blogs...</h4>}
+                  endMessage={<p className='mx-10 px-10 mt-10 text-center text-secondary animate-pulse'>No more blogs to load.</p>}
+                >
+                  <PersonalisedBlogs blogs={personalisedBlogs} />
+                </InfiniteScroll>
+              )}
+              {category === 'trending' && 
+              <TrendingBlogs blogs={trendingBlogs} />
+              }
             </div>
           </div>
         </div>
