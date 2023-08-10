@@ -88,9 +88,9 @@ function NavBar() {
             <button 
             onClick={()=>navigate('/Write')}
             className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
-                font-semibold text-secondary mr-2 hover:bg-gray-100'>
+                font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all '>
                     <MdCreate className='text-xl text-white' />
-                <p> Create</p>
+                <p className=''> Create</p>
             </button>
         </div>
         <div className='flex justify-between gap-7'>

@@ -88,6 +88,12 @@ function MainContent() {
               {category === 'trending' && 
               <TrendingBlogs blogs={trendingBlogs} />
               }
+              {
+                category === 'mostRecent' && <div> No Blogs To Load.. </div>
+              }
+              {
+                category === 'sort' && <div> No Blogs To Load.. </div>
+              }
             </div>
           </div>
         </div>

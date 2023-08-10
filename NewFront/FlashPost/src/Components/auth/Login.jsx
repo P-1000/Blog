@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
  import { useDispatch } from 'react-redux';
  import { loginStart, loginFailure , loginSuccess} from '../../redux/userSlice';
- import { ToastContainer, toast } from 'react-toastify';
+ import toast, { Toaster } from 'react-hot-toast';
  import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
@@ -14,14 +14,26 @@ const Login = () => {
 
    const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //login function when form is submitted : 
   const handleSubmit = async(event) => {
+
     event.preventDefault();
-   dispatch(loginStart())
+    dispatch(loginStart())
+    
    // console.log(`Email: ${email}, Password: ${password}`);
    try {
-      const res = await axios.post('https://back-e0rl.onrender.com/api/auth/signin', { name ,password});
+    const res = await toast.promise(
+      axios.post('https://back-e0rl.onrender.com/api/auth/signin', { name, password }),
+      {
+        loading: 'Logging in...',
+        success: 'Login successful!',
+        error: 'Login failed. Please check your credentials.',
+      }
+    );
       //setting token to local storage
       localStorage.setItem("jwt", JSON.stringify(res.data.token))
+      
       document.cookie = `token=${res.data.token}`;
       //get token from local storage
       const token = localStorage.getItem('jwt');
@@ -29,11 +41,24 @@ const Login = () => {
       const config = {
         headers: { Authorization: `Bearer ${tok}` }
       };
-      
+
+
+
+
       axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
   .then(response => {
     dispatch(loginSuccess(response.data));
-   toast.success("Login Success")
+    toast.success('Look at my styles.', {
+      style: {
+        border: '1px solid #713200',
+        padding: '16px',
+        color: 'secondary',
+      },
+      iconTheme: {
+        primary: '#713200',
+        secondary: '#FFFAEE',
+      },
+    });
   })
   .catch(error => {
     console.log(error)
@@ -133,7 +158,10 @@ const Login = () => {
 
 
 </div>
-<ToastContainer />
+ <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
    </div>
   )
 }
