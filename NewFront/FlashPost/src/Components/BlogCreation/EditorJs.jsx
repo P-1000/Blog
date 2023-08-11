@@ -9,13 +9,11 @@ import './TextEditor.css';
 import { useDispatch } from 'react-redux';
 import { updateContent } from '../../redux/formDataSlice';
 
-const DEFAULT_INITIAL_DATA = (props) => {
+const DEFAULT_INITIAL_DATA = ({onBack}) => {
 
-// const onBack = () => {
-//       props.onBack();
-// };
 
-return {
+
+  return {
     time: new Date().getTime(),
     blocks: [
       {
