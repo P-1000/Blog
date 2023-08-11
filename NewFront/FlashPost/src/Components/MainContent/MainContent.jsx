@@ -76,7 +76,7 @@ function MainContent() {
             <div>
               {category === 'personalised' && (
                 <InfiniteScroll
-                  dataLength={personalisedBlogs.length}
+                  dataLength={personalisedBlogs?.length}
                   next={fetchMorePersonalisedBlogs}
                   hasMore={more}
                   loader={<h4 className='mx-10 px-10 mt-10 text-center animate-bounce'>Loading More Blogs...</h4>}
