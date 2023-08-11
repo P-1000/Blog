@@ -7,6 +7,7 @@ import PersonalisedBlogs from './PersonalisedBlogs';
 import TrendingBlogs from './TrendingBlogs';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Spinner from '../Utils/Spinner';
+import TextEditor from '../BlogCreation/EditorJs';
 
 function MainContent() {
   const [personalisedBlogs, setPersonalisedBlogs] = useState([]);

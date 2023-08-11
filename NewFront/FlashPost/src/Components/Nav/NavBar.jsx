@@ -9,8 +9,10 @@ import { loginStart, loginSuccess } from '../../redux/userSlice';
 import { useState , useEffect } from 'react'
 import axios from 'axios'
 import MouseOverPopover from './Profile.jsx'
+import {PiBroadcastFill} from 'react-icons/pi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { resetForm } from '../../redux/formDataSlice';
 
 function NavBar() {
 
@@ -48,9 +50,76 @@ function NavBar() {
        navigate(`/search/${search}`)
     }
 
+
+    const {title , description , tags , coverUrl , Content} = useSelector(state => state.blog);
+
+    // blog submission : 
+    const [title1, setTitle] = useState(title);
+    const [description1, setDescription] = useState(description);
+    const [tags1, setTags] = useState([]);
+    const [coverUrl1, setCoverUrl] = useState('');
+    const [content1, setContent] = useState('');
+
+    useEffect(() => {
+        setTitle(title);
+        setDescription(description);
+        setTags(tags);
+        setCoverUrl(coverUrl);
+        setContent(Content);
+    }, [title, description, tags, coverUrl, Content]);
+
+    //blog submmision function handlere ; 
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+    
+        if (title === "" || description === "" || tags === "" || coverUrl === "") {
+          toast.error("Please fill all the fields");
+          return;
+        }
+    
+        if (!currentUser) {
+          toast.error("Please login to upload a blog");
+          return;
+        }
+    
+        const tagsArray = tags.map(tag => tag.trim());
+        const uniqueTags = [...new Set(tagsArray)];
+        setTags(uniqueTags);
+    
+        try {
+          toast.info("Uploading blog...");
+    
+        
+
+          const res = await axios.post(
+            'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
+            {
+              title,
+              imgUrl: coverUrl,
+              desc: description,
+              tags,
+              Author: currentUser.name,
+              Content : JSON.stringify(content1),
+            },
+            config
+          );
+    
+          toast.success("Blog uploaded successfully");
+        } catch (error) {
+          toast.error(error.response.data.message);
+          console.log(error);
+        }
+      };
+    
+
   return (
   <>
-      <div className='border-b-[1px] bg-white'>
+          <div
+        className={`${
+          location.pathname === '/Write' ? 'border-b-[1px] fixed top-0 w-full z-50 shadow-sm mb-24' : 'border-b-[1px] z-50 shadow-sm sticky '
+        } bg-white`}
+      >
     <div className='grid grid-cols-12 gap-[1rem] p-3 mx-4 '>
         <div className='col-span-3'>
            <a href='/Home'>
@@ -85,17 +154,27 @@ function NavBar() {
        {
         currentUser &&  <div className='flex col-span-3 justify-around w-full'>
         <div>
-            <button 
-            onClick={()=>navigate('/Write')}
-            className=' w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm
-                font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all '>
-                    <MdCreate className='text-xl text-white' />
-                <p className=''> Create</p>
-            </button>
+        {location.pathname === '/Write' ? (
+              <button
+                onClick={handleSubmit}
+                className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
+              >
+                <PiBroadcastFill className="text-xl hover:animate-pulse" />
+                Publish
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/Write')}
+                className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
+              >
+                <MdCreate className="text-xl text-gray-200" />
+                Create
+              </button>
+            )}
         </div>
         <div className='flex justify-between gap-7'>
             <button>
-            <IoNotificationsOutline className='text-2xl text-gray-400' />
+            <IoNotificationsOutline className='text-2xl text-gray-400 hover:text-secondary' />
             </button>
             <button>
             {/* <RxAvatar className='text-4xl text-gray-400' /> */}

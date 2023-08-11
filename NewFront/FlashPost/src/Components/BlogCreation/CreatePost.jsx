@@ -1,11 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageKit from 'imagekit';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TextEditor from './EditorJs';
+import { updateTitle , updateDescription, updateTags, updateContent,  updateCoverUrl, resetForm  } from '../../redux/formDataSlice';
+import YourComponent from './Spam';
 
 function QuillEditor() {
   const [title, setTitle] = useState('');
@@ -13,9 +14,9 @@ function QuillEditor() {
   const [tags, setTags] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
 
-  const editorRef = useRef(null);
-  const quillRef = useRef(null);
   const { currentUser } = useSelector(state => state.user);
+
+
 
   const dispatch = useDispatch();
   const token = localStorage.getItem('jwt');
@@ -24,50 +25,27 @@ function QuillEditor() {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
-  useEffect(() => {
-    quillRef.current = new Quill(editorRef.current, {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3 ,4 , false] }],
-         
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          ['link'],
-          [{ 'align': [] }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          ['clean'],
-          ['code-block' ], ['image'], ['video']
-        ],
-      },
-      placeholder: 'Write something...',
-      theme: 'snow'
-    });
-
-    quillRef.current.on('text-change', () => {
-      const delta = quillRef.current.getContents();
-      // Your text change logic here
-    });
-  }, []);
-
   const handleTitleInput = useCallback(event => {
     setTitle(event.target.value);
+    dispatch(updateTitle(event.target.value));
   }, []);
 
   const handleDescriptionInput = useCallback(event => {
     setDescription(event.target.value);
+    dispatch(updateDescription(event.target.value));
   }, []);
 
   const handleTagsInput = useCallback(event => {
     const tagsString = event.target.value;
     const tagsArray = tagsString.split(",").map(tag => tag.trim());
     setTags(tagsArray);
+    dispatch(updateTags(tagsArray));
   }, []);
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const delta = quillRef.current.getContents();
 
-    if (title === "" || description === "" || tags === "" || coverUrl === "" || delta === "") {
+    if (title === "" || description === "" || tags === "" || coverUrl === "") {
       toast.error("Please fill all the fields");
       return;
     }
@@ -92,7 +70,6 @@ function QuillEditor() {
           desc: description,
           tags,
           Author: currentUser.name,
-          Content: JSON.stringify(delta),
         },
         config
       );
@@ -120,6 +97,7 @@ function QuillEditor() {
         tags: ['BlogCover', 'FlashPost', 'Pavan Patchikarla'],
       });
       setCoverUrl(result.url);
+      dispatch(updateCoverUrl(result.url));
       console.log('Image uploaded successfully:', result);
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -127,7 +105,8 @@ function QuillEditor() {
   };
 
   return (
-    <div className="p-8 space-y-4 bg-white rounded-lg shadow-md">
+   <>
+     <div className="p-8 space-y-4 bg-white rounded-lg shadow-md mt-16">
       <h1 className="text-2xl font-bold text-gray-800">Create a Blog</h1>
       <input
         value={title}
@@ -153,21 +132,23 @@ function QuillEditor() {
         type="text"
         placeholder="Tags (comma separated)"
       />
-      <div ref={editorRef} className="w-full h-96 bg-gray-100 rounded-md" />
-     <div className='flex gap-2 bg-primary'>
-     <button
-        onClick={handleSubmit}
-        className="px-4 py-2 w-full font-semibold text-secondary bg-primary hover:bg-secondary hover:text-primary "
-      >
-        Submit Blog
-      </button>
-      <button className="px-4 py-2 w-full font-semibold text-primary bg-secondary hover:bg-primary hover:text-secondary ">
-        Save as Draft
-      </button>
-     </div>
+      {/* <div className='flex gap-2 bg-primary'>
+        <button
+          onClick={handleSubmit}
+          className="px-4 py-2 w-full font-semibold text-secondary bg-primary hover:bg-secondary hover:text-primary "
+        >
+          Submit Blog
+        </button>
+        <button className="px-4 py-2 w-full font-semibold text-primary bg-secondary hover:bg-primary hover:text-secondary ">
+          Save as Draft
+        </button>
+      </div> */}
       {coverUrl && <img src={coverUrl} alt="Blog Cover" className=" h-40 object-cover rounded-md" />}
       <ToastContainer />
+  
     </div>
+    <TextEditor />
+   </>
   );
 }
 

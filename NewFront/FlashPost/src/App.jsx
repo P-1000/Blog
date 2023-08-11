@@ -13,6 +13,7 @@ import Register from './Components/auth/Register';
 import SearchRes from './Components/Search/SearchRes';
 import Forgot from "./Components/auth/Forgot";
 import Reset from "./Components/auth/Reset";
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
   return (

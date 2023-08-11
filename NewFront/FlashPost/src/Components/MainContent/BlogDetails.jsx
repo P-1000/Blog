@@ -4,10 +4,12 @@ import AsideAuthor from './AsideAuthor';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+import Output from 'editorjs-react-renderer';
+
+
 
 function BlogDetails() {
   const { AuthorId, blogId } = useParams();
-  console.log(AuthorId, blogId);
   const [blog, setBlog] = useState({});
   const token = localStorage.getItem('jwt');
   const tok = JSON.parse(token);
@@ -15,15 +17,26 @@ function BlogDetails() {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
+
+const redD =
+  {"time":1691762867475,"blocks":[{"id":"IuBoCYC8LG","type":"header","data":{"text":"FlashPost Blog Title","level":2}},{"id":"xpE5269-6j","type":"paragraph","data":{"text":"safdsadfsadf"}}],"version":"2.27.2"}
+
+  
+
+
+
   const [authorDetails, setAuthorDetails] = useState({});
+
+  const [con , setCon] = useState(redD)
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
-        console.log(response.data, "blog data ");
         const blog_data = response.data;
         setBlog(blog_data);
+        setCon(JSON.parse(blog_data.Content))
+        console.log(JSON.parse(blog_data.Content));
       } catch (error) {
         console.error(error);
       }
@@ -33,7 +46,7 @@ function BlogDetails() {
   }, [blogId, config]);
 
   const fetchUserProfile = async () => {
-    const res = await fetch(`https://back-e0rl.onrender.com/api/users/${blog.Author}`);
+    const res = await fetch(`https://back-e0rl.onrender.com/api/users/${blog.Author}`);  //todo
     const data = await res.json();
     setAuthorDetails(data);
   };
@@ -70,7 +83,13 @@ function BlogDetails() {
             </div>
             <div className='my-5'></div>
             <div>
-              <div className='text-sm text-gray-500 ml-5 font-normal text-ellipsis overflow-hidden'>{renderContent()}</div>
+              <div className='text-sm text-gray-500 ml-5 font-normal text-ellipsis overflow-hidden'>
+              <Output  data = {con}/>
+{/* 
+             {
+              blog.Content ?<p>{blog.Content}</p> : 'red' 
+             } */}
+              </div>
             </div>
           </div>
         </div>
