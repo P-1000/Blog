@@ -19,12 +19,9 @@ function BlogDetails() {
 
 
 const redD =
-  {"time":1691762867475,"blocks":[{"id":"IuBoCYC8LG","type":"header","data":{"text":"FlashPost Blog Title","level":2}},{"id":"xpE5269-6j","type":"paragraph","data":{"text":"safdsadfsadf"}}],"version":"2.27.2"}
+  {"time":1691762867475,"blocks":[{"id":"IuBoCYC8LG","type":"header","data":{"text":"FlashPost Blog Title","level":2}},{"id":"xpE5269-6j","type":"paragraph","data":{"text":"Please Wait While we load the blog..."}}],"version":"2.27.2"}
 
   
-
-
-
   const [authorDetails, setAuthorDetails] = useState({});
 
   const [con , setCon] = useState(redD)
@@ -97,6 +94,7 @@ const redD =
           <AsideAuthor Author={authorDetails} />
         </div>
       </div>
+    
     </>
   );
 }

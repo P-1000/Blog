@@ -9,8 +9,13 @@ import './TextEditor.css';
 import { useDispatch } from 'react-redux';
 import { updateContent } from '../../redux/formDataSlice';
 
-const DEFAULT_INITIAL_DATA = () => {
-  return {
+const DEFAULT_INITIAL_DATA = (props) => {
+
+// const onBack = () => {
+//       props.onBack();
+// };
+
+return {
     time: new Date().getTime(),
     blocks: [
       {
@@ -162,6 +167,7 @@ const TextEditor = () => {
           }
         `}
       </style>
+      <button onClick={onBack}>Back</button>
     </div>
   );
 };

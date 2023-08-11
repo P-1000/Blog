@@ -33,6 +33,7 @@ function App() {
         <Route path="/Edit/:blogId" element={<EditPost />} />
         <Route path="/Bookmarks" element={<Bookmark />} />
         <Route path="/Write" element={<CreatePost />} />
+        <Route path="/Blog/Content" element={<CreatePost />} />
       </Routes>
     </Router>
   );
