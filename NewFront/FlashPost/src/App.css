@@ -1,0 +1,21 @@
+/* TextEditor.css */
+.text-editor-header {
+    font-size: 3rem !important;
+    font-weight: bold !important;
+  }
+  
+  .text-editor-header-2 {
+    font-size: 2rem !important;
+    font-weight: bold;
+  }
+  
+  .text-editor-header-3 {
+    font-size: 1.4rem !important;
+    font-weight: bold;
+  }
+  
+  .text-editor-header-4 {
+    font-size: 1rem !important;
+    font-weight: normal;
+  }
+  

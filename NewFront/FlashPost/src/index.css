@@ -2,18 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
 body{
     background-color: #f5f5f5;
 }
 
-
+/* 
 .ql-editor {
   height: 400px;
   padding: 5px;
-}
+} */
 
 .det{
   background-color: #ffffff;
 }
+
+
+/* TextEditor.css */
+.text-editor-header {
+  font-size: 3rem !important;
+  font-weight: bold !important;
+}
+
+.text-editor-header-2 {
+  font-size: 2rem !important;
+  font-weight: bold;
+}
+
+.text-editor-header-3 {
+  font-size: 1.4rem !important;
+  font-weight: bold;
+}
+
+.text-editor-header-4 {
+  font-size: 1rem !important;
+  font-weight: normal;
+}
+
 

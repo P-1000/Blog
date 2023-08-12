@@ -8,11 +8,11 @@ function PersonalisedBlogs({ blogs }) {
     <div>
       {blogs.map((blog) => (
        <div className='border-b-[1.5px] '>
-       <Link to={`/blog/@${blog.Author}/${blog._id}`}>
-       <BlogCards key={blog._id} blog={blog} />
+       <Link to={`/blog/@${blog.Author}/${blog?._id}`}>
+       <BlogCards key={blog?._id} blog={blog} />
        </Link>
        <div className='mb-4'>
-       <BlogCardFooter id={blog._id} like={blog.likes} tag={blog.tags}/>
+       <BlogCardFooter id={blog?._id} like={blog?.likes} tag={blog?.tags}/>
        </div>
          </div>
       ))}

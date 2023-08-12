@@ -7,9 +7,17 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: {
       rollupOptions: {
-        input: {
-          main: '/index.html',
-        },
+        external: [
+          'react',
+          'react-dom',
+          'react-router-dom',
+          'react-redux',
+          'redux',
+          'redux-thunk',
+          'axios',
+          'editorjs',
+          'imagekit',
+        ],
       },
     },
     server: {
