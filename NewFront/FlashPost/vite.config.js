@@ -8,10 +8,15 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         external: [
-          '@editorjs/header',  // Add other external modules here
-          '@editorjs/list',
-          '@editorjs/table',
-          '@editorjs/image',
+          'react',
+          'react-dom',
+          'react-router-dom',
+          'react-redux',
+          'redux',
+          'redux-thunk',
+          'axios',
+          'editorjs',
+          'imagekit',
         ],
       },
     },
