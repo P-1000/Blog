@@ -123,24 +123,27 @@ function QuillEditor() {
     }
   };
 
-  const handleNext = () => {
-    if (title === '' || description === '' || tags === '' || coverUrl === '') {
-      toast.error('Please fill all the fields');
-      return;
-    }
 
-    if (!currentUser) {
-      toast.error('Please login to upload a blog');
-      return;
-    }
 
-    setShowEditor(true); // Show the TextEditor component
-  };
-
-  const handleBack = () => {
-    setShowEditor(false); // Hide the TextEditor component
-  };
-
+    // Function to handle moving to the TextEditor step
+    const handleNext = () => {
+      if (title === '' || description === '' || tags === '' || coverUrl === '') {
+        toast.error('Please fill all the fields');
+        return;
+      }
+  
+      if (!currentUser) {
+        toast.error('Please login to upload a blog');
+        return;
+      }
+  
+      setShowEditor(true); // Show the TextEditor component
+    };
+  
+    // Function to handle going back to the initial form step
+    const handleBack = () => {
+      setShowEditor(false); // Hide the TextEditor component
+    };
 
 
 

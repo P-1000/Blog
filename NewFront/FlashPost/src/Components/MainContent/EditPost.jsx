@@ -5,6 +5,9 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ImageKit from 'imagekit';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateTitle, updateDescription, updateTags, updateContent, updateCoverUrl, resetForm } from '../../redux/formDataSlice';
+import TextEditor from '../BlogCreation/EditorJs';
 
 function EditPost() {
   const { blogId } = useParams();
@@ -22,32 +25,47 @@ function EditPost() {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
-  useEffect(() => {
-    if (editorRef.current) {
-      quillRef.current = new Quill(editorRef.current, {
-        modules: {
-          toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'color': [] }, { 'background': [] }],
-            ['link'],
-            [{ 'align': [] }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['clean']
-          ]
-        },
-        placeholder: 'Write something...',
-        theme: 'snow'
-      });
 
-      quillRef.current.on('text-change', () => {
-        const delta = quillRef.current.getContents();
-        const html = editorRef.current.firstChild.innerHTML;
-        console.log(html);
-      });
-    }
-  }, []);
+  const dispatch = useDispatch();
 
+
+
+  // useEffect(() => {
+  //   if (editorRef.current) {
+  //     quillRef.current = new Quill(editorRef.current, {
+  //       modules: {
+  //         toolbar: [
+  //           [{ header: [1, 2, 3, false] }],
+  //           ['bold', 'italic', 'underline', 'strike'],
+  //           [{ 'color': [] }, { 'background': [] }],
+  //           ['link'],
+  //           [{ 'align': [] }],
+  //           [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+  //           ['clean']
+  //         ]
+  //       },
+  //       placeholder: 'Write something...',
+  //       theme: 'snow'
+  //     });
+
+  //     quillRef.current.on('text-change', () => {
+  //       const delta = quillRef.current.getContents();
+  //       const html = editorRef.current.firstChild.innerHTML;
+  //       console.log(html);
+  //     });
+  //   }
+  // }, []);
+
+  const [showEditor, setShowEditor] = useState(false);
+
+    //for editor js default component : 
+    const DEFAULT_INITIAL_DATA = () => {
+
+  
+      return {"time":1691867402106,"blocks":[{"id":"G61UUQLEPX","type":"header","data":{"text":"Start Writing Your Blog....","level":2}},{"id":"QS7dZaETlq","type":"paragraph","data":{"text":"asfdasfdsadf hello there&nbsp;"}},{"id":"JQtHyPZJ9i","type":"paragraph","data":{"text":"asfasf"}},{"id":"eLqUsvEHaf","type":"paragraph","data":{"text":"asf"}},{"id":"SZaxdbn_xF","type":"paragraph","data":{"text":"asfd"}}],"version":"2.27.2"}
+    };
+
+   const [con , setCon] = useState(null);
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
@@ -56,8 +74,8 @@ function EditPost() {
       setTags(res.data.tags);
       setCoverUrl(res.data.imgUrl);
       setImgUrl(res.data.imgUrl);
-      const delta = JSON.parse(res.data.content);
-      quillRef.current.setContents(delta);
+      const red = JSON.parse(res.data.Content);
+      setCon(red);
     }
     fetchData();
   }, []);
@@ -86,16 +104,19 @@ function EditPost() {
 
   function handleTitleInput(event) {
     setTitle(event.target.value);
+    dispatch(updateTitle(event.target.value));
   }
 
   function handleDescriptionInput(event) {
     setDescription(event.target.value);
+    dispatch(updateDescription(event.target.value));
   }
 
   function handleTagsInput(event) {
     const tagsString = event.target.value;
     const tagsArray = tagsString.split(",");
     setTags(tagsArray);
+    dispatch(updateTags(tagsArray));
   }
 
   async function handleSubmit(event) {
@@ -114,6 +135,38 @@ function EditPost() {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    dispatch(updateTags(tags));
+    dispatch(updateTitle(title));
+    dispatch(updateDescription(description));
+    dispatch(updateCoverUrl(imgUrl));
+    dispatch(updateContent(con));
+  }, [tags, title, description, imgUrl, con]);
+
+  const [editor_js_data, setEditor_js_data] = useState(con);
+
+    // Function to handle moving to the TextEditor step
+    const handleNext = () => {
+      if (title === '' || description === '' || tags === '' || coverUrl === '') {
+        toast.error('Please fill all the fields');
+        return;
+      }
+  
+      if (!currentUser) {
+        toast.error('Please login to upload a blog');
+        return;
+      }
+  
+      setShowEditor(true); // Show the TextEditor component
+    };
+  
+    // Function to handle going back to the initial form step
+    const handleBack = () => {
+      setShowEditor(false); // Hide the TextEditor component
+    };
+
+
 
   return (
     <div className="flex flex-col space-y-4 p-4 pt-28 bg-white min-h-screen ">
@@ -146,12 +199,23 @@ function EditPost() {
 
       {/* <div className="text-gray-700 font-bold">Content:</div> */}
       {/* <div ref={editorRef} className="w-full bg-gray-200 rounded px-3 py-2" /> */}
-      <button
+      {/* <button
         onClick={handleSubmit}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Submit
-      </button>
+      </button> */}
+
+      {!showEditor ? (
+        <button
+          onClick={() => setShowEditor(true)}
+          className="bg-secondary hover:bg-primary text-white font-bold py-2 px-4 rounded mt-4"
+        >
+          Edit Content
+        </button>
+      ) : (
+        <TextEditor onBack={() => setShowEditor(false)} data={con} setdata={setCon} />
+      )}
     </div>
   );
 }
