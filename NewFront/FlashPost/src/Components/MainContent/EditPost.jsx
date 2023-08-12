@@ -116,7 +116,7 @@ function EditPost() {
   }
 
   return (
-    <div className="flex flex-col space-y-4 p-4">
+    <div className="flex flex-col space-y-4 p-4 pt-28 bg-white min-h-screen ">
       <label className="text-gray-700 font-bold" htmlFor="title">Title:</label>
       <input value={title} onChange={handleTitleInput} id="title" type="text" className="w-full bg-gray-200 rounded px-3 py-2" />
 
@@ -144,8 +144,8 @@ function EditPost() {
         className="w-full bg-gray-200 rounded px-3 py-2"
       />
 
-      <div className="text-gray-700 font-bold">Content:</div>
-      <div ref={editorRef} className="w-full bg-gray-200 rounded px-3 py-2" />
+      {/* <div className="text-gray-700 font-bold">Content:</div> */}
+      {/* <div ref={editorRef} className="w-full bg-gray-200 rounded px-3 py-2" /> */}
       <button
         onClick={handleSubmit}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

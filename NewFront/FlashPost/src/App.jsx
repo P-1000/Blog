@@ -14,6 +14,7 @@ import SearchRes from './Components/Search/SearchRes';
 import Forgot from "./Components/auth/Forgot";
 import Reset from "./Components/auth/Reset";
 import { useDispatch, useSelector } from 'react-redux';
+import TextEditor from "./Components/BlogCreation/EditorJs";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/Bookmarks" element={<Bookmark />} />
         <Route path="/Write" element={<CreatePost />} />
         <Route path="/Blog/Content" element={<CreatePost />} />
+        {/* <Route path="/Write/editor" element={<TextEditor />} /> */}
       </Routes>
     </Router>
   );
