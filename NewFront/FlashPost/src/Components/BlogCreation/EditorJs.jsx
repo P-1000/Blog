@@ -9,29 +9,15 @@ import './TextEditor.css';
 import { useDispatch } from 'react-redux';
 import { updateContent } from '../../redux/formDataSlice';
 
-const DEFAULT_INITIAL_DATA = ({onBack}) => {
 
-
-
-  return {
-    time: new Date().getTime(),
-    blocks: [
-      {
-        type: 'header',
-        data: {
-          text: 'FlashPost Blog Title',
-          level: 2,
-        },
-      },
-    ],
-  };
-};
 
 const EDITTOR_HOLDER_ID = 'editorjs';
 
-const TextEditor = () => {
+const TextEditor = (props) => {
+
+
   const ejInstance = useRef();
-  const [editorData, setEditorData] = React.useState(DEFAULT_INITIAL_DATA);
+  const [editorData, setEditorData] = React.useState(props.data);
 
   useEffect(() => {
     if (!ejInstance.current) {
@@ -47,6 +33,7 @@ const TextEditor = () => {
 
     useEffect(() => {
         dispatch(updateContent(editorData));
+        props.setdata(editorData)
     }, [editorData]);
     
 
@@ -120,7 +107,9 @@ const TextEditor = () => {
   };
 
   return (
-    <div>
+    <div className='pt-24 bg-white h-full w-full min-h-[100vh]'>
+    <button className='mx-10 my-2 border px-4  hover:bg-black hover:px-6 rounded-sm hover:rounded-md hover:text-white transition-all duration-300 ease-in-out'
+    onClick={props.onBack}>Back</button>
       <div id={EDITTOR_HOLDER_ID}></div>
       <style>
         {`
@@ -165,9 +154,13 @@ const TextEditor = () => {
           }
         `}
       </style>
-      <button onClick={onBack}>Back</button>
+      
     </div>
   );
 };
 
 export default TextEditor;
+
+
+
+

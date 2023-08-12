@@ -41,44 +41,64 @@ function QuillEditor() {
     dispatch(updateTags(tagsArray));
   }, []);
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  //for editor js default component : 
+  const DEFAULT_INITIAL_DATA = () => {
 
-    if (title === '' || description === '' || tags === '' || coverUrl === '') {
-      toast.error('Please fill all the fields');
-      return;
-    }
-
-    if (!currentUser) {
-      toast.error('Please login to upload a blog');
-      return;
-    }
-
-    const tagsArray = tags.map(tag => tag.trim());
-    const uniqueTags = [...new Set(tagsArray)];
-    setTags(uniqueTags);
-
-    try {
-      toast.info('Uploading blog...');
-
-      const res = await axios.post(
-        'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
+  
+    return {
+      time: new Date().getTime(),
+      blocks: [
         {
-          title,
-          imgUrl: coverUrl,
-          desc: description,
-          tags,
-          Author: currentUser.name,
+          type: 'header',
+          data: {
+            text: 'Start Writing Your Blog....',
+            level: 2,
+          },
         },
-        config
-      );
-
-      toast.success('Blog uploaded successfully');
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.log(error);
-    }
+      ],
+    };
   };
+
+  const [editor_js_data, setEditor_js_data] = useState(DEFAULT_INITIAL_DATA)
+
+  // const handleSubmit = async event => {
+  //   event.preventDefault();
+
+  //   if (title === '' || description === '' || tags === '' || coverUrl === '') {
+  //     toast.error('Please fill all the fields');
+  //     return;
+  //   }
+
+  //   if (!currentUser) {
+  //     toast.error('Please login to upload a blog');
+  //     return;
+  //   }
+
+  //   const tagsArray = tags.map(tag => tag.trim());
+  //   const uniqueTags = [...new Set(tagsArray)];
+  //   setTags(uniqueTags);
+
+  //   try {
+  //     toast.info('Uploading blog...');
+
+  //     const res = await axios.post(
+  //       'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
+  //       {
+  //         title,
+  //         imgUrl: coverUrl,
+  //         desc: description,
+  //         tags,
+  //         Author: currentUser.name,
+  //       },
+  //       config
+  //     );
+
+  //     toast.success('Blog uploaded successfully');
+  //   } catch (error) {
+  //     toast.error(error.response.data.message);
+  //     console.log(error);
+  //   }
+  // };
 
   const imagekit = new ImageKit({
     publicKey: 'public_URvjzrf8cUDwCO0A6NK3VOYWg1U=',
@@ -121,10 +141,14 @@ function QuillEditor() {
     setShowEditor(false); // Hide the TextEditor component
   };
 
+
+
+
+
   return (
     <>
       {!showEditor ? (
-        <div className="p-8 space-y-4 bg-white rounded-lg shadow-md mt-16">
+        <div className="p-8 space-y-4 bg-white rounded-lg shadow-md mt-16 min-h-screen focus:outline-none outline-none border-none">
           <h1 className="text-2xl font-bold text-gray-800">Create a Blog</h1>
           <input
             value={title}
@@ -160,7 +184,8 @@ function QuillEditor() {
           <ToastContainer />
         </div>
       ) : (
-        <TextEditor onBack={handleBack} /> //Show the TextEditor component
+        <TextEditor onBack={handleBack}  data={editor_js_data} setdata={setEditor_js_data}
+        /> //Show the TextEditor component
       )}
     </>
   );

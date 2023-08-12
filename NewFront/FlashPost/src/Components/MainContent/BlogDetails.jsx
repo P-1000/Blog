@@ -81,7 +81,9 @@ const redD =
             <div className='my-5'></div>
             <div>
               <div className='text-sm text-gray-500 ml-5 font-normal text-ellipsis overflow-hidden'>
-              <Output  data = {con}/>
+              {
+                blog.Content ? <Output data={con} /> : 'red'
+              }
 {/* 
              {
               blog.Content ?<p>{blog.Content}</p> : 'red' 
