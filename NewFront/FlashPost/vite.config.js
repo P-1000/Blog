@@ -8,15 +8,7 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         external: [
-          'react',
-          'react-dom',
-          'react-router-dom',
-          'react-redux',
-          'redux',
-          'redux-thunk',
-          'axios',
-          'editorjs',
-          'imagekit',
+          
         ],
       },
     },
