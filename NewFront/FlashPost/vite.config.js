@@ -7,9 +7,12 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: {
       rollupOptions: {
-        input: {
-          main: '/index.html',
-        },
+        external: [
+          '@editorjs/header',  // Add other external modules here
+          '@editorjs/list',
+          '@editorjs/table',
+          '@editorjs/image',
+        ],
       },
     },
     server: {
