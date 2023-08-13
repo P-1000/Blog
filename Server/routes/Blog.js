@@ -1,7 +1,7 @@
 import express from "express"
 //import {updateUser} from "../Controllers/user.js"
 import { verifyToken } from "../Verify.js"
-import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById, undislikeBlog,  trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
+import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById,isBlogLiked, undislikeBlog,  trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
 import { likeBlog } from "../Controllers/blog.js"
 
