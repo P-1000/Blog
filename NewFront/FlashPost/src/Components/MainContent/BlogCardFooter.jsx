@@ -6,6 +6,7 @@ import axios from 'axios';
 // import BiLike from 'react-icons/bi';
 // import BiSolidLike from 'react-icons/bi';
 import {BiLike,BiSolidLike} from "react-icons/bi"
+import { motion } from 'framer-motion';
 
 
 function BlogCardFooter(props) {
@@ -42,7 +43,7 @@ function BlogCardFooter(props) {
           return;
         }
         const response = await axios.get(
-          `http://localhost:3000/api/blogs/isliked/${props.id}/${cuid}`,
+          `http://back-e0rl.onrender.com/api/blogs/isliked/${props.id}/${cuid}`,
           config
         );
         setIsLiked(response.data.isLiked);
@@ -142,13 +143,16 @@ function BlogCardFooter(props) {
       </div>
       <div>
         <div className='mx-10'>
-          <button className='flex lg:block gap-1 flex-row-reverse '>
+          <motion.button 
+          whileHover={{ scale: 1.2 }}
+  whileTap={{ scale: 0.9 }}
+          className='flex lg:block gap-1 flex-row-reverse '>
           {
-            isLiked ? <BiSolidLike className='text-2xl text-primary-500 scale-110 hover:scale-100  transition-all shadow-custom' onClick={handleLike}/> 
-            : <BiLike className='text-2xl text-primary-500 scale-110 hover:scale-100 transition-all' onClick={handleLike}/>
+            isLiked ? <BiSolidLike className='text-2xl text-primary-500  transition-all shadow-custom' onClick={handleLike}/> 
+            : <BiLike className='text-2xl text-primary-500  transition-all' onClick={handleLike}/>
           }
             {like ? like : 0}
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
