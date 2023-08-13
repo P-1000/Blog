@@ -31,7 +31,7 @@ blog_router.get("/blogsPage/:skip" , getPageBlogs )
 //tags count : on index page:
 
 // increment likes count for a blog :
-blog_router.put("/like/:bid" ,  likeBlog ) 
+// blog_router.put("/like/:bid" ,  likeBlog ) 
 
 blog_router.put("/like/:bid" , verifyToken ,  NewlikeBlog)
 
@@ -47,7 +47,7 @@ blog_router.get("/trending" , trendingBlogs )
 blog_router.get("/author/:author" , findBlogsByAuthor  )
 
 
-blog_router.get('/isliked/:bid', isBlogLiked);
+blog_router.get('/isliked/:bid',verifyToken, isBlogLiked);
 
 
 // todo:

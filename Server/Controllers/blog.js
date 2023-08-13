@@ -250,4 +250,17 @@ export const undislikeBlog = async (req, res, next) => {
   }
 };
 
-export const 
+export const isBlogLiked = async (req, res, next) => {
+  const blogId = req.params.bid;
+  const userId = req.user.id;
+
+  try {
+    const likedBlog = await BlogLike.findOne({ blogId, userId });
+    const isLiked = !!likedBlog; // Convert to boolean
+
+    res.status(200).json(isLiked);
+  } catch (error) {
+    console.error('Error checking if blog is liked:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

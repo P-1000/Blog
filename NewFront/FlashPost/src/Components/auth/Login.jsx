@@ -28,9 +28,10 @@ const Login = () => {
       {
         loading: 'Logging in...',
         success: 'Login successful!',
-        error: 'Login failed. Please check your credentials.',
+        error: 'Login failed.',
       }
     );
+
       //setting token to local storage
       localStorage.setItem("jwt", JSON.stringify(res.data.token))
       
@@ -48,7 +49,7 @@ const Login = () => {
       axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
   .then(response => {
     dispatch(loginSuccess(response.data));
-    toast.success('Look at my styles.', {
+    toast.success('Success.', {
       style: {
         border: '1px solid #713200',
         padding: '16px',
@@ -62,7 +63,7 @@ const Login = () => {
   })
   .catch(error => {
     console.log(error)
-    toast.error("Login Failed")
+    toast.error(error)
   });
       dispatch(loginSuccess(res.data));
       navigate('/home')
@@ -73,9 +74,9 @@ const Login = () => {
   };
   return (
    <div>
-     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 shadow-lg">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+        <h2 className="mt-1 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -138,7 +139,7 @@ const Login = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Sign in
               </button>
