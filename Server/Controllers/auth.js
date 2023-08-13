@@ -42,18 +42,35 @@ export const signin = async(req, res , next) => {
 
 }
 
-export const cookie_read = async(req, res , next) => {
-    try {
-        const token =  await req.headers.authorization.split(' ')[1]
-        if(!token) return next(createError(401, "UnAuthorized!"))
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        if(!decoded) return next(createError(401, "UnAuthorized!"))
-        const user = await User.findById(decoded.id).select("-password")
-        res.json(user)
-    } catch (error) {
-        res.send(error)
-    }
+export const cookie_read = async (req, res, next) => {
+  try {
+      const token = req.headers.authorization?.split(' ')[1];
+
+      if (!token) {
+          return res.status(401).json({ message: "Unauthorized!" });
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      if (!decoded) {
+          return res.status(401).json({ message: "Unauthorized!" });
+      }
+
+      const user = await User.findById(decoded.id).select("-password");
+      const { resetToken, ...others } = user._doc;
+      const newUserData = { ...others };
+
+      if (!user) {
+          return res.status(404).json({ message: "User not found!" });
+      }
+
+      res.json(newUserData);
+  } catch (error) {
+      console.error("Error in cookie_read:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
 }
+
 
 
 //follow user

@@ -21,25 +21,25 @@ function BlogCardFooter(props) {
   }, []); // Empty dependency array ensures the effect runs only once when component mounts
 
   async function handleLike() {
-
-    //check if the user is logged in or not if! logged in redirect to login page
     const token = localStorage.getItem('jwt');
+    
     if (!token) {
       window.location.href = '/login';
       return;
     }
-
-
-    if (isLiked) {
-      setLike(like - 1);
-      const response = await axios.put(`https://back-e0rl.onrender.com/api/blogs/dislike/${props.id}`);
-      setIsLiked(false);
-      console.log(response);
-    } else {
-      setLike(like + 1);
-      setIsLiked(true);
-      const response = await axios.put(`https://back-e0rl.onrender.com/api/blogs/like/${props.id}`);
-      console.log(response);
+  
+    try {
+      if (isLiked) {
+        setLike(like - 1);
+        await axios.put(`https://back-e0rl.onrender.com/api/blogs/dislike/${props.id}`);
+        setIsLiked(false);
+      } else {
+        setLike(like + 1);
+        await axios.put(`https://back-e0rl.onrender.com/api/blogs/like/${props.id}`);
+        setIsLiked(true);
+      }
+    } catch (error) {
+      console.error('Error handling like:', error);
     }
   }
 
