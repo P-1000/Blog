@@ -53,8 +53,8 @@ export const updateBlog = async (req, res, next) => {
     blog.imgUrl = updatedData.imgUrl;
     blog.desc = updatedData.desc;
     blog.tags = updatedData.tags;
-    
-    blog.description = updatedData.content;
+    blog.Content = updatedData.Content;
+    blog.description = updatedData.Content;
     const updatedBlog = await blog.save();
     res.status(200).json(updatedBlog);
   } catch (err) {
