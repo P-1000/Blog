@@ -11,8 +11,8 @@ const router = express.Router()
 
 // Rate limiter middleware
 const loginRateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 6, // Limit to 5 requests per windowMs
+    windowMs: 15 * 60 * 1000, 
+    max: 5, 
     message: 'Too many login attempts from this IP, please try again later.',
 });
 
