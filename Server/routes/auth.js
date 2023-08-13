@@ -9,17 +9,24 @@ import rateLimit from "express-rate-limit"
 
 const router = express.Router()
 
-// Rate limiter middleware
+// Rate limiter middleware for login 
 const loginRateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
     max: 5, 
     message: 'Too many login attempts from this IP, please try again later.',
 });
 
+// Rate limiter middleware for signup
+const signupRateLimiter = rateLimit({
+    windowMs: 30 * 60 * 1000,
+    max: 5,
+    message: 'Too many accounts created from this IP, please try again after an hour',
+});
+
 
 //create user 
 
-router.post("/signup", signup )
+router.post("/signup",signupRateLimiter ,  signup )
 
 //sign in 
 router.post("/signin",loginRateLimiter ,  signin  )
