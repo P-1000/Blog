@@ -47,7 +47,7 @@ blog_router.get("/trending" , trendingBlogs )
 blog_router.get("/author/:author" , findBlogsByAuthor  )
 
 
-blog_router.get('/isliked/:bid',verifyToken, isBlogLiked);
+blog_router.get("/isliked/:bid/:id"  ,  isBlogLiked);
 
 
 // todo:

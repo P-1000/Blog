@@ -3,6 +3,10 @@ import { BsBookmarkPlus } from 'react-icons/bs';
 import { SlLike } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+// import BiLike from 'react-icons/bi';
+// import BiSolidLike from 'react-icons/bi';
+import {BiLike,BiSolidLike} from "react-icons/bi"
+
 
 function BlogCardFooter(props) {
   const [countTag, setCountTag] = useState(0);
@@ -17,26 +21,39 @@ function BlogCardFooter(props) {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
+  
+
   useEffect(() => {
     tag.map((tag) => {
       setCountTag((prev) => prev + 1);
     });
   }, []); // Empty dependency array ensures the effect runs only once when component mounts
 
+  const [cuid , setCuid] = useState('');
   useEffect(() => {
     const checkIsLiked = async () => {
+    
+  const usid = localStorage.getItem('user');
+  const us = JSON.parse(usid);
+  setCuid(us._id);
       try {
+        if(!cuid){
+          return;
+        }
         const response = await axios.get(
-          `https://back-e0rl.onrender.com/api/blogs/isliked/${props.id}`,
+          `http://localhost:3000/api/blogs/isliked/${props.id}/${cuid}`,
           config
         );
         setIsLiked(response.data.isLiked);
+        console.log(response);
+        
       } catch (error) {
         console.error('Error checking if blog is liked:', error);
       }
     };
     checkIsLiked();
-  }, [props.id, config]);
+  }, [props.id, config ,cuid]);
+
 
   async function handleLike() {
     if (!token) {
@@ -46,26 +63,44 @@ function BlogCardFooter(props) {
 
     try {
       if (isLiked) {
-        setLike(like - 1);
+        
         await axios.put(
           `https://back-e0rl.onrender.com/api/blogs/unlike/${props.id}`,
           null,
           config
         );
+        setLike(like - 1);
         setIsLiked(false);
       } else {
-        setLike(like + 1);
+        
         await axios.put(
           `https://back-e0rl.onrender.com/api/blogs/like/${props.id}`,
           null,
           config
         );
+        setLike(like + 1);
         setIsLiked(true);
       }
     } catch (error) {
       console.error('Error handling like:', error);
     }
   }
+
+  async function handleDislike() {
+   try {
+    await axios.put(
+      `https://back-e0rl.onrender.com/api/blogs/unlike/${props.id}`,
+      null,
+      config
+    );
+    setLike(like - 1);
+    setIsLiked(false);
+   } catch (error) {
+      console.log(error)
+   }
+  }
+
+
 
   const handleBookmarks = async () => {
     if (!token) {
@@ -107,12 +142,10 @@ function BlogCardFooter(props) {
       <div>
         <div className='mx-10'>
           <button className='flex lg:block gap-1 flex-row-reverse'>
-            <SlLike
-              onClick={handleLike}
-              className={`lg:text-2xl text-xl text-primary-500 ${
-                isLiked ? 'text-red-500' : ''
-              }`}
-            />
+          {
+            isLiked ? <BiSolidLike className='text-2xl text-primary-500' onClick={handleLike}/> 
+            : <BiLike className='text-2xl text-primary-500' onClick={handleLike}/>
+          }
             {like ? like : 0}
           </button>
         </div>
