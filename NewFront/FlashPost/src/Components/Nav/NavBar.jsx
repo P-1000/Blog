@@ -13,10 +13,17 @@ import {PiBroadcastFill} from 'react-icons/pi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { resetForm } from '../../redux/formDataSlice';
+import {motion} from 'framer-motion'
+import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function NavBar() {
 
+const ibg = localStorage.getItem('blogId');
+const blogId = JSON.parse(ibg);
+
     
+
 
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate()
@@ -50,6 +57,7 @@ function NavBar() {
        navigate(`/search/${search}`)
     }
 
+    
 
     const {title , description , tags , coverUrl , Content} = useSelector(state => state.blog);
 
@@ -68,11 +76,65 @@ function NavBar() {
         setContent(Content);
     }, [title, description, tags, coverUrl, Content]);
 
+
+//handle edit post : 
+
+      const handleEditSubmit = async event => {
+      event.preventDefault();
+
+      if (title === "" || description === "" || tags === "" || coverUrl === "") {
+        toast.error("Please fill all the fields");
+        return;
+      }
+  
+      if (!currentUser) {
+        toast.error("Please login to upload a blog");
+        return;
+      }
+  
+      const tagsArray = tags.map(tag => tag.trim());
+      const uniqueTags = [...new Set(tagsArray)];
+      setTags(uniqueTags);
+  
+      try {
+        toast.info("Uploading blog...");
+  
+      
+
+        const res = await axios.put(
+          `https://back-e0rl.onrender.com/api/blogs/update/${blogId}`,
+          {
+            title,
+            imgUrl: coverUrl,
+            desc: description,
+            tags,
+            Author: currentUser.name,
+            Content : JSON.stringify(content1),
+          },
+          config
+        );
+  
+        dispatch(resetForm());
+        toast.success("Blog uploaded successfully");
+      } catch (error) {
+        toast.error(error.response.data.message);
+        console.log(error);
+      }
+    };
+  
+
+
     //blog submmision function handlere ; 
 
     const handleSubmit = async event => {
         event.preventDefault();
-    
+
+        // if location is /Edit/:id then do not execute the code below execute another function L 
+        if(location.pathname == '/Edit/:id'){
+          handleEditSubmit();
+          return;
+        }
+      
         if (title === "" || description === "" || tags === "" || coverUrl === "") {
           toast.error("Please fill all the fields");
           return;
@@ -104,6 +166,8 @@ function NavBar() {
             },
             config
           );
+
+          dispatch(resetForm());
     
           toast.success("Blog uploaded successfully");
         } catch (error) {
@@ -117,7 +181,7 @@ function NavBar() {
   <>
           <div
     className={`${
-  location.pathname === '/Write' || location.pathname === '/Edit/:id'
+  location.pathname === '/Write' || location.pathname === '/Edit/:blogId'
     ? 'border-b-[1px] fixed top-0 w-full z-50 shadow-sm mb-24'
     : 'border-b-[1px] z-50 shadow-sm sticky'
 } bg-white`}
@@ -132,10 +196,14 @@ function NavBar() {
         </div>
         <div className='flex col-span-6 gap-4'>
             <div>
-                <button onClick={()=>navigate('/Home')}
+                <motion.button 
+                whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.9 }}
+            whileDrag={{ scale: 0.9 }}
+                onClick={()=>navigate('/Home')}
                     className='border hidden lg:block border-gray-300 rounded-full px-4 py-2 text-sm  
                     font-semibold text-gray-700 mr-2 hover:bg-gray-100'
-                >Your Feed</button>
+                >Your Feed</motion.button>
             </div>
 
             <div className="flex flex-row-reverse focus-within:border rounded-full px-4 py-2 pr-[16rem] 
@@ -158,22 +226,27 @@ function NavBar() {
         currentUser &&  <div className='flex col-span-3 justify-around w-full'>
         <div>
         {location.pathname === '/Write' || location.pathname.startsWith('/Edit/') ? (
-  <button
-    onClick={handleSubmit}
-    className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
-  >
-    <PiBroadcastFill className="text-xl hover:animate-pulse" />
-    Publish
-  </button>
-) : (
-  <button
-    onClick={() => navigate('/Write')}
-    className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
-  >
-    <MdCreate className="text-xl text-gray-200" />
-    Create
-  </button>
-)}
+        <button
+          onClick={location.pathname.startsWith('/Edit/') ? handleEditSubmit : handleSubmit}
+          className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
+        >
+          <PiBroadcastFill className="text-xl hover:animate-pulse" />
+          {location.pathname.startsWith('/Edit/') ? 'UpdateBlog' : 'Publish'}
+        </button>
+      ) : (
+        <motion.button
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.9 }}
+          whileDrag={{ scale: 0.9 }}
+          onClick={() => history.push('/Write')}
+          className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
+        >
+        <Link to='/Write' className='flex gap-1'>
+          <MdCreate className="text-xl text-gray-200" />
+          Create
+          </Link>
+        </motion.button>
+      )}
 
         </div>
         <div className='flex justify-between gap-7'>

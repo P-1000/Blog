@@ -36,9 +36,12 @@ async function handleSearch(){
   
 // if seach is null or full of spaces then return
 if(search.trim() === ''){
-  return
+  return window.location.replace('/')
 }
-    const res = await axios.get(`https://back-e0rl.onrender.com/api/search?query=${search}`)
+
+
+
+    const res = await axios.get(`https://back-e0rl.onrender.com/api/search?query=${search || 'blogs'}`)
     const data = res.data
     setData(data)
 }
@@ -53,6 +56,9 @@ useEffect(() => {
       <SideNav />
     </div>
       <div className='w-9/12 mt-8 rounded-md bg-white border'>
+     <div className='text-center mt-5 border-b'> 
+     <h1 className='font-bold text-2xl mb-4 mr-2'>Showing Results For : <span className=' px-2 py-1'>{search}</span></h1>
+     </div>
       <div className=''>
             {
                 data.map((item) => {

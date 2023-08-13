@@ -26,8 +26,10 @@ function EditPost() {
   };
 
 
-  const dispatch = useDispatch();
+  localStorage.setItem('blogId', JSON.stringify(blogId));
+  
 
+  const dispatch = useDispatch();
 
 
   // useEffect(() => {

@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import { useState , useEffect } from 'react';
 import AuthoImg from './AuthoImg';
 import { BsBookmarkPlus } from 'react-icons/bs';
+import {motion} from 'framer-motion'
 
 function BlogCards(props) {
   const {imgUrl , title , desc , blog_id  , Author , createdAt  } = props.blog
@@ -58,7 +59,11 @@ const formattedDate = date.toLocaleString('en-IN', options);
                            <div className='lg:w-4/12 w-[86%] mx-2'>
                            <div className=' mx-2 w-full lg:float-right'>
                           
-                <img src={imgUrl}
+                <motion.img 
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.9 }}
+            whileDrag={{ scale: 0.9 }}
+                src={imgUrl}
                 className='rounded-md  box-border object-cover border-primary shadow-lg hover:shadow-md transition-all' />
                 </div>
                            </div>

@@ -61,14 +61,14 @@ const redD =
 
   return (
     <>
-      <div className='flex det w-full h-[100vh]  rounded-md bg-clip-padding'>
-        <div className='det w-full h-[100vh]  rounded-md bg-clip-padding  '>
+      <div className='flex det w-full  bg-white min-h-screen max-h-full bg-clip-padding overflow-auto'>
+        <div className='det w-full h-[100vh]  '>
           <div className=''>
             {/* author details  */}
             <Author post_id={blogId} name={blog.Author} />
           </div>
 
-          <div className='w-8/12 mx-20 my-10'>
+          <div className=' bg-white w-8/12 mx-20 my-10'>
             <div>
               <h1 className='text-4xl font-bold my-3 '>{blog.title}</h1>
             </div>
@@ -78,9 +78,9 @@ const redD =
             <div>
               <img className='w-full object-cover shadow-md rounded-md' src={blog.imgUrl} alt={blog.title} />
             </div>
-            <div className='my-5'></div>
+            {/* <div className='my-5'></div> */}
             <div>
-              <div className='text-sm text-gray-500 ml-5 font-normal text-ellipsis overflow-hidden'>
+              <div className='mt-10'>
               {
                 blog.Content ? <Output data={con} /> : 'red'
               }

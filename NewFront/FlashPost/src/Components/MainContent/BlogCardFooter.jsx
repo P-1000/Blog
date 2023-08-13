@@ -43,7 +43,7 @@ function BlogCardFooter(props) {
           return;
         }
         const response = await axios.get(
-          `http://back-e0rl.onrender.com/api/blogs/isliked/${props.id}/${cuid}`,
+          `https://back-e0rl.onrender.com/api/blogs/isliked/${props.id}/${cuid}`,
           config
         );
         setIsLiked(response.data.isLiked);
@@ -117,12 +117,15 @@ function BlogCardFooter(props) {
     <div className='flex justify-between mt-4'>
       <div>
         <div className='flex gap-4 lg:gap-8'>
-          <div
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            whileDrag={{ scale: 0.9 }}
             onClick={handleBookmarks}
-            className='ml-5 hidden lg:block'
+            className='ml-5 hidden lg:block cursor-pointer'
           >
             <BsBookmarkPlus className='text-2xl text-primary-500' />
-          </div>
+          </motion.div>
           <div className='flex gap-[.2em] ml-5'>
             <Link to={`/search/${tag ? tag[0] : 'Blog'}`}>
               <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
@@ -144,8 +147,9 @@ function BlogCardFooter(props) {
       <div>
         <div className='mx-10'>
           <motion.button 
-          whileHover={{ scale: 1.2 }}
-  whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          
           className='flex lg:block gap-1 flex-row-reverse '>
           {
             isLiked ? <BiSolidLike className='text-2xl text-primary-500  transition-all shadow-custom' onClick={handleLike}/> 
