@@ -218,3 +218,36 @@ export const trendingBlogs = async (req , res , next) =>{
     }
   };
   
+
+  // Undislike a blog
+export const undislikeBlog = async (req, res, next) => {
+  try {
+    const blogId = req.params.bid;
+
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) {
+      return next(createError(404, 'Blog not found'));
+    }
+
+    const existingLike = await BlogLike.findOne({
+      blogId: blog._id,
+      userId: req.user.id,
+    });
+
+    if (!existingLike) {
+      return next(createError(400, 'User has not disliked this blog'));
+    }
+
+    await existingLike.remove();
+
+    blog.dislikes -= 1;
+    await blog.save();
+
+    res.status(200).json({ message: 'Blog undisliked successfully' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const 

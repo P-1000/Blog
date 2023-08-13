@@ -1,7 +1,7 @@
 import express from "express"
 //import {updateUser} from "../Controllers/user.js"
 import { verifyToken } from "../Verify.js"
-import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById, trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
+import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById, undislikeBlog,  trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
 import { likeBlog } from "../Controllers/blog.js"
 
@@ -35,6 +35,8 @@ blog_router.put("/like/:bid" ,  likeBlog )
 
 blog_router.put("/like/:bid" , verifyToken ,  NewlikeBlog)
 
+blog_router.put("/unlike/:bid" , verifyToken , undislikeBlog)
+
 // decrement likes count for a blog :
 blog_router.put("/dislike/:bid" ,  unlikeBlog )
 
@@ -44,6 +46,13 @@ blog_router.get("/trending" , trendingBlogs )
 // get blogs by author :
 blog_router.get("/author/:author" , findBlogsByAuthor  )
 
+
+blog_router.get('/isliked/:bid', isBlogLiked);
+
+
 // todo:
+
+
+
 
 export default blog_router
