@@ -12,6 +12,7 @@ function BlogCardFooter(props) {
   const [countTag, setCountTag] = useState(0);
   const [like, setLike] = useState(props.like);
   const [isLiked, setIsLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
 
   const { tag } = props;
 
@@ -141,10 +142,10 @@ function BlogCardFooter(props) {
       </div>
       <div>
         <div className='mx-10'>
-          <button className='flex lg:block gap-1 flex-row-reverse'>
+          <button className='flex lg:block gap-1 flex-row-reverse '>
           {
-            isLiked ? <BiSolidLike className='text-2xl text-primary-500' onClick={handleLike}/> 
-            : <BiLike className='text-2xl text-primary-500' onClick={handleLike}/>
+            isLiked ? <BiSolidLike className='text-2xl text-primary-500 scale-110 hover:scale-100  transition-all shadow-custom' onClick={handleLike}/> 
+            : <BiLike className='text-2xl text-primary-500 scale-110 hover:scale-100 transition-all' onClick={handleLike}/>
           }
             {like ? like : 0}
           </button>

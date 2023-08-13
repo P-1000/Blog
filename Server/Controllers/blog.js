@@ -201,7 +201,7 @@ export const trendingBlogs = async (req , res , next) =>{
       });
   
       if (existingLike) {
-        return res.status(400).json({ message: 'User has already liked this blog' });
+        return res.status(402).json({ message: 'User has already liked this blog' });
       }
   
       // Create a new like document in the BlogLike collection
@@ -244,7 +244,7 @@ export const trendingBlogs = async (req , res , next) =>{
         userId: user89,
       });
   
-      blog.dislikes -= 1;
+      blog.likes -= 1;
       await blog.save();
   
       res.status(200).json({ success: true, message: 'Blog undisliked successfully' });

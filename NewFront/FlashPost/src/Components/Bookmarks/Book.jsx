@@ -96,16 +96,16 @@ function Book(props) {
       <div>
         {bookmarks.map((blog) => (
          <div className='bg-white'>
-         <div className='border-b-[1px] ' key={blog._id}>
+         <div className='border-b-[1px] ' key={blog?._id}>
                         <div>
                           <div>
                             <Link 
                             className='border-b-[1px] border-gray-300 hover:bg-gray-100'
-                            to={`/blog/@${blog.Author}/${blog._id}`}>
+                            to={`/blog/@${blog?.Author}/${blog?._id}`}>
                               <BlogCards
-                                Author={blog.Author}
-                                desc={blog.desc}
-                                title={blog.title}
+                                Author={blog?.Author}
+                                desc={blog?.desc}
+                                title={blog?.title}
                                 imgUrl={blog.imgUrl}
                                 blog_id={blog._id}
                                 time={blog.createdAt}
