@@ -23,12 +23,8 @@ const BlogSchema = new mongoose.Schema(
       default: 0,
     },
     tags: {
-      type: [String],
-      default: [],
-    },
-    likes: {
-      type: [String],
-      default: [],
+      type: Number,
+      default: 0,
     },
     dislikes: {
       type: [String],

@@ -4,6 +4,8 @@ import { createError } from '../error.js'
 import express from 'express'
 import multer from 'multer';
 import path from 'path';
+import { BlogLike } from '../Models/Like.js';
+
 
 // Configure multer options
 // const storage = multer.diskStorage({
@@ -180,3 +182,39 @@ export const trendingBlogs = async (req , res , next) =>{
       res.status(err)
     }
   }
+
+  // new like function with updated schema : 
+  export const NewlikeBlog = async (req, res, next) => {
+    try {
+      const blogId = req.params.bid;
+  
+      const blog = await Blog.findById(blogId);
+  
+      if (!blog) {
+        return res.status(404).json({ message: 'Blog not found' });
+      }
+  
+      // Check if the user has already liked the blog
+      const existingLike = await BlogLike.findOne({
+        blogId: blog._id,
+        userId: req.user.id,
+      });
+  
+      if (existingLike) {
+        return res.status(400).json({ message: 'User has already liked this blog' });
+      }
+  
+      // Create a new like document in the BlogLike collection
+      const newLike = new BlogLike({ blogId: blog._id, userId: req.user.id });
+      await newLike.save();
+  
+      // Increment the like count in the Blog document
+      blog.likes += 1;
+      await blog.save();
+  
+      res.status(200).json({ message: 'Blog liked successfully' });
+    } catch (err) {
+      next(err);
+    }
+  };
+  

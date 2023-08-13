@@ -1,7 +1,7 @@
 import express from "express"
 //import {updateUser} from "../Controllers/user.js"
 import { verifyToken } from "../Verify.js"
-import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById, trendingBlogs, unlikeBlog , getPageBlogs } from "../Controllers/blog.js"
+import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById, trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
 import { likeBlog } from "../Controllers/blog.js"
 
@@ -32,6 +32,8 @@ blog_router.get("/blogsPage/:skip" , getPageBlogs )
 
 // increment likes count for a blog :
 blog_router.put("/like/:bid" ,  likeBlog ) 
+
+blog_router.put("/like/:bid" , verifyToken ,  NewlikeBlog)
 
 // decrement likes count for a blog :
 blog_router.put("/dislike/:bid" ,  unlikeBlog )

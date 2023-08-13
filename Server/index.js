@@ -240,6 +240,29 @@ app.get("/api/tags", async (req, res) => {
 // });
 
 
+// update blog schmea from likes string array to number  migration code : 
+app.get("/api/update", async (req, res) => {
+  try {
+    const blogs = await blog.find();
+
+    for (const blog of blogs) {
+      const likesCount = blog.likes.length;
+      blog.likes = 0;
+      await blog.save();
+    }
+
+    console.log('Migration complete');
+    res.json({ message: "success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+   
+    
+
+
 
 
 app.get("/api/TopTags", async (req, res) => {
