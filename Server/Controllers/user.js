@@ -117,19 +117,31 @@ export const fetchUserBookmarks = async (req, res, next) => {
   }
 };
 
-// edit user profile :
+//edit user profile
+
 export const editProfile = async (req, res, next) => {
   const { id } = req.params;
-  const { bio, name, email } = req.body;
+  const { bio, name, email, place } = req.body;
+
   try {
     const user = await User.findById(id);
-    if(!user) return res.status(404).json({message: "user not found"})
+    if (!user) return res.status(404).json({ message: "user not found" });
+
     if (user._id.toString() === id) {
+      const updateFields = {};
+      
+      // Only update fields if they are provided in the request
+      if (bio !== undefined) updateFields.Bio = bio;
+      if (name !== undefined) updateFields.name = name;
+      if (email !== undefined) updateFields.email = email;
+      if (place !== undefined) updateFields.Location = place;
+
       const updatedUser = await User.findByIdAndUpdate(
         id,
-        { $set: { bio, name, email } },
+        { $set: updateFields },
         { new: true }
       );
+
       res.status(200).json(updatedUser);
     } else {
       return res.status(403).json({ message: "You can update only your account!" });
@@ -138,6 +150,7 @@ export const editProfile = async (req, res, next) => {
     next(err);
   }
 };
+;
 
 // get user by name : 
 export const getUser_Name = async (req, res, next) => {
@@ -195,5 +208,6 @@ export const getUserById = async (req, res, next) => {
     res.status(500).json({ message: "server error" });
   }
 };
+
 
 

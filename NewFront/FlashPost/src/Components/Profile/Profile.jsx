@@ -33,7 +33,7 @@ import FollowersModal from './FollowerModal'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Edit from './Edit'
-
+import {motion} from 'framer-motion'
 
 
 function Profile() {
@@ -79,6 +79,8 @@ function Profile() {
 
     const us = JSON.parse(usr);
     const idus = us._id;
+    const memebersince = us.createdAt;
+    const loc = us?.Location;
 
     useEffect(() => {
     
@@ -250,7 +252,9 @@ const isCurrentUser = us._id === user._id;
                     <div className='flex justify-center items-center'>
 
                         <div className='p-10 ml-7 flex gap-6'>
-                        <img 
+                        <motion.img 
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                         onClick={handleProfilePicClick}
                             className='w-32 h-32 rounded-full object-cover cursor-pointer object-right'
                                  src={user.ProfilePic} />
@@ -263,16 +267,20 @@ const isCurrentUser = us._id === user._id;
                                         <h1 className='text-3xl font-semibold mt-1 mb-2'>
                                             {user?.name}
                                         </h1>
-                                        <p>Welcome to my blog! I'm  
+                                       {
+                                        user?.Bio ? user?.Bio :  <p>Welcome to my blog! I'm  
                                           { "  " + " " +  user?.name}
                                           , a software developer with a passion for creating elegant and efficient solutions to complex problems. Through my blog.</p>
+                                       }
                                  </div>
                                  <div className='flex gap-4 mt-4'>
                                 
                                     <h1 
                                     // onClick={() => setUserReactions(user?.Reactions)}
                                     className='flex '>
-                                        <span className='text-sm font-semibold'>
+                                        <span 
+
+                                        className='text-sm font-semibold'>
                                             {/* {userFollowersCount ? userFollowersCount : 0} */}
                                             <FollowersModal 
                                             followers={userFollowersCount} 
@@ -377,14 +385,14 @@ const isCurrentUser = us._id === user._id;
                                        <div >
                                        <div className='flex gap-1'>
                                           <CiLocationOn className='text-xl  text-gray-600  '/>
-                                          <h1 className='text-sm font-normal text-gray-600'>Tokyo, Japan</h1>
+                                          <h1 className='text-sm font-normal text-gray-600'>{loc ? loc : "Tokyo, Japan"}</h1>
                                         </div> 
 
                                        </div>
                                        <div className='flex gap-2'>
                                           <SlCalender className='text-xl  text-gray-600  '/>
-                                          <h1 className='text-sm font-normal text-gray-600'>
-                                            Member since  2021
+                                          <h1 className='text-sm  text-gray-600'>
+                                            Member since <span className='font-semibold text-sm'> {memebersince?.slice(0, 4)}</span>
                                           </h1>
                                           </div>
                        </div>

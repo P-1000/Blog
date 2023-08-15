@@ -29,7 +29,7 @@ function Followers(props) {
               key={id.name}
               className='relative p-2 border rounded-lg transition-transform hover:scale-105'
             >
-              <Link to={`/profile/@${id.name}`} className='flex items-center space-x-4'>
+              <Link to={`/Profile/@${id.name}`} className='flex items-center space-x-4'>
                 <img
                   className='w-10 h-10 object-cover rounded-full'
                   src={id.ProfilePic}
