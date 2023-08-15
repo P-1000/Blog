@@ -78,6 +78,7 @@ function Profile() {
    
 
     const us = JSON.parse(usr);
+    const idus = us._id;
 
     useEffect(() => {
     
@@ -112,10 +113,15 @@ const followID = user?._id;
 
  // follow button :
     async function follow() {
+          //if user not logged in redirect to login page : 
+          if(!tok) {
+            window.location.href = '/';
+          }
+    
         const res = await axios.post('https://back-e0rl.onrender.com/api/follow', 
         {
-          userId: us._id,  //current user from local storage bro marchipoku : 
-          followId: followID ? followID : followID,    //user of profile : from params name : User
+          userId: idus,  //current user from local storage bro marchipoku : 
+          followId: followID,    //user of profile : from params name : User
         }, config);
         setF1(true);
 
@@ -124,10 +130,16 @@ const followID = user?._id;
 
     //Unfollow button :
     async function Unfollow() {
+      //if user not logged in redirect to login page : 
+      if(!tok) {
+        window.location.href = '/';
+      }
+
+
       const res = await axios.post('https://back-e0rl.onrender.com/api/unfollow',
       {
-        userId: us._id,  //current user from local storage bro marchipoku :
-        unfollowId: followID ? followID : null,    //user of profile : from params name : User
+        userId: idus,  //current user from local storage bro marchipoku :
+        unfollowId: followID,    //user of profile : from params name : User
       }, config);
       setF1(false);
      getUser();

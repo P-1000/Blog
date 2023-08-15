@@ -7,6 +7,12 @@ const Edit = () => {
     setShowModal((prev) => !prev);
   };
 
+
+ const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [bio, setBio] = useState('');
+
+
   return (
     <>
       <button
@@ -66,6 +72,7 @@ const Edit = () => {
                       type="text"
                       name="name"
                       id="name"
+                      onChange={(e) => setName(e.target.value)}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Your Name"
                       required
@@ -81,6 +88,7 @@ const Edit = () => {
                     <textarea
                       name="bio"
                       id="bio"
+                      onChange={(e) => setBio(e.target.value)}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Write something about yourself..."
                       required
@@ -94,6 +102,23 @@ const Edit = () => {
                       Social Links
                     </label>
                     <input
+                      type="text"
+                      name="social-links"
+                      id="social-links"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      placeholder="https://twitter.com/yourprofile"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="social-links"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Place
+                    </label>
+                    <input
+                    uytvty
                       type="text"
                       name="social-links"
                       id="social-links"

@@ -3,7 +3,7 @@ import Author from './Author';
 import AsideAuthor from './AsideAuthor';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+
 import Output from 'editorjs-react-renderer';
 
 

@@ -72,47 +72,28 @@ export const cookie_read = async (req, res, next) => {
 }
 
 
-
-//follow user
+//Follow Functin : 
 export const followFunc = async (req, res) => {
+  const { userId, followId } = req.body;
+
   try {
-    const { userId, followId } = req.body;
+    const cu = await User.findById(userId);
+    const fu = await User.findById(followId);
 
-    const session = await startSession();
-    session.startTransaction();
-
-    try {
-      const cu = await User.findById(userId).select('Following').session(session);
-      const fu = await User.findById(followId).session(session);
-
-      if (!cu || !fu) {
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      if (cu.Following.includes(followId)) {
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(403).json({ message: "You already follow this user" });
-      }
-
-      await Promise.all([
-        cu.updateOne({ $push: { Following: followId } }),
-        fu.updateOne({ $push: { Followers: userId } })
-      ]);
-
-      await session.commitTransaction();
-      session.endSession();
-
-      return res.status(200).json({ message: "User has been followed" });
-
-    } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
-      console.error(error);
-      return res.status(500).json({ message: "Server error" });
+    if (!cu || !fu) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    if (cu.Following.includes(followId)) {
+      return res.status(403).json({ message: "You already follow this user" });
+    }
+
+    cu.Following.push(followId);
+    fu.Followers.push(userId);
+
+    await Promise.all([cu.save(), fu.save()]);
+
+    return res.status(200).json({ message: "User has been followed" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });

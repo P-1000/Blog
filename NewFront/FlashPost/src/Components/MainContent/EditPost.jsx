@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ImageKit from 'imagekit';

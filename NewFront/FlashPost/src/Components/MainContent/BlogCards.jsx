@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactQuill from 'react-quill';
 import { useState , useEffect } from 'react';
 import AuthoImg from './AuthoImg';
 import { BsBookmarkPlus } from 'react-icons/bs';
