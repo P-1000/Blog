@@ -36,7 +36,9 @@ function QuillEditor() {
 
   const handleTagsInput = useCallback(event => {
     const tagsString = event.target.value;
-    const tagsArray = tagsString.split(',').map(tag => tag.trim());
+    const tagarray = tagsString.split(',')
+    // remove duplicate tags and # symbol
+    const tagsArray = [...new Set(tagarray.map(tag => tag.trim().replace('#', '')))];
     setTags(tagsArray);
     dispatch(updateTags(tagsArray));
   }, []);

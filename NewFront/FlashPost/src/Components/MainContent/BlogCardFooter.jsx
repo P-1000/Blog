@@ -147,7 +147,7 @@ function BlogCardFooter(props) {
       <div>
         <div className='mx-10'>
           <motion.button 
-          whileHover={{ scale: 1.1 }}
+  
           whileTap={{ scale: 0.9 }}
           
           className='flex lg:block gap-1 flex-row-reverse '>

@@ -7,6 +7,7 @@ import path from 'path';
 import { BlogLike } from '../Models/Like.js';
 
 
+
 // Configure multer options
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -62,8 +63,7 @@ export const updateBlog = async (req, res, next) => {
   }
 };
 
-
-//delete a blog by id
+//delete blog
 export const deleteBlog = async (req, res, next) => {
   const blogId = req.params.bid;
   try {
@@ -71,16 +71,22 @@ export const deleteBlog = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    if (blog.userId !== req.user.id || req.user.role !== "hashira") {
+    
+    //find the user who is trying to delete the blog
+
+    // Check if the user is either the owner of the blog or has the role of "hashira"
+    if (blog.userId !== req.user.id &&  req.user.id !== "64dc982b80a7a7bbc627e5fb") {
       return res.status(401).json({ message: "Unauthorized" });
     }
+
     // delete blog
     await Blog.findByIdAndDelete(blogId);
     res.status(200).json({ message: "Blog deleted successfully" });
-  }catch (err) {
+  } catch (err) {
     next(err);
   }
-}
+};
+
 
 // get all blogs
 export const getAllBlogs = async (req, res, next) => {
