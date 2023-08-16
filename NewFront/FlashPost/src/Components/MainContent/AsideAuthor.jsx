@@ -2,16 +2,19 @@ import React, { useEffect , useState } from 'react'
 
 const AsideAuthor = (props ) => {
 
-  const Author = props.Author;
+  const blog = props.Author
+
+  const [Author, setAuthor] = useState(blog.Author)
 
 
 
   return (
     <div>{
     <h1>
-      {Author.name}
+      {blog.Author}
     </h1>
-    }</div>
+    }
+    </div>
   )
 }
 

@@ -4,6 +4,8 @@ import { verifyToken } from "../Verify.js"
 import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById,isBlogLiked, undislikeBlog,  trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
 import { likeBlog } from "../Controllers/blog.js"
+import { blogDeleteAdmin } from "../Controllers/blog.js"
+import { isAdmin } from "../isAdmin.js"
 
 
 const blog_router = express.Router()
@@ -16,7 +18,7 @@ blog_router.post('/uploadBlog', verifyToken , addBlog)
 blog_router.put("/update/:bid" , verifyToken , updateBlog )
 
 //delete blog :
-blog_router.delete("/delete/:bid" , verifyToken ,  deleteBlog )
+blog_router.delete("/delete/:bid" , verifyToken  ,   deleteBlog )
 
 //get all blogs : 
 blog_router.get("/allBlogs" , getAllBlogs )
@@ -56,7 +58,7 @@ blog_router.get("/isliked/:bid/:id"  ,  isBlogLiked);
 
 
 //admin Routes : 
-
+blog_router.delete("/admin/delete/:bid" , isAdmin , blogDeleteAdmin )
 
 
 export default blog_router

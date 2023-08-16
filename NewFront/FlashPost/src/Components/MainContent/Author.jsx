@@ -6,7 +6,7 @@ function Author(props) {
   const {name} = props
   const post_id = props.post_id
   return (
-    <div className='w-8/12 mx-20 pt-10 flex justify-between'>
+    <div className='w-9/12 mx-32 pt-10 flex  justify-between'>
       {/* link to profile page  */}
       <Link to={`/profile/@${name}`}>
       <div className='flex'>

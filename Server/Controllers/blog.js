@@ -71,7 +71,7 @@ export const deleteBlog = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    if (blog.userId !== req.user.id) {
+    if (blog.userId !== req.user.id || req.user.role !== "hashira") {
       return res.status(401).json({ message: "Unauthorized" });
     }
     // delete blog
@@ -264,5 +264,26 @@ export const isBlogLiked = async (req, res, next) => {
   } catch (error) {
     console.error('Error checking if blog is liked:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+// delete blog by id for admin :
+export const blogDeleteAdmin = async (req, res, next) => {
+  const blogId = req.params.bid;
+  
+  try {
+    const blog = await Blog.findById(blogId);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    if(req.user.role !== "hashira"){
+      return res.status(401).json({ message: "You are not authorized to delete this blog" });
+    }
+
+    await Blog.findByIdAndDelete(blogId);
+    res.status(200).json({ message: "Blog deleted successfully by Kyōjurō Rengoku" });
+  } catch (err) {
+    next(err);
   }
 };

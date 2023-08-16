@@ -82,10 +82,19 @@ const blogId = JSON.parse(ibg);
       const handleEditSubmit = async event => {
       event.preventDefault();
 
+      setTimeout(() => {
+        console.log("wait")
+      }, 1000);
+
       if (title === "" || description === "" || tags === "" || coverUrl === "") {
         toast.error("Please fill all the fields");
         return;
       }
+      if(Content === "" || Content === "<p><br></p>" || Content === null || Content === "<p></p>"){
+        toast.error("Please fill all the fields");
+        return;
+      }
+
   
       if (!currentUser) {
         toast.error("Please login to upload a blog");
@@ -134,6 +143,12 @@ const blogId = JSON.parse(ibg);
           handleEditSubmit();
           return;
         }
+
+        if(Content === ""){
+          toast.error("Please fill all the fields");
+          return;
+        }
+
       
         if (title === "" || description === "" || tags === "" || coverUrl === "") {
           toast.error("Please fill all the fields");

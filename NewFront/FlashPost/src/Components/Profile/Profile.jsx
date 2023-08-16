@@ -195,6 +195,7 @@ const [preview, setPreview] = useState(null);
   }
 
   const handleProfilePicClick = () => {
+    console.log('clicked')
     if(checkCurrentUser()){
       fileInputRef.current.click();
     }
@@ -253,7 +254,6 @@ const isCurrentUser = us._id === user._id;
 
                         <div className='p-10 ml-7 flex gap-6'>
                         <motion.img 
-                            whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                         onClick={handleProfilePicClick}
                             className='w-32 h-32 rounded-full object-cover cursor-pointer object-right'
@@ -351,12 +351,15 @@ const isCurrentUser = us._id === user._id;
                                   }
                                    {
                                     isFollowing1 ? 
-                                    <button 
+                                    <motion.button 
+                                    whileTap={{scale : 0.9}}
                                     onClick={Unfollow}
-                                    className='pr-1'>Unfollow</button>
+                                    className='pr-1'>Unfollow</motion.button>
                                      : 
-                                     <button  onClick={follow}
-                                    className='pr-1'>Follow</button>
+                                     <motion.button  
+                                     whileTap={{scale : 0.9}}
+                                     onClick={follow}
+                                    className='pr-1'>Follow</motion.button>
                                    }
                                    </div>
                                     

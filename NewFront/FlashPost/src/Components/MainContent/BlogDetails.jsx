@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Output from 'editorjs-react-renderer';
-
+import EditorjsRender from './EditorjsRender';
 
 
 function BlogDetails() {
@@ -40,7 +40,7 @@ const redD =
     };
     fetchBlog();
     fetchUserProfile();
-  }, [blogId, config]);
+  }, [blogId]);
 
   const fetchUserProfile = async () => {
     const res = await fetch(`https://back-e0rl.onrender.com/api/users/${blog.Author}`);  //todo
@@ -61,14 +61,13 @@ const redD =
 
   return (
     <>
-      <div className='flex det w-full  bg-white min-h-screen max-h-full bg-clip-padding overflow-auto'>
-        <div className='det w-full h-[100vh]  '>
+      <div className='w-full  bg-white min-h-screen max-h-full bg-clip-padding overflow-auto'>
+        <div className='  h-[100vh]  '>
           <div className=''>
             {/* author details  */}
             <Author post_id={blogId} name={blog.Author} />
           </div>
-
-          <div className=' bg-white w-8/12 mx-20 my-10'>
+          <div className='place-content-center p-3 bg-white w-9/12 mx-36 my-10'>
             <div>
               <h1 className='text-4xl font-bold my-3 '>{blog.title}</h1>
             </div>
@@ -76,13 +75,20 @@ const redD =
               <p>{blog.desc}</p>
             </div>
             <div>
-              <img className='w-full object-cover shadow-md rounded-md' src={blog.imgUrl} alt={blog.title} />
+              <img className='w-11/12 p-2 object-cover shadow-md rounded-md' src={blog.imgUrl} alt={blog.title} />
             </div>
             {/* <div className='my-5'></div> */}
-            <div>
-              <div className='mt-10'>
+
+          </div>
+        </div>
+        {/* <div>
+          <AsideAuthor Author={blog} />
+        </div> */}
+      </div>
+      <div>
+              <div className=' '>
               {
-                blog.Content ? <Output data={con} /> : 'red'
+                blog.Content ? <EditorjsRender data={con}/> : 'Please Wait '
               }
 {/* 
              {
@@ -90,12 +96,7 @@ const redD =
              } */}
               </div>
             </div>
-          </div>
-        </div>
-        <div>
-          <AsideAuthor Author={authorDetails} />
-        </div>
-      </div>
+      
     
     </>
   );

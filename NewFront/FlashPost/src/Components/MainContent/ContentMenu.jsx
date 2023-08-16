@@ -47,26 +47,25 @@ function ContentMenu({ category, onCategoryChange }) {
             </motion.div>
 
             <motion.div
-            whileHover={{ scale: 1.1 }}
+           
             whileTap={{ scale: 0.9 }}
-            whileDrag={{ scale: 0.9 }}
+         
               onClick={() => changeCategory('mostRecent')}
               className=' items-center mb-2 gap-2 hidden lg:flex'
             >
-              <BiTimeFive className='text-[20px]' />
+              <BiTimeFive className='text-[12px]' />
               <p className={category === 'mostRecent' ? 'text-md text-primary hover:text-secondary' : 'text-sm text-gray-500'}>
                 Most Recent
               </p>
             </motion.div>
 
             <motion.div
-            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            whileDrag={{ scale: 0.9 }}
+        
               onClick={() => changeCategory('sort')}
               className='lg:flex hidden items-center mb-2 gap-2'
             >
-              <HiTrendingUp className='text-[20px]' />
+              <HiTrendingUp className='text-[12px]' />
               <p className={category === 'sort' ? 'text-md text-primary hover:text-secondary' : 'text-sm text-gray-500'}>
                 Sort by
               </p>

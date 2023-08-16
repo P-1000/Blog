@@ -211,3 +211,20 @@ export const getUserById = async (req, res, next) => {
 
 
 
+// user name and profile pic by name ; 
+export const basic_user = async (req, res, next) => {
+    const { name } = req.params;
+    try{
+      const user = await User.findOne({name:name});
+      if(!user){
+        return res.status(404).json({message: "user not found"})
+      }
+      res.status(200).json({profilePic: user.imgUrl , name: user.name});
+
+    }
+    catch{
+
+    }
+  
+}
+
