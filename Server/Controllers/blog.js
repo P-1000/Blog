@@ -75,7 +75,7 @@ export const deleteBlog = async (req, res, next) => {
     //find the user who is trying to delete the blog
 
     // Check if the user is either the owner of the blog or has the role of "hashira"
-    if (blog.userId !== req.user.id &&  req.user.id !== "64dc982b80a7a7bbc627e5fb") {
+    if (blog.userId !== req.user.id ||  req.user.id !== "64dc982b80a7a7bbc627e5fb") {
       return res.status(401).json({ message: "Unauthorized" });
     }
 

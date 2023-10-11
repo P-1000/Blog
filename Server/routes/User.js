@@ -29,19 +29,24 @@ router.get("/:id/bookmarks",  fetchUserBookmarks)
 
 //Edit user profile :
 router.put("/:id/editProfile", verifyToken, editProfile)
+
+
+
 //get user by name his details
 
 router.get("/:name", getUser_Name)
 
 //get only user name and profile picture: 
 
-router.get("/name/:name", basic_user)
+router.get("/basicname/:name", basic_user)
 
 // add to bookmarks : 
 router.put("/:id/addBookmark", verifyToken, addBookmark)
 
 // get user by id : 
 router.get("/fetchId/:id", getUserById)
+
+
 
 
 
