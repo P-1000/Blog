@@ -6,6 +6,8 @@ import {CiMenuKebab} from 'react-icons/ci'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 export default function BasicPopover(props) {
@@ -47,8 +49,11 @@ export default function BasicPopover(props) {
   async function deletePost(id){
    try {
     const del_ = await axios.delete(`https://back-e0rl.onrender.com/api/blogs/delete/${id}` , config)
-    alert("Post Deleted")
-    navigate('/home')
+    toast.success('Post Deleted Successfully')
+    setTimeout(() => {
+      navigate('/home')
+    }
+    , 1000);
    } catch (error) {
       console.log(error)
    }
@@ -56,6 +61,7 @@ export default function BasicPopover(props) {
 
   return (
     <ThemeProvider theme={theme}>
+     <Toaster />
     <div>
       <Button style={{ backgroundColor: 'transparent', color: 'inherit' , outline:'none' }} aria-describedby={id}  onClick={handleClick}>
         <CiMenuKebab className='text-xl'/>
