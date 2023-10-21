@@ -71,15 +71,16 @@ export const deleteBlog = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    
-    //find the user who is trying to delete the blog
-
-    // Check if the user is either the owner of the blog or has the role of "hashira"
-    if (blog.userId !== req.user.id ||  req.user.id !== "64dc982b80a7a7bbc627e5fb") {
+  
+    if (blog.userId.toString() !== req.user.id) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // delete blog
+    if(req.userId == "hashira"){
+     await Blog.findByIdAndDelete(blogId);
+     return res.status(200).json({ message: "Blog deleted successfully by Kyōjurō Rengoku" });
+    }
+
     await Blog.findByIdAndDelete(blogId);
     res.status(200).json({ message: "Blog deleted successfully" });
   } catch (err) {
