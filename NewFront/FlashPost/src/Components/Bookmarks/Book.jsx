@@ -16,7 +16,7 @@ const Book = () => {
   }, [currentUser]);
 
   const fetchBlogData = async (blogId) => {
-    const res = await fetch(`http://localhost:3000/api/blogs/blog/${blogId}`);
+    const res = await fetch(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`);
     const data = await res.json();
     return data;
   };

@@ -112,7 +112,7 @@ function BlogCardFooter(props) {
 
       try {
         const response = await axios.put(
-          `http://localhost:3000/api/blogs/bookmark/${props.id}`,
+          `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
           null,
           config
         );
