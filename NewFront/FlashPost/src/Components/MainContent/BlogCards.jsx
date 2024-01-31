@@ -5,6 +5,9 @@ import { BsBookmarkPlus } from 'react-icons/bs';
 import {motion} from 'framer-motion'
 
 function BlogCards(props) {
+  if(props.blog === undefined){
+    return <div></div>
+  }
   const {imgUrl , title , desc , blog_id  , Author , createdAt  } = props.blog
   const [s , sc]  = useState('')
   const [coverImg , setcoverImg] = useState({})

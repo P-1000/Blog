@@ -7,7 +7,5 @@ export const store = configureStore({
   reducer: {
         user: userReducer,
         blog: formDataReducer,
-
-
   },
 })

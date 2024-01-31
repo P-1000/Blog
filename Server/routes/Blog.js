@@ -68,9 +68,6 @@ blog_router.get("/isliked/:bid/:id"  ,  isBlogLiked);
 blog_router.put("/bookmark/:bid" , verifyToken ,  bookmarkBlog )
 
 
-
-
-
 // todo:
 
 
