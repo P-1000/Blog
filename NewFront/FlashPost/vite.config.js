@@ -14,13 +14,19 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 5173,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+        },
+      },
     },
     optimizeDeps: {
       include: ['react-router-dom'],
     },
     resolve: {
       alias: {
-        // Define any custom aliases as needed
+        
       },
     },
   };

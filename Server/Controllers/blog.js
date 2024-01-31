@@ -5,20 +5,10 @@ import express from 'express'
 import multer from 'multer';
 import path from 'path';
 import { BlogLike } from '../Models/Like.js';
+import User from '../Models/User.js';
 
 
 
-// Configure multer options
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname);
-//   }
-// });
-
-// const upload = multer({ storage: storage });
 
 // creating new blog
 export const addBlog = async (req, res, next) => {
@@ -115,9 +105,6 @@ export const getAllBlogs = async (req, res, next) => {
   };
   
   
-
-
-
 
 
 //get a blog by id: 
@@ -261,6 +248,7 @@ export const trendingBlogs = async (req , res , next) =>{
   };
   
 
+  //check if current user liked the blog or not :
 export const isBlogLiked = async (req, res, next) => {
   const blogId = req.params.bid;
   const userId = req.params.id || req.user.id;
@@ -294,3 +282,41 @@ export const blogDeleteAdmin = async (req, res, next) => {
     next(err);
   }
 };
+
+
+//add blog to bookmark :
+
+export const bookmarkBlog = async (req, res, next) => {
+  try {
+    const blog_id = req.params.bid;
+    if(blog_id == null){ // if blog id is null
+      return res.status(400).json({message : "Error Bookmarking Blog : Blog Id Null!"})
+    }
+
+    const blog = await Blog.findById(blog_id);
+    if(blog == null){
+      return res.status(400).json({message : "Error Bookmarking Blog : Blog Not Found!"})
+    }
+
+    const usr = req.user.id;
+    const user = await User.findById(usr);
+
+    if(user == null){
+      return res.status(400).json({message : "Error Bookmarking Blog : User Not Found!"})
+    }
+
+    const isBookmarked = await user.Bookmarks.includes(blog_id);
+
+    if(isBookmarked){
+      return res.status(400).json({message : "Error Bookmarking Blog : Blog Already Bookmarked!"})
+    }
+
+    // add blog to bookmarks :
+    await user.Bookmarks.push(blog_id);
+    await user.save();
+    res.status(200).json({message : "Blog Bookmarked Successfully!"})
+
+  } catch (error) {
+    next(error)
+  }
+}

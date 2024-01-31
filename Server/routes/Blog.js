@@ -1,7 +1,20 @@
 import express from "express"
 //import {updateUser} from "../Controllers/user.js"
 import { verifyToken } from "../Verify.js"
-import { addBlog, deleteBlog, findBlogsByAuthor, getAllBlogs, getBlogById,isBlogLiked, undislikeBlog,  trendingBlogs, unlikeBlog , getPageBlogs , NewlikeBlog } from "../Controllers/blog.js"
+import { addBlog, 
+    deleteBlog, 
+    findBlogsByAuthor, 
+    getAllBlogs, 
+    getBlogById,
+    isBlogLiked, 
+    undislikeBlog,  
+    trendingBlogs, 
+    unlikeBlog ,
+     getPageBlogs , 
+     NewlikeBlog ,
+     bookmarkBlog
+    } 
+     from "../Controllers/blog.js"
 import { updateBlog } from "../Controllers/blog.js"
 import { likeBlog } from "../Controllers/blog.js"
 import { blogDeleteAdmin } from "../Controllers/blog.js"
@@ -50,6 +63,12 @@ blog_router.get("/author/:author" , findBlogsByAuthor  )
 
 
 blog_router.get("/isliked/:bid/:id"  ,  isBlogLiked);
+
+//Add blog to bookmark :
+blog_router.put("/bookmark/:bid" , verifyToken ,  bookmarkBlog )
+
+
+
 
 
 // todo:

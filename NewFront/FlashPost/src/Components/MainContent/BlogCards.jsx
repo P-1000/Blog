@@ -15,6 +15,11 @@ const date = new Date(createdAt);
 const options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'Asia/Kolkata' };
 const formattedDate = date.toLocaleString('en-IN', options);
 
+const addBookmark =  (blog_id) => {
+  // const token = localStorage.getItem('user')
+  console.log(blog_id)
+}
+
   return (
     <div>
       <div>
@@ -33,7 +38,9 @@ const formattedDate = date.toLocaleString('en-IN', options);
                             </div>
                             </div>
 
-                            <div className='ml-28  mt-5 lg:hidden'>
+                            <div
+                            onClick={() => addBookmark(blog_id)}
+                             className='ml-28  mt-5 lg:hidden'>
                                 <BsBookmarkPlus className='text-xl text-primary-500' />
                            </div>
                             </div>

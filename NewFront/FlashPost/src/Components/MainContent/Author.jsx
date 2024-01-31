@@ -1,6 +1,7 @@
 import React from 'react'
 import BasicPopover from './BasicPopover'
 import { Link } from 'react-router-dom'
+import AuthoImg from './AuthoImg'
 
 function Author(props) {
   const {name} = props
@@ -11,10 +12,11 @@ function Author(props) {
       <Link to={`/profile/@${name}`}>
       <div className='flex'>
         <div className='flex gap-5 '>
-           <div>
-           <img 
+           <div className='mx-3'>
+           {/* <img  dummy image for author before profile pic
             className='w-12 h-12 rounded-full'
-            src='https://i.scdn.co/image/ab67616d0000b273dc70b075d2db0dc27729fa6b' />
+            src='https://i.scdn.co/image/ab67616d0000b273dc70b075d2db0dc27729fa6b' /> */} 
+            <AuthoImg author_name={name}/>
            </div>
            <div className='mt-[4px]'>
             <h1 className='text-sm font-medium'>{name}</h1>

@@ -109,7 +109,18 @@ function BlogCardFooter(props) {
       window.location.href = '/login';
       return;
     } else {
-      // TODO: Add blog to bookmarks
+
+      try {
+        const response = await axios.put(
+          `http://localhost:3000/api/blogs/bookmark/${props.id}`,
+          null,
+          config
+        );
+        console.log(response);
+      } catch (error) {
+        console.error('Error bookmarking blog:', error);
+      }
+
     }
   };
 
@@ -117,6 +128,7 @@ function BlogCardFooter(props) {
     <div className='flex justify-between mt-4'>
       <div>
         <div className='flex gap-4 lg:gap-8'>
+        {/*----------------------- bookmarks bro ------------- */}
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
