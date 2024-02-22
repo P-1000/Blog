@@ -77,4 +77,5 @@ blog_router.put("/bookmark/:bid" , verifyToken ,  bookmarkBlog )
 blog_router.delete("/admin/delete/:bid" , isAdmin , blogDeleteAdmin )
 
 
+
 export default blog_router
