@@ -61,20 +61,16 @@ export const deleteBlog = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-  
-    if (blog.userId.toString() !== req.user.id) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    if(req.userId == "hashira"){
-     await Blog.findByIdAndDelete(blogId);
-     return res.status(200).json({ message: "Blog deleted successfully by Kyōjurō Rengoku" });
-    }
 
     if(req.name == "adminbro"){
       await Blog.findByIdAndDelete(blogId);
       return res.status(200).json({ message: "Blog deleted successfully by admin" });
     }
+
+    if (blog.userId.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
 
     await Blog.findByIdAndDelete(blogId);
     res.status(200).json({ message: "Blog deleted successfully" });

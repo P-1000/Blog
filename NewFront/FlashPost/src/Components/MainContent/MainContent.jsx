@@ -74,7 +74,7 @@ function MainContent() {
               <ContentMenu category={category} onCategoryChange={handleCategoryChange} />
             </div>
 
-            <div>
+            <div className='m-4 px-4'>
               {category === 'personalised' && (
                 <InfiniteScroll
                   dataLength={personalisedBlogs?.length}
