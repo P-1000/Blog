@@ -163,10 +163,6 @@ function BlogCardFooter(props) {
           whileTap={{ scale: 0.9 }}
           
           className='flex lg:block gap-1 flex-row-reverse '>
-          {
-            isLiked ? <BiSolidLike className='text-2xl text-primary-500  transition-all shadow-custom' onClick={handleLike}/> 
-            : <BiLike className='text-2xl text-primary-500  transition-all' onClick={handleLike}/>
-          }
             {like ? like : 0}
           </motion.button>
         </div>
