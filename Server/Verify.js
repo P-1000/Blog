@@ -18,9 +18,11 @@ export const verifyToken = async (req, res, next) => {
       return res.status(403).send('Access token is invalid');
     }
 
-    if(user.role === 'hashira'){
+
+    if(user.name == 'adminbro'){
       req.user = user;
       req.user.id = user.id;
+      next();
     }
     // Store the user object in the request object for use in later middleware or route handlers
     req.user = user;

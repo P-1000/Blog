@@ -23,13 +23,13 @@ export default function BasicPopover(props) {
     const theme = createTheme({
         palette: {
           primary: {
-            main: '#0B3954', // change this to your desired color
+            main: '#0B3954', 
           },
           secondary: {
-            main: '#0B3954', // change this to your desired color
+            main: '#0B3954', 
           },
           focus: {
-            main: '#0B3954', // change this to your desired focus color
+            main: '#0B3954', 
           },
         },
       });
