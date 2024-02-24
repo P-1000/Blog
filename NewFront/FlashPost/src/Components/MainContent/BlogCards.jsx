@@ -11,7 +11,6 @@ function BlogCards(props) {
   const { imgUrl, title, desc, blog_id, Author, createdAt } = props.blog;
   const [s, sc] = useState("");
   const [coverImg, setcoverImg] = useState({});
-  // Use the URL to display the image
   const img = new Image();
 
   const date = new Date(createdAt);
@@ -80,7 +79,7 @@ function BlogCards(props) {
                   whileTap={{ scale: 0.9 }}
                   whileDrag={{ scale: 0.9 }}
                   src={imgUrl}
-                  style={{ width: "100%", height: "200px" }} // Set fixed dimensions here
+                  style={{ width: "100%", height: "200px" }} 
                   className="rounded-md box-border object-cover border-primary shadow-lg hover:shadow-md transition-all"
                 />
               </div>

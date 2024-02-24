@@ -17,18 +17,18 @@ function ContentMenu({ category, onCategoryChange }) {
     <div className='border-b-[1px] w-full'>
       <div>
         <div className='flex justify-between mx-12'>
-          <div className='flex lg:gap-6 gap-24'>
+          <div className='flex cursor-pointer lg:gap-6 gap-24'>
             <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             whileDrag={{ scale: 0.9 }}
               onClick={() => changeCategory('personalised')}
-              className='flex items-center gap-2 mb-2'
+              className={category == 'personalised' ? 'bg-blue-200/20 px-4 rounded-full py-1 flex items-center gap-2 mb-2'  : 'flex items-center gap-2 mb-2'}
             >
               <ImMagicWand className='text-[20px]' />
               <motion.p 
               
-              className={category === 'personalised' ? 'text-md text-primary hover:text-secondary' : 'text-sm text-gray-500'}>
+              className={category === 'personalised' ? 'font-md text-sm  text-blue-700  hover:text-secondary' : 'text-sm text-gray-500'}>
                 Personalised
               </motion.p>
             </motion.div>

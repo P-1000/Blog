@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BsBookmarkPlus } from 'react-icons/bs';
-import { SlLike } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import BiLike from 'react-icons/bi';
-// import BiSolidLike from 'react-icons/bi';
-import {BiLike,BiSolidLike} from "react-icons/bi"
+import { BiLike, BiSolidLike } from 'react-icons/bi';
 import { motion } from 'framer-motion';
-
 
 function BlogCardFooter(props) {
   const [countTag, setCountTag] = useState(0);
   const [like, setLike] = useState(props.like);
-  const [isLiked, setIsLiked] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
 
   const { tag } = props;
@@ -23,93 +18,16 @@ function BlogCardFooter(props) {
     headers: { Authorization: `Bearer ${tok}` }
   };
 
-  
-
   useEffect(() => {
-    tag.map((tag) => {
-      setCountTag((prev) => prev + 1);
-    });
-  }, []); // Empty dependency array ensures the effect runs only once when component mounts
-
-  const [cuid , setCuid] = useState('');
-  useEffect(() => {
-    const checkIsLiked = async () => {
-    
-  const usid = localStorage.getItem('user');
-  const us = JSON.parse(usid);
-  setCuid(us._id);
-      try {
-        if(!cuid){
-          return;
-        }
-        const response = await axios.get(
-          `https://back-e0rl.onrender.com/api/blogs/isliked/${props.id}/${cuid}`,
-          config
-        );
-        setIsLiked(response.data.isLiked);
-        console.log(response);
-        
-      } catch (error) {
-        console.error('Error checking if blog is liked:', error);
-      }
-    };
-    checkIsLiked();
-  }, [props.id, config ,cuid]);
-
-
-  async function handleLike() {
-    if (!token) {
-      window.location.href = '/login';
-      return;
-    }
-
-    try {
-      if (isLiked) {
-        
-        await axios.put(
-          `https://back-e0rl.onrender.com/api/blogs/unlike/${props.id}`,
-          null,
-          config
-        );
-        setLike(like - 1);
-        setIsLiked(false);
-      } else {
-        
-        await axios.put(
-          `https://back-e0rl.onrender.com/api/blogs/like/${props.id}`,
-          null,
-          config
-        );
-        setLike(like + 1);
-        setIsLiked(true);
-      }
-    } catch (error) {
-      console.error('Error handling like:', error);
-    }
-  }
-
-  async function handleDislike() {
-   try {
-    await axios.put(
-      `https://back-e0rl.onrender.com/api/blogs/unlike/${props.id}`,
-      null,
-      config
-    );
-    setLike(like - 1);
-    setIsLiked(false);
-   } catch (error) {
-      console.log(error)
-   }
-  }
-
-
+    // Count tags
+    setCountTag(tag ? tag.length : 0);
+  }, [tag]); // Update countTag whenever tag changes
 
   const handleBookmarks = async () => {
     if (!token) {
       window.location.href = '/login';
       return;
     } else {
-
       try {
         const response = await axios.put(
           `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
@@ -120,52 +38,39 @@ function BlogCardFooter(props) {
       } catch (error) {
         console.error('Error bookmarking blog:', error);
       }
-
     }
   };
 
   return (
     <div className='flex justify-between mt-4'>
-      <div>
-        <div className='flex gap-4 lg:gap-8'>
-        {/*----------------------- bookmarks bro ------------- */}
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            whileDrag={{ scale: 0.9 }}
-            onClick={handleBookmarks}
-            className='ml-5 hidden lg:block cursor-pointer'
-          >
-            <BsBookmarkPlus className='text-2xl text-primary-500' />
-          </motion.div>
-          <div className='flex gap-[.2em] ml-5'>
-            <Link to={`/search/${tag ? tag[0] : 'Blog'}`}>
-              <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
-                {tag ? tag[0] : 'Blog'}
+      <div className='flex gap-4 mx-6 lg:gap-8'>
+        <div className='flex gap-[.2em]'>
+          {tag && tag.slice(0, 2).map((tagItem, index) => (
+            <Link key={index} to={`/search/${tagItem}`}>
+              <p className='border text-xs lg:text-sm font-medium rounded-full px-3 py-1'>
+                {tagItem}
               </p>
             </Link>
-            <Link to={`/search/${tag ? tag[1] : 'FlashPost'}`}>
-              <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
-                {tag ? tag[1] : 'FlashPost'}
-              </p>
-            </Link>
-            <p className='border lg:text-[.8rem] text-[12px] font-medium rounded-full px-[14px] py-[1px]'>
-              {countTag ? countTag : 0}
-              <span className='font-medium'>+</span>
-            </p>
-          </div>
+          ))}
+          <p className='border text-xs lg:text-sm font-medium rounded-full px-3 py-1'>
+            {countTag > 2 ? countTag - 2 : 0}<span className='font-medium'>+</span>
+          </p>
         </div>
       </div>
-      <div>
-        <div className='mx-10'>
-          <motion.button 
-  
-          whileTap={{ scale: 0.9 }}
-          
-          className='flex lg:block gap-1 flex-row-reverse '>
-            {like ? like : 0}
-          </motion.button>
+      <div className='flex gap-2 mx-10 items-center'>
+        <div className=' text-sm lg:text-base font-normal'>
+          {like ? like : 0} likes
         </div>
+        <div className='font-normal text-slate-400'>|</div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          whileDrag={{ scale: 0.9 }}
+          onClick={handleBookmarks}
+          className='hidden lg:block cursor-pointer'
+        >
+          <BsBookmarkPlus className='text-xl mt-[1px] text-primary-500' />
+        </motion.div>
       </div>
     </div>
   );
