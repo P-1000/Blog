@@ -2,6 +2,7 @@ import React from 'react';
 import Output from 'editorjs-react-renderer';
 import DOMPurify from 'dompurify';
 import editorjsHTML from 'editorjs-html';
+import CodeSnippet from './CodeSnip';
 
 const EditorjsRender = (props) => {
     const { data } = props;
@@ -32,8 +33,9 @@ console.log(data.blocks[0])
                 );
             case 'code':
                 return (
-                    <pre className='bg-gray-200 p-4 rounded-md my-4'>
-                        <code>{block.data.code}</code>
+                    <pre className=' p-4 rounded-md my-4'>
+                        {/* <code>{block.data.code}</code> */}
+                        <CodeSnippet code={block.data.code} language={block.data.language} />
                     </pre>
                 );
             case 'newParagraph': // Case for a new paragraph
