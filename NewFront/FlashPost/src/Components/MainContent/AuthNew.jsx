@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import AuthoImg from "./AuthoImg";
+import BasicPopover from './BasicPopover'
+
 
 const AuthNew = (props) => {
   const { name } = props;
@@ -27,6 +29,9 @@ const AuthNew = (props) => {
             <h2>
                 5 min read
             </h2>
+            <div>
+            <BasicPopover post_id={post_id}/>
+            </div>
         </div>
       </div>
     </>

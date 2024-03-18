@@ -7,6 +7,7 @@ import axios from "axios";
 import Output from "editorjs-react-renderer";
 import EditorjsRender from "./EditorjsRender";
 import AuthNew from "./AuthNew";
+import FloatingTool from "./FloatingTool";
 
 function BlogDetails() {
   const { AuthorId, blogId } = useParams();
@@ -78,6 +79,7 @@ function BlogDetails() {
 
   return (
     <>
+    <FloatingTool/>
       <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
         <div className="w-full  gap-10 justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
         {/* <Author post_id={blogId} name={blog.Author} /> */}
