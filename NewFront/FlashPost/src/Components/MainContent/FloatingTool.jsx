@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ToolBar from './ToolBar';
 
 
 const FloatingTool = () => {
@@ -17,9 +18,9 @@ const FloatingTool = () => {
   }, []);
 
   return (
-    <div className={`fixed bottom-4 bg-whit left-[54%]  z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`fixed bottom-4 bg-whit left-[54%] -translate-x-56  z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div>
-        
+        <ToolBar />
       </div>
     </div>
   );

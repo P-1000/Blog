@@ -50,3 +50,10 @@ body{
 }
 
 
+.dot {
+  width: 4px; /* Width of the dot */
+  height: 4px; /* Height of the dot */
+  border-radius: 50%; /* Make it circular */
+  background-color: #000; /* Color of the dot */
+  margin: 0 5px; /* Adjust the spacing */
+}

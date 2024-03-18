@@ -79,17 +79,13 @@ function BlogDetails() {
 
   return (
     <>
-    <FloatingTool/>
+      <FloatingTool />
       <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
-        <div className="w-full  gap-10 justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
-        {/* <Author post_id={blogId} name={blog.Author} /> */}
-        <AuthNew post_id={blogId} name={blog.Author} />
-        </div>
         <div>
           <div className="w-full  gap-10 justify-center  items-center  bg-white   bg-clip-padding overflow-auto">
             <div className="  ">
               {/* author details  */}
-              
+
               <div className=" items-center flex flex-col justify-center p-3 bg-white  ">
                 <div className=" flex  px-10 py-3 items-center justify-center">
                   <img
@@ -98,8 +94,18 @@ function BlogDetails() {
                     alt={blog.title}
                   />
                 </div>
+
                 <div>
                   <h1 className="text-4xl font-bold my-3 ">{blog.title}</h1>
+                </div>
+                <div className="w-full flex justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
+                  {/* <Author post_id={blogId} name={blog.Author} /> */}
+                  <AuthNew
+                    post_id={blogId}
+                    name={blog.Author}
+                    date="Mar 16 , 2024"
+                    readTime="3 min read"
+                  />
                 </div>
                 <div className="flex gap-2 w-full">
                   <div className=" py-4 px-[12%] ">
