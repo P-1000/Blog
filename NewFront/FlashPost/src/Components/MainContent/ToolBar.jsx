@@ -6,27 +6,52 @@ import { CiBookmark } from "react-icons/ci";
 import { MdMoreVert } from "react-icons/md";
 
 const ToolBar = () => {
+  const handleLike = () =>{
+    return null;
+  }
+  const handleComment = () =>{}
+  const handleShare = () =>{}
+  const handleBookmark = () =>{}
+  const handleMore = () =>{}
   return (
-    <div>
-      <div className="">
-        <div className="flex items-center bg-white shadow-lg border-gray-400/30 border rounded-full w-72 px-5 py-2 divide-x-2">
-          <button className="p-2 flex justify-around transition duration-300">
-            <SlLike className="w-6 h-6 hover:bg-gray-100 rounded-full " />
-            <h2>38</h2>
-          </button>
-          <button className="p-2 transition duration-300">
-            <FaRegCommentDots className="w-6 h-6 hover:bg-gray-100 rounded-full" />
-          </button>
-          <button className="p-2 flex transition duration-300">
-            <CiBookmark className="w-6 h-6 hover:bg-gray-100 rounded-full" />
-            <h2>22</h2>
-          </button>
-          <button className="p-2 transition duration-300">
-            <AiOutlineShareAlt className="w-6 h-6 hover:bg-gray-100 rounded-full" />
-          </button>
-          <button className="p-2 transition duration-300">
-            <MdMoreVert className="w-6 h-6 hover:bg-gray-100 rounded-full" />
-          </button>
+    <div className="flex items-center justify-center">
+      <div className="bg-white border rounded-full shadow-xl px-3 py-1">
+        <div className="flex gap-1 py-2 px-3">
+          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
+            <div className="flex items-center justify-center ">
+              <SlLike />
+            </div>
+            <div>
+              <h1 className="">12</h1>
+            </div>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
+          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
+            <div className="flex items-center justify-center ">
+              <FaRegCommentDots />
+            </div>
+            <div>
+              <h1 className="">12</h1>
+            </div>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
+          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
+            <div className="flex items-center justify-center ">
+              <AiOutlineShareAlt />
+            </div>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
+          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
+            <div className="flex items-center justify-center ">
+              <CiBookmark />
+            </div>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
+          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
+            <div className="flex items-center justify-center ">
+              <MdMoreVert />
+            </div>
+          </div>
         </div>
       </div>
     </div>
