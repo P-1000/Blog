@@ -8,6 +8,7 @@ import ImageKit from 'imagekit';
 import './TextEditor.css'; 
 import { useDispatch } from 'react-redux';
 import { updateContent } from '../../redux/formDataSlice';
+import CodeTool from '@editorjs/code';
 
 
 
@@ -68,6 +69,7 @@ const TextEditor = (props) => {
         },
         list: List,
         table: Table,
+        code : CodeTool,
         image: {
           class: ImageTool,
           inlineToolbar: false,

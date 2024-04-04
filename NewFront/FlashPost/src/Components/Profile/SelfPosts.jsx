@@ -1,56 +1,69 @@
-import React, { useEffect , useState } from 'react'
-import { Link } from 'react-router-dom'
-import TimeLine from './TimeLine'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import TimeLine from "./TimeLine";
+import { Chrono } from "react-chrono";
 
 function SelfPosts() {
+  const [items, setItems] = useState([]);
+  const [blogs, setBlogs] = useState([]);
 
-    const [blogs, setBlogs] = useState([]);
-    useEffect(() => {
-      const fetchPosts = async () => {
-        const res = await fetch('https://back-e0rl.onrender.com/api/blogs/author/Naruto')
-        const data = await res.json()
-        setBlogs(data)
-      }
-      fetchPosts()
-    }, [])
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await fetch(
+        "https://back-e0rl.onrender.com/api/blogs/author/Naruto"
+      );
+      const data = await res.json();
+      setBlogs(data);
+    };
+    fetchPosts();
+  }, []);
 
+  useEffect(() => {
+    const fetchPosts2 = async () => {
+      const mappedItems = blogs.map((blog) => ({
+        title: blog.title,
+        cardTitle: blog.Author,
+        url: "https://back-e0rl.onrender.com/",
+        cardSubtitle: blog.desc,
+        // cardDetailedText: blog.updatedAt,
+        media: {
+          type: "IMAGE",
+          source: {
+            url: blog.imgUrl,
+          },
+        },
+      }));
+      setItems(mappedItems);
+    };
 
+    if (blogs.length > 0) {
+      fetchPosts2();
+    }
+  }, [blogs]);
 
   return (
     <div>
-       {/* <div className='flex flex-wrap w-full'>
-        <div className="container mt-2 flex">
-   
-      {
-        blogs.map((blog) => (
-         
-      <div className='row   p-2 m-2 shadow-xl hover:shadow-sm transition-all delay-75'>
-        <div className=''>
-        <Link to={`/blog/Naruto/${blog._id}`}>
-          <div className=''>
-            <img src={blog.imgUrl} alt='' className='object-contain lazy-image-preview' />
-        </div>
-        </Link>
-        <div>
-          <div className='w-ful h- full p-1 m-[1px]  text-clip'>
-            <h1 className='font-semibold from-neutral-600 p-2'>{blog.title}</h1>
-            </div>
-            </div>
-        </div>
+      <div>
+        {/* <TimeLine blogs={blogs} /> */}
+        {items.length > 0 ? (
+          <Chrono
+            items={items}
+            buttonTexts={{
+              first: "Jump to First",
+              last: "Jump to Last",
+              next: "Next",
+              previous: "Previous",
+            }}
+            cardHeight={200}
+            mode="VERTICAL_ALTERNATING"
+            textOverlay
+          />
+        ) : (
+          "Loading...."
+        )}
       </div>
-      
-        ))
-      } 
-      
-       </div>
-       </div> */}
-
-<div>
-  <TimeLine blogs={blogs} />
-</div>
-
     </div>
-  )
+  );
 }
 
-export default SelfPosts
+export default SelfPosts;

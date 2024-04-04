@@ -1,16 +1,21 @@
 import React from 'react';
 import Output from 'editorjs-react-renderer';
 import DOMPurify from 'dompurify';
+import editorjsHTML from 'editorjs-html';
+import CodeSnippet from './CodeSnip';
 
 const EditorjsRender = (props) => {
     const { data } = props;
 
+console.log(data.blocks[0])
+
+
     const renderBlock = (block) => {
         switch (block.type) {
             case 'header':
-                return <h2 className='text-2xl font-bold mb-4'>{block.data.text}</h2>;
+                return <h1 className='text-3xl font-bold mb-4 font-Poppins'>{block.data.text}</h1>;
             case 'paragraph':
-                return <p className='mb-4' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
+                return <p className='mb-4 text-lg' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
             case 'list':
                 return (
                     <ul className='list-disc ml-6 mb-4'>
@@ -28,12 +33,13 @@ const EditorjsRender = (props) => {
                 );
             case 'code':
                 return (
-                    <pre className='bg-gray-200 p-4 rounded-md my-4'>
-                        <code>{block.data.code}</code>
+                    <pre className=' p-4 rounded-md my-4'>
+                        {/* <code>{block.data.code}</code> */}
+                        <CodeSnippet code={block.data.code} language={block.data.language} />
                     </pre>
                 );
             case 'newParagraph': // Case for a new paragraph
-                return <p className='mb-4' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
+                return <p className='mb-4 text-lg' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
             case 'orderedList': // Case for ordered list
                 return (
                     <ol className='list-decimal ml-6 mb-4'>
@@ -105,12 +111,15 @@ const EditorjsRender = (props) => {
     };
 
     return (
-        <div className='bg-white p-6 px-36'>
+        <div className='bg-white p-6 px-40 tracking-wide'>
             {data.blocks.map((item, index) => (
                 <div key={index} className='my-3'>
                     {renderBlock(item)}
                 </div>
             ))}
+            <div>
+                {/* <Output data={data.blocks[0]} /> */}
+            </div>
         </div>
     );
 };

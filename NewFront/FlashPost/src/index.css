@@ -50,3 +50,13 @@ body{
 }
 
 
+
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+  margin-left: 5px; /* Adjust margin as needed */
+  margin-right: 5px; /* Adjust margin as needed */
+}

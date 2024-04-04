@@ -72,14 +72,13 @@ function BlogCards(props) {
                 </div>
               </div>
             </div>
-            <div className="lg:w-4/12 w-[86%] mx-2">
+            <div className="lg:w-5/12  mx-2">
               <div className="mx-2 w-full lg:float-right">
                 <motion.img
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.9 }}
                   whileDrag={{ scale: 0.9 }}
                   src={imgUrl}
-                  style={{ width: "100%", height: "200px" }} 
                   className="rounded-md box-border object-cover border-primary shadow-lg hover:shadow-md transition-all"
                 />
               </div>

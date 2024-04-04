@@ -15,6 +15,7 @@ import Forgot from "./Components/auth/Forgot";
 import Reset from "./Components/auth/Reset";
 import { useDispatch, useSelector } from 'react-redux';
 import TextEditor from "./Components/BlogCreation/EditorJs";
+import LoginPage from "./Pages/Login";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Auth />} />
-        <Route path="/login" element={< Auth/>} />
+        <Route path="/login" element={<LoginPage/>} />
         <Route path="/forgot-password" element={<Forgot />} />
         <Route path="/reset/:token" element={<Reset />} />
         <Route path="/Home" element={<Home />} />

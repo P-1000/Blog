@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Chrono } from "react-chrono";
 
-const Home = (props) => {
+
+const TimeLine = (props) => {
   const { blogs } = props;
   const [items, setItems] = useState([]);
 
@@ -11,8 +12,9 @@ const Home = (props) => {
         title: blog.title,
         cardTitle: blog.Author,
         url: "https://back-e0rl.onrender.com/",
-        cardSubtitle: blog.desc,
-        cardDetailedText: blog.updatedAt,
+        // cardSubtitle: blog.desc,
+        cardSubtitle : "hello",
+        // cardDetailedText: blog.updatedAt,
         media: {
           type: "IMAGE",
           source: {
@@ -25,21 +27,13 @@ const Home = (props) => {
 
     
     fetchPosts();
-  }, [blogs]);
+  }, []);
 
+  console.log(items)
   return (
     <div>
+      {/* <Home blogs={blogs} /> */}
       <Chrono items={items} mode="VERTICAL" />
-    </div>
-  );
-};
-
-const TimeLine = (props) => {
-  const { blogs } = props;
-
-  return (
-    <div>
-      <Home blogs={blogs} />
     </div>
   );
 };
