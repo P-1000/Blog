@@ -87,113 +87,6 @@ app.get("/api/search", async (req, res) => {
 
 
 
-//search db for blogs with title, tags, desc : with filter  and pagination
-// app.get("/api/search/filter", async (req, res) => {
-//   try {
-//     const query = req.query.query;
-//     const options = {
-//       keys: ["title", "tags", "desc" , "content" , "Author"],
-//       includeScore: true,
-//       threshold: 0.4,
-//     };
-//     const blogs = await blog.find();
-//     const fuse = new Fuse(blogs, options);
-//     const result = fuse.search(query);
-//     const matchedBlogs = result.map(({ item }) => item);
-//     const filter = req.query.filter;
-//     const page = req.query.page;
-//     const limit = req.query.limit;
-//     const startIndex = (page - 1) * limit;
-//     const endIndex = page * limit;
-//     const results = {};
-//     if (endIndex < matchedBlogs.length) {
-//       results.next = {
-//         page: page + 1,
-//         limit: limit,
-//       };
-//     }
-//     if (startIndex > 0) {
-//       results.previous = {
-//         page: page - 1,
-//         limit: limit,
-//       };
-//     }
-//     results.results = matchedBlogs.slice(startIndex, endIndex);
-//     res.json(results);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error" || "unAuth" });
-//   }
-// });
-
-// //using faker to generate fake data for testing
-// app.get("/api/faker", async (req, res) => {
-    
-//     try {
-//         for (let i = 0; i < 20; i++) {
-//             const blogs= await new blog({
-//                 title: faker.lorem.words(5),
-//                 desc: faker.lorem.words(38),
-//                 tags:  [faker.lorem.word(1) ,  faker.lorem.word(1) ,  faker.lorem.words(1)],
-//                 imgUrl: faker.image.imageUrl(640,480),
-//                 Author: faker.name.firstName(),
-//                 userId: "60e1f1b0b0b5a41b3c8c1b1a",
-//             });
-//          const fakeblog =await blogs.save();
-//         }
-//         res.json({ message: "success" });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Server error"  });
-//     }
-// });
-
-// count all the tags in the db
-// app.get("/api/tags", async (req, res) => {
-//   try {
-//     const blogs = await blog.find();
-//     const tags = blogs.map((blog) => blog.tags);
-//     const alltags = tags.flat();
-    
-//     // Remove null tags and tags that contain only spaces
-//     const cleanedTags = alltags.filter((tag) => tag && tag.trim() !== '');
-
-//     // Convert tags to lowercase and trim whitespace
-//     const formattedTags = cleanedTags.map((tag) => tag.trim().toLowerCase());
-
-//     const tagcount = {};
-//     formattedTags.forEach((tag) => {
-//       tagcount[tag] = (tagcount[tag] || 0) + 1;
-//     });
-
-//     // Get the top 20 tags
-//     const uniqueTags = Object.keys(tagcount);
-//     const sortedTags = uniqueTags.sort((a, b) => tagcount[b] - tagcount[a]);
-//     const topTags = sortedTags.slice(0, 20);
-
-//     // Loop through each unique tag and save it to the database
-//     for (let i = 0; i < topTags.length; i++) {
-//       const tag = topTags[i];
-//       const count = tagcount[tag];
-//       const tagModel = new Tag({ name: tag, count });
-      
-//       await tagModel.save();
-//     }
-
-//     res.json(tagcount);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-
-
-//get tags from db:
-
-
-// list all the tags in the db and count them $
-
 app.get("/api/tags", async (req, res) => {
   try {
     const blogs = await blog.find();
@@ -226,18 +119,6 @@ app.get("/api/tags", async (req, res) => {
   }
 });
 
-
-
-// // remove all tags from the db : 
-// app.get("/api/tags/remove", async (req, res) => {
-//   try {
-//     await Tag.deleteMany();
-//     res.json({ message: "success" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Server Error");
-//   }
-// });
 
 
 // update blog schmea from likes string array to number  migration code : 
@@ -315,7 +196,7 @@ app.use((err,req,res,next)=>{
 
 
 
-//hxzlsowcdvwheybt
+
 
 //follow user function : 
 app.post("/api/follow", followFunc);
