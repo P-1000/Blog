@@ -53,7 +53,7 @@ blog_router.post("/like/:bid" , verifyToken ,  NewlikeBlog)
 blog_router.put("/unlike/:bid" , verifyToken , undislikeBlog)
 
 // decrement likes count for a blog :
-blog_router.put("/dislike/:bid" ,  unlikeBlog )
+blog_router.put("/dislike/:bid" , verifyToken,  unlikeBlog )
 
 // trending blogs :
 blog_router.get("/trending" , trendingBlogs )

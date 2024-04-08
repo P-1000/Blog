@@ -131,6 +131,10 @@ export const likeBlog = async (req, res, next) => {
 export const unlikeBlog = async (req, res, next) => {
   try {
     const blog = await Blog.findById(req.params.bid);
+    if(blog){
+      res.status(404).json("blog not found!");
+      return;
+    }
     blog.likes -= 1;
     const updatedBlog = await blog.save();
     res.status(200).json(updatedBlog);
