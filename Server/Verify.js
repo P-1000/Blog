@@ -3,10 +3,15 @@ import { createError } from './error.js';
 
 export const verifyToken = async (req, res, next) => {
   // Get the access token from the request headers
-  const authHeader = req.headers.authorization;
-  const authHeader9 = authHeader.split(' ');
-  const authHeader1 = authHeader9[1];
-  const token = authHeader1 || req.cookies.token;
+  let token;
+  if(!req.headers.authorization){
+    return res.status(401).send("Access Denied")
+  }
+  if(req.headers.authorization.startsWith('Bearer')){
+    const authHeader = req.headers.authorization;
+    token = authHeader.substring(7, authHeader.length);
+  }
+    token = token || req.cookies.token;
 
   if (!token) {
     return res.status(401).send('Access token is missing');
@@ -17,20 +22,8 @@ export const verifyToken = async (req, res, next) => {
     if (err) {
       return res.status(403).send('Access token is invalid');
     }
-
-
-    if(user.name == 'adminbro'){
-      req.user = user;
-      req.user.id = user.id;
-      next();
-    }
-    // Store the user object in the request object for use in later middleware or route handlers
     req.user = user;
     req.user.id = user.id;
-    
-    // Check if the user is an admin based on the role in the JWT
-    req.user.isAdmin = user.role === 'hashira';
-
     next();
   });
 };

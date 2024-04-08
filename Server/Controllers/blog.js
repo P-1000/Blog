@@ -189,7 +189,6 @@ export const trendingBlogs = async (req , res , next) =>{
         return res.status(404).json({ message: 'Blog not found' });
       }
   
-      // Check if the user has already liked the blog
       const existingLike = await BlogLike.findOne({
         blogId: blog._id,
         userId: req.user.id,
@@ -321,3 +320,6 @@ export const bookmarkBlog = async (req, res, next) => {
     next(error)
   }
 }
+
+
+// like a blog 
