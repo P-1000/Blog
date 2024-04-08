@@ -48,7 +48,7 @@ blog_router.get("/blogsPage/:skip" , getPageBlogs )
 // increment likes count for a blog :
 // blog_router.put("/like/:bid" ,  likeBlog ) 
 
-blog_router.put("/like/:bid" , verifyToken ,  NewlikeBlog)
+blog_router.post("/like/:bid" , verifyToken ,  NewlikeBlog)
 
 blog_router.put("/unlike/:bid" , verifyToken , undislikeBlog)
 
