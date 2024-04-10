@@ -77,9 +77,10 @@ function BlogDetails() {
     }
   };
 
+
   return (
     <>
-      <FloatingTool />
+      <FloatingTool bid={blogId} />
       <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
         <div>
           <div className="w-full  gap-10 justify-center  items-center  bg-white   bg-clip-padding overflow-auto">
