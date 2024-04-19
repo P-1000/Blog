@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ToolBar from './ToolBar';
 
 
-const FloatingTool = () => {
+const FloatingTool = (props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const FloatingTool = () => {
   return (
     <div className={`fixed bottom-4 bg-whit left-[54%] -translate-x-56  z-50 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div>
-        <ToolBar />
+        <ToolBar likes={props.likes} />
       </div>
     </div>
   );

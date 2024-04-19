@@ -21,6 +21,10 @@ const ToolBar = (props) => {
   };
   const [liked, setLiked] = useState(false);
 
+
+  const [propslike, setProplike] = useState(props.likes);
+
+ 
   useEffect(() => {
     setUser_id(user_._id);
   }, [user_]);
@@ -44,7 +48,9 @@ const ToolBar = (props) => {
       null,
       config
     );
-    console.log(res.data);
+    if(res.status==OK){
+
+    }
   };
 
   const unlike = async () => {
@@ -72,7 +78,9 @@ const ToolBar = (props) => {
               {liked ? <AiFillLike /> : <SlLike />}
             </div>
             <div>
-              <h1 className="">12</h1>
+              <h1 className="mt-1">
+                {propslike}
+              </h1>
             </div>
           </div>
 

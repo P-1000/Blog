@@ -166,9 +166,6 @@ const blogId = JSON.parse(ibg);
     
         try {
           toast.info("Uploading blog...");
-    
-        
-
           const res = await axios.post(
             'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
             {
@@ -221,16 +218,15 @@ const blogId = JSON.parse(ibg);
                 >Your Feed</motion.button>
             </div>
 
-            <div className="flex flex-row-reverse focus-within:border rounded-full px-4 py-2 pr-[16rem] 
+            <div className="flex flex-row-reverse focus-within:border rounded-full lg:px-4 lg:py-2 lg:pr-[16rem] 
              text-sm 
              focus-within:border-secondary">
-                {/* search bar navigate to searchres page on enter */}
              <input type="text" 
              value={search} 
              onChange={handleChange}
-              className="border-none focus:outline-none w-full text-primary"
-                 placeholder="Search Flashpost"/>
-            <div className="  h-full flex items-center pr-2">
+              className="border-none focus:outline-none   lg:w-full text-primary"
+                 placeholder="Search FlashPost"/>
+            <div className="  h-full flex items-center lg:pr-2">
                      <CiSearch className='text-xl text-gray-400' />
                 </div>
             </div>
@@ -254,7 +250,7 @@ const blogId = JSON.parse(ibg);
           whileTap={{ scale: 0.9 }}
           whileDrag={{ scale: 0.9 }}
           onClick={() => history.push('/Write')}
-          className="w-full bg-primary rounded-full flex gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
+          className="w-full bg-primary rounded-full lg:flex hidden gap-2 px-4 py-2 text-sm font-semibold text-secondary mr-2 hover:bg-secondary hover:text-primary  transition-all"
         >
         <Link to='/Write' className='flex gap-1'>
           <MdCreate className="text-xl text-gray-200" />
@@ -266,7 +262,7 @@ const blogId = JSON.parse(ibg);
         </div>
         <div className='flex justify-between gap-7'>
             <button>
-            <IoNotificationsOutline className='text-2xl text-gray-400 hover:text-secondary' />
+            <IoNotificationsOutline className='text-2xl lg:flex hidden text-gray-400 hover:text-secondary' />
             </button>
             <button>
             {/* <RxAvatar className='text-4xl text-gray-400' /> */}

@@ -38,6 +38,7 @@ function BlogDetails() {
   const [authorDetails, setAuthorDetails] = useState({});
 
   const [con, setCon] = useState(redD);
+  const [blogLike , setBlogLike] = useState(0);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -49,7 +50,7 @@ function BlogDetails() {
         const blog_data = response.data;
         setBlog(blog_data);
         setCon(JSON.parse(blog_data.Content));
-        console.log(JSON.parse(blog_data.Content));
+        setBlogLike(blog_data.likes)
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +81,7 @@ function BlogDetails() {
 
   return (
     <>
-      <FloatingTool bid={blogId} />
+      <FloatingTool bid={blogId} likes={blogLike} />
       <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
         <div>
           <div className="w-full  gap-10 justify-center  items-center  bg-white   bg-clip-padding overflow-auto">

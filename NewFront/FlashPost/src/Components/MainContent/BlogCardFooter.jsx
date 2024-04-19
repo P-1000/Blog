@@ -21,7 +21,7 @@ function BlogCardFooter(props) {
   useEffect(() => {
     // Count tags
     setCountTag(tag ? tag.length : 0);
-  }, [tag]); // Update countTag whenever tag changes
+  }, [tag]); 
 
   const handleBookmarks = async () => {
     if (!token) {
