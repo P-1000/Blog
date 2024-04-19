@@ -6,7 +6,9 @@ import { motion } from "framer-motion";
 
 function BlogCards(props) {
   if (props.blog === undefined) {
-    return <div></div>;
+    return <div>
+      <h1 className="animate-pulse">loading</h1>
+    </div>;
   }
   const { imgUrl, title, desc, blog_id, Author, createdAt } = props.blog;
   const [s, sc] = useState("");
@@ -35,7 +37,7 @@ function BlogCards(props) {
       <div>
         {/* card header with author image and post title */}
         <div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 ">
             <div className="ml-5 mt-4 flex ">
               <AuthoImg author_name={Author} />
             </div>
@@ -46,15 +48,12 @@ function BlogCards(props) {
               </div>
               <div></div>
             </div>
-
-            <div
-              onClick={() => addBookmark(blog_id)}
-              className="ml-28  mt-5 lg:hidden"
-            >
+            <button onClick={() => addBookmark(blog_id)}
+              className="ml-28  mt-5 lg:hidden">
               <BsBookmarkPlus className="text-xl text-primary-500" />
-            </div>
+            </button>
           </div>
-          <div className="flex lg:gap-5 gap-[13px] lg:flex-row flex-col ">
+          <div className="flex place-content-center lg:gap-5 gap-[13px] lg:flex-row flex-col ">
             <div className="flex flex-col w-10/12 lg:w-8/12">
               <div className="mt-4 ml-5">
                 <h1 className="text-lg lg:text-xl font-bold text-primary hover:text-secondary ">
