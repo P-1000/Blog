@@ -82,7 +82,7 @@ function BlogDetails() {
   return (
     <>
       <FloatingTool bid={blogId} likes={blogLike} />
-      <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
+      <div className="flex  overflow-hidden  bg-white lg:flex-col lg:place-content-center   lg:px-20 m-auto justify-center  items-center">
         <div>
           <div className="w-full  gap-10 justify-center  items-center  bg-white   bg-clip-padding overflow-auto">
             <div className="  ">
@@ -91,14 +91,14 @@ function BlogDetails() {
               <div className=" items-center flex flex-col justify-center p-3 bg-white  ">
                 <div className=" flex  px-10 py-3 items-center justify-center">
                   <img
-                    className="w-10/12 px-4  object-cover shadow-md rounded-md"
+                    className="lg:w-10/12 lg:px-4 w-[30rem]  object-cover shadow-md rounded-md"
                     src={blog.imgUrl}
                     alt={blog.title}
                   />
                 </div>
 
-                <div>
-                  <h1 className="text-4xl font-bold my-3 ">{blog.title}</h1>
+                <div className="">
+                  <h1 className="lg:text-4xl  text-2xl mx-10 flex flex-wrap px-2 lg:px-1 font-bold my-3 ">{blog.title}</h1>
                 </div>
                 <div className="w-full flex justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
                   {/* <Author post_id={blogId} name={blog.Author} /> */}
@@ -110,7 +110,7 @@ function BlogDetails() {
                   />
                 </div>
                 <div className="flex gap-2 w-full">
-                  <div className=" py-4 px-[12%] ">
+                  <div className=" lg:py-4 px-7 lg:px-[12%] ">
                     <p>{blog.desc}</p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ function BlogDetails() {
           <div className="w-full">
             <div className=" ">
               {blog.Content ? <EditorjsRender data={con} /> : "Please Wait "}
-              {/* 
+{/*               
              {
               blog.Content ?<p>{blog.Content}</p> : 'red' 
              } */}
