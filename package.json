@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@editorjs/code": "^2.9.0",
-    "jutsu-git": "^1.1.0",
-    "react-syntax-highlighter": "^15.5.0"
-  }
-}
