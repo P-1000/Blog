@@ -29,11 +29,12 @@ function BlogCardFooter(props) {
       return;
     } else {
       try {
-        const response = await axios.put(
-          `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
-          null,
-          config
-        );
+        // const response = await axios.put(
+        //   `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
+        //   null,
+        //   config
+        // );
+        const response = await instance.put(`/api/blogs/bookmark/${props.id}`, null, config);
         console.log(response);
       } catch (error) {
         console.error('Error bookmarking blog:', error);

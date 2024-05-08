@@ -16,6 +16,8 @@ import { resetForm } from '../../redux/formDataSlice';
 import {motion} from 'framer-motion'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import instance from '../../Config/AxiosInst.js'
+import Author from '../MainContent/Author.jsx'
 
 function NavBar() {
 
@@ -39,7 +41,8 @@ const blogId = JSON.parse(ibg);
 
         
        async function fetchData(){
-         const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
+        //  const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
+         const res = await instance.get('/api/auth/read', config)
           console.log(res.data)
             setUser(res.data)
          dispatch(loginSuccess(res.data));
@@ -110,18 +113,28 @@ const blogId = JSON.parse(ibg);
   
       
 
-        const res = await axios.put(
-          `https://back-e0rl.onrender.com/api/blogs/update/${blogId}`,
-          {
-            title,
-            imgUrl: coverUrl,
-            desc: description,
-            tags,
-            Author: currentUser.name,
-            Content : JSON.stringify(content1),
-          },
-          config
-        );
+        // const res = await axios.put(
+        //   `https://back-e0rl.onrender.com/api/blogs/update/${blogId}`,
+        //   {
+        //     title,
+        //     imgUrl: coverUrl,
+        //     desc: description,
+        //     tags,
+        //     Author: currentUser.name,
+        //     Content : JSON.stringify(content1),
+        //   },
+        //   config
+        // );
+
+        const res = await instance.put(`/api/blogs/update/${blogId}`, {
+          title,
+          imgUrl: coverUrl,
+          desc: description,
+          tags,
+          Author: currentUser.name,
+          Content : JSON.stringify(content1),
+        }, config);
+
   
         dispatch(resetForm());
         toast.success("Blog uploaded successfully");
@@ -166,18 +179,27 @@ const blogId = JSON.parse(ibg);
     
         try {
           toast.info("Uploading blog...");
-          const res = await axios.post(
-            'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
-            {
-              title,
-              imgUrl: coverUrl,
-              desc: description,
-              tags,
-              Author: currentUser.name,
-              Content : JSON.stringify(content1),
-            },
-            config
-          );
+          // const res = await axios.post(
+          //   'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
+          //   {
+          //     title,
+          //     imgUrl: coverUrl,
+          //     desc: description,
+          //     tags,
+          //     Author: currentUser.name,
+          //     Content : JSON.stringify(content1),
+          //   },
+          //   config
+          // );
+
+          const res = await instance.post('/api/blogs/uploadBlog', {
+            title,
+            imgUrl: coverUrl,
+            desc: description,
+            tags,
+            Author: currentUser.name,
+            Content : JSON.stringify(content1),
+          }, config);
 
           dispatch(resetForm());
     

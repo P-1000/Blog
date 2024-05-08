@@ -5,67 +5,57 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 import { CiBookmark } from "react-icons/ci";
 import { AiFillLike } from "react-icons/ai";
 import { MdMoreVert } from "react-icons/md";
-import axios from "axios";
+import instance from "../../Config/AxiosInst";
 import { useParams } from "react-router-dom";
-import { lightGreen } from "@mui/material/colors";
 
 const ToolBar = (props) => {
-  const { AuthorId, blogId } = useParams();
+  const { blogId } = useParams();
   const [user_id, setUser_id] = useState(null);
   const token = localStorage.getItem("jwt");
-  const user_ids = localStorage.getItem("user");
-  const user_ = JSON.parse(user_ids);
+  const user_ = JSON.parse(localStorage.getItem("user"));
   const tok = JSON.parse(token);
-  const config = {
-    headers: { Authorization: `Bearer ${tok}` },
-  };
+  const config = { headers: { Authorization: `Bearer ${tok}` } };
   const [liked, setLiked] = useState(false);
-
-
   const [propslike, setProplike] = useState(props.likes);
 
- 
   useEffect(() => {
     setUser_id(user_._id);
   }, [user_]);
 
   useEffect(() => {
     if (user_id && blogId) {
-      setTimeout(isLiked, 0);
+      isLiked();
     }
   }, [user_id, blogId]);
 
   const isLiked = async () => {
-    const res = await axios.get(
-      `https://back-e0rl.onrender.com/api/blogs/isliked/${blogId}/${user_id}`
-    );
+    const res = await instance.get(`/api/blogs/isliked/${blogId}/${user_id}`);
     setLiked(res.data.isLiked);
   };
 
   const handleLike = async () => {
-    const res = await axios.post(
-      `https://back-e0rl.onrender.com/api/blogs/like/${blogId}`,
-      null,
+    const res = await instance.post(
+      `/api/blogs/like/${blogId}`,
+      { userId: user_id },
       config
     );
-    if(res.status==OK){
-
+    if (res.status === 200) {
+      setProplike(propslike + 1);
     }
   };
 
   const unlike = async () => {
-    const res = await axios.put(
-      `http://localhost:3000/api/blogs/unlike/${blogId}`,
-      null,
-      config
-    );
-    console.log(res.data);
+    await instance.put(`/api/blogs/unlike/${blogId}`, {}, config);
+    if (propslike > 0) {
+      setProplike(propslike - 1);
+    }
   };
 
   const handleComment = () => {};
   const handleShare = () => {};
   const handleBookmark = () => {};
   const handleMore = () => {};
+
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white border rounded-full shadow-xl px-3 py-1">
@@ -78,9 +68,7 @@ const ToolBar = (props) => {
               {liked ? <AiFillLike /> : <SlLike />}
             </div>
             <div>
-              <h1 className="mt-1">
-                {propslike}
-              </h1>
+              <h1 className="mt-1">{propslike}</h1>
             </div>
           </div>
 

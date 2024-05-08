@@ -34,6 +34,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Edit from './Edit'
 import {motion} from 'framer-motion'
+import instance from '../../Config/AxiosInst'
 
 
 function Profile() {
@@ -89,7 +90,8 @@ function Profile() {
     },[]);
     
     const getUser = async () => {
-      const res = await axios.get(`https://back-e0rl.onrender.com/api/auth/find/${User1}`);
+      // const res = await axios.get(`https://back-e0rl.onrender.com/api/auth/find/${User1}`);
+      const res = await instance.get(`/api/auth/find/${User1}`);
       const data = await res.data;
       setUser(data[0]);
       const userProfilePic = user.ProfilePic;

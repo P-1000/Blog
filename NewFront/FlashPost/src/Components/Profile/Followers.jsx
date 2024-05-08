@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import instance from '../../Config/AxiosInst';
 
 function Followers(props) {
   const { flr } = props;
@@ -8,6 +9,7 @@ function Followers(props) {
 
   async function fetchMembers(id) {
     const res = await fetch(`https://back-e0rl.onrender.com/api/users/fetchId/${id}`);
+    // const res = await instance.get(`/api/users/fetchId/${id}`);
     const data = await res.json();
     setMembers((prevMembers) => [...prevMembers, data]);
   }

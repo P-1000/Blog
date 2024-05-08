@@ -8,6 +8,7 @@ import Output from "editorjs-react-renderer";
 import EditorjsRender from "./EditorjsRender";
 import AuthNew from "./AuthNew";
 import FloatingTool from "./FloatingTool";
+import instance from "../../Config/AxiosInst";
 
 function BlogDetails() {
   const { AuthorId, blogId } = useParams();
@@ -43,14 +44,12 @@ function BlogDetails() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(
-          `https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`,
-          config
-        );
+        const response = await instance.get(`/api/blogs/blog/${blogId}`);
         const blog_data = response.data;
         setBlog(blog_data);
         setCon(JSON.parse(blog_data.Content));
         setBlogLike(blog_data.likes)
+        console.log(blogLike)
       } catch (error) {
         console.error(error);
       }
@@ -60,9 +59,10 @@ function BlogDetails() {
   }, [blogId]);
 
   const fetchUserProfile = async () => {
-    const res = await fetch(
-      `https://back-e0rl.onrender.com/api/users/${blog.Author}`
-    ); //todo
+    // const res = await fetch(
+    //   `https://back-e0rl.onrender.com/api/users/${blog.Author}`
+    // ); //todo
+    const res = await instance.get(`/api/users/${blog.Author}`);
     const data = await res.json();
     setAuthorDetails(data);
   };
@@ -114,20 +114,13 @@ function BlogDetails() {
                     <p>{blog.desc}</p>
                   </div>
                 </div>
-                {/* <div className='my-5'></div> */}
               </div>
             </div>
-            {/* <div>
-          <AsideAuthor Author={blog} />
-        </div> */}
+   
           </div>
           <div className="w-full">
             <div className=" ">
               {blog.Content ? <EditorjsRender data={con} /> : "Please Wait "}
-{/*               
-             {
-              blog.Content ?<p>{blog.Content}</p> : 'red' 
-             } */}
             </div>
           </div>
         </div>

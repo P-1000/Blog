@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Followers from "./Followers";
 import Following from "./Following";
+import instance from "../../Config/AxiosInst";
 
 export default function Modal(props) {
   const [showModal, setShowModal] = React.useState(false);
@@ -21,6 +22,7 @@ export default function Modal(props) {
 
   async function fetchMembers(id) {
     const res = await fetch(`https://back-e0rl.onrender.com/api/users/fetchId/${id}`);
+    // const res = await instance.get(`/api/users/fetchId/${id}`);
     const data = await res.json();
     setMembers((prevMembers) => [...prevMembers, data]); // Using the functional update to access the previous state.
   }
