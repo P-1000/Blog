@@ -1,7 +1,7 @@
 import express from "express"
 //import {updateUser} from "../Controllers/user.js"
 import { verifyToken } from "../Verify.js"
-import {redbro } from "../Controllers/user.js"
+import {redbro, removeBookmark } from "../Controllers/user.js"
 import {follow} from "../Controllers/user.js"
 import {uploadProfilePicture} from "../Controllers/user.js"
 import {  getUserByName , fetchUserBookmarks ,basic_user ,  editProfile , getUser_Name , addBookmark , getUserById} from "../Controllers/user.js"
@@ -42,6 +42,8 @@ router.get("/basicname/:name", basic_user)
 
 // add to bookmarks : 
 router.put("/:id/addBookmark", verifyToken, addBookmark)
+
+router.put("/:id/removeBookmark", verifyToken, removeBookmark)
 
 // get user by id : 
 router.get("/fetchId/:id", getUserById)
