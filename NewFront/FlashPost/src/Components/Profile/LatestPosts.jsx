@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import SelfPosts from "./SelfPosts";
 import instance from "../../Config/AxiosInst";
-import { AuthContext } from "../../Context/userContext";
 import { useParams } from "react-router-dom";
 
 const LatestPosts = () => {
-  const { authUser } = useContext(AuthContext);
   let { User } = useParams();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
