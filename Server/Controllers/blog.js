@@ -1,4 +1,4 @@
-// import Blog from '../Models/blog.js'
+clear// import Blog from '../Models/blog.js'
 import Blog from "./Mblog.js";
 import { createError } from "../error.js";
 import express from "express";
@@ -6,6 +6,7 @@ import multer from "multer";
 import path from "path";
 import { BlogLike } from "../Models/Like.js";
 import User from "../Models/User.js";
+import { clear } from "console";
 
 // creating new blog
 export const addBlog = async (req, res, next) => {
@@ -195,11 +196,9 @@ export const NewlikeBlog = async (req, res, next) => {
         .json({ message: "User has already liked this blog" });
     }
 
-    // Create a new like document in the BlogLike collection
     const newLike = new BlogLike({ blogId: blog._id, userId: req.user.id });
     await newLike.save();
 
-    // Increment the like count in the Blog document
     blog.likes += 1;
     await blog.save();
 

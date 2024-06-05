@@ -18,6 +18,7 @@ import TechStack from "./TechStack";
 import SocialLinks from "./SocialLinks";
 import LatestPosts from "./LatestPosts";
 import { AuthContext } from "../../context/userContext";
+import ProfileHeader from "./ProfileHeader";
 import ProfilePictureComponent from "./ProfilePictureComponent";
 
 function ProfileComponent() {
@@ -165,6 +166,11 @@ function ProfileComponent() {
 
   return (
     <>
+    {/* <ProfileHeader user={user} 
+      isCurrentUser={isCurrentUser}
+      follow={follow}
+      Unfollow={Unfollow}
+    /> */}
       <div>
         <div className="bg-white w-full  rounded-md mt-8 border-[1px] overflow-hidden">
           <div className="flex">

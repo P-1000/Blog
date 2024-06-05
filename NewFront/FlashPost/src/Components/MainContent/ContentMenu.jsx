@@ -8,8 +8,7 @@ import { motion } from 'framer-motion';
 function ContentMenu({ category, onCategoryChange }) {
 
     const changeCategory = (category) => {
-        // Invoke the `onCategoryChange` function passed as a prop
-        onCategoryChange(category); // this function is defined in MainContent.jsx and passed as a prop to ContentMenu.jsx 
+        onCategoryChange(category); 
       };
       
 
