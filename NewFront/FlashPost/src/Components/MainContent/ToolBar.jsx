@@ -51,6 +51,7 @@ const ToolBar = (props) => {
     }
   };
 
+
   const handleComment = () => {};
   const handleShare = () => {};
   const handleBookmark = () => {};

@@ -37,7 +37,7 @@ import {motion} from 'framer-motion'
 import instance from '../../Config/AxiosInst'
 
 
-function Profile() {
+function ProfileComponent() {
     const [user, setUser] = useState({});
     const [blogs, setBlogs] = useState([]);
     const [userBlogs, setUserBlogs] = useState([]);
@@ -438,4 +438,4 @@ const isCurrentUser = us._id === user._id;
   )
 }
 
-export default Profile
+export default ProfileComponent
