@@ -8,7 +8,8 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         external: [
-          
+          '@editorjs/code' ,
+          'react-syntax-highlighter'
         ],
       },
     },
