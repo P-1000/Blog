@@ -15,7 +15,6 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       include: [
         'react-router-dom',
-        'react-syntax-highlighter'  
       ],
     },
     resolve: {
