@@ -11,7 +11,7 @@ const BookmarkButton = ({ blogId, user, token }) => {
     },
   };
 
-  const isBookmarked = user && user.Bookmarks.includes(blogId);
+  const isBookmarked = user && user?.Bookmarks?.includes(blogId);
   console.log(isBookmarked);
 
   const handleBookmarkClick = async () => {
