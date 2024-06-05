@@ -1,77 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { SlLike } from "react-icons/sl";
+import React, { useContext } from "react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineShareAlt } from "react-icons/ai";
 import { CiBookmark } from "react-icons/ci";
-import { AiFillLike } from "react-icons/ai";
 import { MdMoreVert } from "react-icons/md";
-import instance from "../../Config/AxiosInst";
 import { useParams } from "react-router-dom";
+import LikeButton from "../interaction/LikeButton";
+import BookmarkButton from "../interaction/BookmarkButton";
+import { useAuthContext } from "../../context/userContext";
 
 const ToolBar = (props) => {
+  const { authUser, token, isLoading } = useAuthContext();
   const { blogId } = useParams();
-  const [user_id, setUser_id] = useState(null);
-  const token = localStorage.getItem("jwt");
-  const user_ = JSON.parse(localStorage.getItem("user"));
-  const tok = JSON.parse(token);
-  const config = { headers: { Authorization: `Bearer ${tok}` } };
-  const [liked, setLiked] = useState(false);
-  const [propslike, setProplike] = useState(props.likes);
-
-  useEffect(() => {
-    setUser_id(user_._id);
-  }, [user_]);
-
-  useEffect(() => {
-    if (user_id && blogId) {
-      isLiked();
-    }
-  }, [user_id, blogId]);
-
-  const isLiked = async () => {
-    const res = await instance.get(`/api/blogs/isliked/${blogId}/${user_id}`);
-    setLiked(res.data.isLiked);
-  };
-
-  const handleLike = async () => {
-    const res = await instance.post(
-      `/api/blogs/like/${blogId}`,
-      { userId: user_id },
-      config
-    );
-    if (res.status === 200) {
-      setProplike(propslike + 1);
-    }
-  };
-
-  const unlike = async () => {
-    await instance.put(`/api/blogs/unlike/${blogId}`, {}, config);
-    if (propslike > 0) {
-      setProplike(propslike - 1);
-    }
-  };
-
-
   const handleComment = () => {};
   const handleShare = () => {};
   const handleBookmark = () => {};
   const handleMore = () => {};
+  console.log(authUser);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white border rounded-full shadow-xl px-3 py-1">
         <div className="flex gap-1 py-2 px-3">
-          <div
-            className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all"
-            onClick={liked ? unlike : handleLike}
-          >
-            <div className="flex items-center justify-center ">
-              {liked ? <AiFillLike /> : <SlLike />}
-            </div>
-            <div>
-              <h1 className="mt-1">{propslike}</h1>
-            </div>
-          </div>
+          <LikeButton blogId={blogId} initialLikes={props.likes} />
+          <BookmarkButton user={authUser} token={token} blogId={blogId} />
 
           <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
           <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
@@ -86,12 +41,6 @@ const ToolBar = (props) => {
           <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
             <div className="flex items-center justify-center ">
               <AiOutlineShareAlt />
-            </div>
-          </div>
-          <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />
-          <div className="flex gap-1 cursor-pointer items-center hover:bg-gray-400/40 rounded-full px-2 transition-all">
-            <div className="flex items-center justify-center ">
-              <CiBookmark />
             </div>
           </div>
           <div className="w-1 h-1 rounded-full bg-black items-center mt-2" />

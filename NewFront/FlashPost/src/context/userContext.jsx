@@ -14,7 +14,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchAuthUser = async () => {
       const user = JSON.parse(localStorage.getItem("user")) || null;
-      const tok = localStorage.getItem("token") || null;
+      const tok = JSON.parse(localStorage.getItem("jwt")) || null;
       setToken(tok);
       setAuthUser(user);
       setIsLoading(false);
