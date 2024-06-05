@@ -284,10 +284,12 @@ function ProfileComponent() {
           </div>
           {/* social buttons   */}
           <div>
-            <SocialLinks />
+            <SocialLinks
+             />
           </div>
           <div>
-            <TechStack />
+            <TechStack
+             />
           </div>
           <div>
             <LatestPosts />

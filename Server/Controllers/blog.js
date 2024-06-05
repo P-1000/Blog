@@ -149,6 +149,7 @@ export const trendingBlogs = async (req, res, next) => {
   }
 };
 
+//todo ; change to id in the author blog section : 
 //find blogs by author :
 
 export const findBlogsByAuthor = async (req, res, next) => {
