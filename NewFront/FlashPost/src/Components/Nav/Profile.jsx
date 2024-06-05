@@ -1,13 +1,17 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import {RxAvatar} from 'react-icons/rx'
-import {useNavigate} from 'react-router-dom'
+import {json, useNavigate} from 'react-router-dom'
+import { AuthContext } from '../../context/userContext';
 
 export default function MouseOverPopover(props) {
+  const { authUser  } = useContext(AuthContext);
   const {name} = props
+  console.log(name)
   const navigate = useNavigate()
   return (
 
@@ -31,7 +35,7 @@ export default function MouseOverPopover(props) {
             <Typography  >
             <div className='flex flex-col  text-center '>
                <button 
-               onClick={() => {navigate(`/Profile/@${name}`); popupState.close() }}
+               onClick={() => {navigate(`/Profile/@${authUser?.name}`); popupState.close() }}
                className='text-sm text-center  font-semibold text-primary hover:bg-slate-300 mt-2  p-1 px-4'>Profile</button>
               <button className='text-sm text-center  font-semibold text-primary hover:bg-slate-300 p-1  px-4'>My Blogs</button>
               <button className='text-sm font-semibold text-primary hover:bg-slate-300 p-1  px-4'>Settings</button>

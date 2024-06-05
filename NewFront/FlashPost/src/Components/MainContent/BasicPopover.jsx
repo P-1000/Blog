@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
+import instance from '../../Config/AxiosInst';
 
 
 
@@ -48,7 +49,8 @@ export default function BasicPopover(props) {
 
   async function deletePost(id){
    try {
-    const del_ = await axios.delete(`https://back-e0rl.onrender.com/api/blogs/delete/${id}` , config)
+    // const del_ = await axios.delete(`https://back-e0rl.onrender.com/api/blogs/delete/${id}` , config)
+    const del = await instance.delete(`/api/blogs/delete/${id}` , config)
     toast.success('Post Deleted Successfully')
     setTimeout(() => {
       navigate('/home')

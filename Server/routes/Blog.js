@@ -43,17 +43,10 @@ blog_router.get("/blog/:id",  getBlogById )
 blog_router.get("/blogsPage/:skip" , getPageBlogs )
 
 
-//tags count : on index page:
-
-// increment likes count for a blog :
-// blog_router.put("/like/:bid" ,  likeBlog ) 
-
-blog_router.post("/like/:bid" , verifyToken ,  NewlikeBlog)
-
 blog_router.put("/unlike/:bid" , verifyToken , undislikeBlog)
 
 // decrement likes count for a blog :
-blog_router.put("/dislike/:bid" ,  unlikeBlog )
+blog_router.put("/dislike/:bid" , verifyToken,  unlikeBlog )
 
 // trending blogs :
 blog_router.get("/trending" , trendingBlogs )
@@ -61,6 +54,8 @@ blog_router.get("/trending" , trendingBlogs )
 // get blogs by author :
 blog_router.get("/author/:author" , findBlogsByAuthor  )
 
+// like a blog :
+blog_router.post("/like/:bid" , verifyToken , NewlikeBlog )
 
 blog_router.get("/isliked/:bid/:id"  ,  isBlogLiked);
 

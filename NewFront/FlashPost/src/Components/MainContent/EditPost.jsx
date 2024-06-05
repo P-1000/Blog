@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateTitle, updateDescription, updateTags, updateContent, updateCoverUrl, resetForm } from '../../redux/formDataSlice';
 import TextEditor from '../BlogCreation/EditorJs';
+import instance from '../../Config/AxiosInst';
+import Author from './Author';
 
 function EditPost() {
   const { blogId } = useParams();
@@ -68,7 +70,8 @@ function EditPost() {
    const [con , setCon] = useState(null);
   useEffect(() => {
     async function fetchData() {
-      const res = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
+      // const res = await axios.get(`https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`, config);
+      const res = await instance.get(`/api/blogs/blog/${blogId}`, config);
       setTitle(res.data.title);
       setDescription(res.data.desc);
       setTags(res.data.tags);
@@ -123,13 +126,21 @@ function EditPost() {
     event.preventDefault();
     const delta = quillRef.current.getContents();
     try {
-      const res = await axios.put(`https://back-e0rl.onrender.com/api/blogs/update/${blogId}`, {
+      // const res = await axios.put(`https://back-e0rl.onrender.com/api/blogs/update/${blogId}`, {
+      //   title,
+      //   imgUrl,
+      //   desc: description,
+      //   tags,
+      //   Author: currentUser.name,
+      // }, config);
+      const res = await instance.put(`/api/blogs/update/${blogId}`, {
         title,
         imgUrl,
         desc: description,
         tags,
         Author: currentUser.name,
       }, config);
+
       console.log(res.data);
     } catch (error) {
       console.log(error);

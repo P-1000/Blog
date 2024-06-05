@@ -8,6 +8,7 @@ import Output from "editorjs-react-renderer";
 import EditorjsRender from "./EditorjsRender";
 import AuthNew from "./AuthNew";
 import FloatingTool from "./FloatingTool";
+import instance from "../../Config/AxiosInst";
 
 function BlogDetails() {
   const { AuthorId, blogId } = useParams();
@@ -38,18 +39,17 @@ function BlogDetails() {
   const [authorDetails, setAuthorDetails] = useState({});
 
   const [con, setCon] = useState(redD);
+  const [blogLike , setBlogLike] = useState(0);
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(
-          `https://back-e0rl.onrender.com/api/blogs/blog/${blogId}`,
-          config
-        );
+        const response = await instance.get(`/api/blogs/blog/${blogId}`);
         const blog_data = response.data;
         setBlog(blog_data);
         setCon(JSON.parse(blog_data.Content));
-        console.log(JSON.parse(blog_data.Content));
+        setBlogLike(blog_data.likes)
+        console.log(blogLike)
       } catch (error) {
         console.error(error);
       }
@@ -59,9 +59,10 @@ function BlogDetails() {
   }, [blogId]);
 
   const fetchUserProfile = async () => {
-    const res = await fetch(
-      `https://back-e0rl.onrender.com/api/users/${blog.Author}`
-    ); //todo
+    // const res = await fetch(
+    //   `https://back-e0rl.onrender.com/api/users/${blog.Author}`
+    // ); //todo
+    const res = await instance.get(`/api/users/${blog.Author}`);
     const data = await res.json();
     setAuthorDetails(data);
   };
@@ -77,10 +78,11 @@ function BlogDetails() {
     }
   };
 
+
   return (
     <>
-      <FloatingTool />
-      <div className="flex   bg-white flex-col place-content-center   px-20 m-auto justify-center  items-center">
+      <FloatingTool bid={blogId} likes={blogLike} />
+      <div className="flex  overflow-hidden  bg-white lg:flex-col lg:place-content-center   lg:px-20 m-auto justify-center  items-center">
         <div>
           <div className="w-full  gap-10 justify-center  items-center  bg-white   bg-clip-padding overflow-auto">
             <div className="  ">
@@ -89,14 +91,14 @@ function BlogDetails() {
               <div className=" items-center flex flex-col justify-center p-3 bg-white  ">
                 <div className=" flex  px-10 py-3 items-center justify-center">
                   <img
-                    className="w-10/12 px-4  object-cover shadow-md rounded-md"
+                    className="lg:w-10/12 lg:px-4 w-[30rem]  object-cover shadow-md rounded-md"
                     src={blog.imgUrl}
                     alt={blog.title}
                   />
                 </div>
 
-                <div>
-                  <h1 className="text-4xl font-bold my-3 ">{blog.title}</h1>
+                <div className="">
+                  <h1 className="lg:text-4xl  text-2xl mx-10 flex flex-wrap px-2 lg:px-1 font-bold my-3 ">{blog.title}</h1>
                 </div>
                 <div className="w-full flex justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
                   {/* <Author post_id={blogId} name={blog.Author} /> */}
@@ -108,24 +110,17 @@ function BlogDetails() {
                   />
                 </div>
                 <div className="flex gap-2 w-full">
-                  <div className=" py-4 px-[12%] ">
+                  <div className=" lg:py-4 px-7 lg:px-[12%] ">
                     <p>{blog.desc}</p>
                   </div>
                 </div>
-                {/* <div className='my-5'></div> */}
               </div>
             </div>
-            {/* <div>
-          <AsideAuthor Author={blog} />
-        </div> */}
+   
           </div>
           <div className="w-full">
             <div className=" ">
               {blog.Content ? <EditorjsRender data={con} /> : "Please Wait "}
-              {/* 
-             {
-              blog.Content ?<p>{blog.Content}</p> : 'red' 
-             } */}
             </div>
           </div>
         </div>

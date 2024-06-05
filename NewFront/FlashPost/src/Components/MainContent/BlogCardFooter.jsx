@@ -21,7 +21,7 @@ function BlogCardFooter(props) {
   useEffect(() => {
     // Count tags
     setCountTag(tag ? tag.length : 0);
-  }, [tag]); // Update countTag whenever tag changes
+  }, [tag]); 
 
   const handleBookmarks = async () => {
     if (!token) {
@@ -29,11 +29,12 @@ function BlogCardFooter(props) {
       return;
     } else {
       try {
-        const response = await axios.put(
-          `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
-          null,
-          config
-        );
+        // const response = await axios.put(
+        //   `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
+        //   null,
+        //   config
+        // );
+        const response = await instance.put(`/api/blogs/bookmark/${props.id}`, null, config);
         console.log(response);
       } catch (error) {
         console.error('Error bookmarking blog:', error);
@@ -48,7 +49,7 @@ function BlogCardFooter(props) {
           {tag && tag.slice(0, 2).map((tagItem, index) => (
             <Link key={index} to={`/search/${tagItem}`}>
               <p className='border text-xs lg:text-sm font-medium rounded-full px-3 py-1'>
-                {tagItem}
+                {tagItem.length > 8 ? tagItem.slice(0, 10) + '...' : tagItem}
               </p>
             </Link>
           ))}
@@ -58,10 +59,10 @@ function BlogCardFooter(props) {
         </div>
       </div>
       <div className='flex gap-2 mx-10 items-center'>
-        <div className=' text-sm lg:text-base font-normal'>
+        <div className=' hover:bg-blue-400/10 py-1 cursor-pointer px-2 rounded-full  text-sm lg:text-base font-normal'>
           {like ? like : 0} likes
         </div>
-        <div className='font-normal text-slate-400'>|</div>
+        <div className='font-normal hidden lg:block text-slate-400'>|</div>
         <motion.div
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

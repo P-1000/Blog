@@ -13,7 +13,7 @@ console.log(data.blocks[0])
     const renderBlock = (block) => {
         switch (block.type) {
             case 'header':
-                return <h1 className='text-3xl font-bold mb-4 font-Poppins'>{block.data.text}</h1>;
+                return <h1 className='lg:text-3xl place-content-center  text-lg font-bold mb-4 font-Poppins'>{block.data.text}</h1>;
             case 'paragraph':
                 return <p className='mb-4 text-lg' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
             case 'list':
@@ -111,9 +111,9 @@ console.log(data.blocks[0])
     };
 
     return (
-        <div className='bg-white p-6 px-40 tracking-wide'>
+        <div className='bg-white  mx-8 lg:p-6 lg:px-40 lg:tracking-wide'>
             {data.blocks.map((item, index) => (
-                <div key={index} className='my-3'>
+                <div key={index} className='lg:my-3'>
                     {renderBlock(item)}
                 </div>
             ))}
