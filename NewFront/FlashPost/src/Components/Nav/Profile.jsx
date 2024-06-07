@@ -10,12 +10,31 @@ import { AuthContext } from "../../context/userContext";
 export default function MouseOverPopover(props) {
   const { authUser, isLoading } = useContext(AuthContext);
   const { name } = props;
-  console.log(name);
   const navigate = useNavigate();
   useEffect(() => {
     if (isLoading) return <div>Loading...</div>;
-    if (!authUser) navigate("/login");
+    if (!authUser || authUser.length < 1) navigate("/login");
   }, [authUser]);
+
+  const handleNavigate = () => {
+    if (isLoading) return <div>Loading...</div>;
+    if (
+      authUser.name == undefined ||
+      authUser.name == null ||
+      authUser.name == ""
+    )
+      return <div>Loading...</div>;
+    if (!authUser) navigate("/login");
+    const url = `/profile/@${authUser.name}`;
+    navigate(url);
+  };
+
+  const handleLogout = (a) => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <PopupState variant="popover" popupId="demo-popup-popover">
       {(popupState) => (
@@ -37,10 +56,7 @@ export default function MouseOverPopover(props) {
             <Typography>
               <div className="flex flex-col  text-center ">
                 <button
-                  onClick={() => {
-                    navigate(`/Profile/@${authUser?.name}`);
-                    popupState.close();
-                  }}
+                  onClick={handleNavigate}
                   className="text-sm text-center  font-semibold text-primary hover:bg-slate-300 mt-2  p-1 px-4"
                 >
                   Profile
@@ -52,11 +68,7 @@ export default function MouseOverPopover(props) {
                   Settings
                 </button>
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("jwt");
-                    navigate("/login");
-                    popupState.close();
-                  }}
+                  onClick={handleLogout}
                   className="text-sm font-semibold text-primary hover:bg-slate-300 p-1 pb-2 px-4"
                 >
                   Logout
