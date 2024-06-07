@@ -20,7 +20,7 @@ import CurrentUserProfilePage from "./Pages/ProfilePage/CurrentUserProfilePage";
 
 function App() {
   return (
-    <Router>
+    <div>
       <NavBar />
       <Routes>
         <Route path="/" element={<Auth />} />
@@ -39,7 +39,7 @@ function App() {
         <Route path="/Blog/Content" element={<CreatePost />} />
         {/* <Route path="/Write/editor" element={<TextEditor />} /> */}
       </Routes>
-    </Router>
+    </div>
   );
 }
 
