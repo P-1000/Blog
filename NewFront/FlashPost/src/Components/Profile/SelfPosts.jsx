@@ -22,18 +22,18 @@ const SelfPosts = ({ blogs, loading, User }) => {
     }
 
     if (window.confirm("Are you sure you want to delete this post?")) {
-      toast.promise(
-        instance.delete(`/api/blogs/delete/${blogId}`, config),
-        {
-          loading: 'Deleting post...',
-          success: 'Post deleted successfully!',
-          error: 'Error deleting post!',
-        }
-      ).then(() => {
-        window.location.reload();
-      }).catch(error => {
-        console.error("Error deleting post:", error);
-      });
+      toast
+        .promise(instance.delete(`/api/blogs/delete/${blogId}`, config), {
+          loading: "Deleting post...",
+          success: "Post deleted successfully!",
+          error: "Error deleting post!",
+        })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error deleting post:", error);
+        });
     }
   };
 
