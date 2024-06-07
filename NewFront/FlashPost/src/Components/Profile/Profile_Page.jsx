@@ -1,22 +1,21 @@
-import React from 'react'
-import Profile from './Profile'
-import SideNav from '../SideBar/SideNav'
+import React from "react";
+import Profile from "./Profile";
+import SideNav from "../SideBar/SideNav";
 
 function Profile_Page() {
   return (
     <>
-        <div className='flex'>
-        <div className='hidden lg:block'>
-          <SideNav/>
-            </div>
-            <div className='mr-5'>
-                <Profile/>
-                <div></div>
-            </div>
-
-            </div>
-   </>
-  )
+      <div className="flex">
+        <div className="hidden lg:block">
+          <SideNav />
+        </div>
+        <div className="mr-5">
+          <Profile />
+          <div></div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Profile_Page
+export default Profile_Page;
