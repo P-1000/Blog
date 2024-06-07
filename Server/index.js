@@ -17,7 +17,7 @@ import { createError } from "./error.js";
 import { verifyToken } from "./Verify.js";
 import User from "./Models/User.js";
 import interaction_router from "./routes/Interaction.routes.js";
-
+import commentRouter from "./routes/Cmnts.js";
 // import algoliasearch from 'algoliasearch';
 // UKAHGWLA0Z
 // 85eda515b05d95ee73b78ccb67aad0d0
@@ -64,6 +64,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/blogs", blog_router);
 app.use("/api/interaction", interaction_router);
+app.use("/api/comments" , commentRouter)
+
+
 // test route for deployment send json data
 app.get("/api/test", (req, res) => {
   res.json({ message: "success" });
