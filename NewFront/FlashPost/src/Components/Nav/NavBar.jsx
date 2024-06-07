@@ -23,7 +23,6 @@ import { AuthContext } from "../../context/userContext.jsx";
 
 function NavBar() {
   const { authUser, isLoading ,  setAuthUser, } = useContext(AuthContext);
-  console.log(authUser);
 
   if (isLoading) {
     return <div>Loading...</div>;
