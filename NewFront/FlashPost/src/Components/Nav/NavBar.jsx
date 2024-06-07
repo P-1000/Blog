@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; //todo : integrate the modularity of the code
 import { CiSearch } from "react-icons/ci";
 import { MdCreate } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
@@ -20,8 +20,9 @@ import instance from "../../Config/AxiosInst.js";
 import Author from "../MainContent/Author.jsx";
 import { AuthContext } from "../../context/userContext.jsx";
 
+
 function NavBar() {
-  const { authUser, isLoading } = useContext(AuthContext);
+  const { authUser, isLoading ,  setAuthUser, } = useContext(AuthContext);
   console.log(authUser);
 
   if (isLoading) {
@@ -46,10 +47,11 @@ function NavBar() {
       //  const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
       const res = await instance.get("/api/auth/read", config);
       setUser(res.data);
+      setAuthUser(res.data);
       dispatch(loginSuccess(res.data));
     }
     fetchData();
-  }, []);
+  }, [currentUser]);
 
   const usr = localStorage.setItem("user", JSON.stringify(user));
 

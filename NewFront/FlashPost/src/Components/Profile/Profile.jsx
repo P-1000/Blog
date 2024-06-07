@@ -67,18 +67,23 @@ function ProfileComponent() {
   const loc = us?.Location;
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (User1) {
+      getUser();
+    } else {
+      toast.error("User not found"); 
+    }
+  }, [User1]);
 
   const getUser = async () => {
-    // const res = await axios.get(`https://back-e0rl.onrender.com/api/auth/find/${User1}`);
-    const res = await instance.get(`/api/auth/find/${User1}`);
-    const data = await res.data;
-    setUser(data[0]);
-    const userProfilePic = user.ProfilePic;
-    setProfileImg(userProfilePic);
-    countFollowers(data[0].Followers);
-    countFollowing(data[0].Following);
+    try {
+      const res = await instance.get(`/api/auth/find/${User1}`);
+      const data = res.data;
+      setUser(data[0]);
+      countFollowers(data[0]?.Followers);
+      countFollowing(data[0]?.Following);
+    } catch (error) {
+      toast.error("Error fetching user data");
+    }
   };
 
   const followID = user?._id;

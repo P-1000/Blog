@@ -35,6 +35,7 @@ const LatestPosts = () => {
             blogs={blogs}
             loading={loading}
             User={User}
+
          />
       </div>
     </div>
