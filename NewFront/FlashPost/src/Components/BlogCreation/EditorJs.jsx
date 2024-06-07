@@ -28,7 +28,6 @@ const TextEditor = (props) => {
 
   const dispatch = useDispatch();
 
-  console.log(editorData);
 
   useEffect(() => {
     dispatch(updateContent(editorData));
