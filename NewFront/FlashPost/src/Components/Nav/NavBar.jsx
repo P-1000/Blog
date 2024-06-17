@@ -194,7 +194,6 @@ function NavBar() {
       //   },
       //   config
       // );
-
       const res = await instance.post(
         "/api/blogs/uploadBlog",
         {
