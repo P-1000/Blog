@@ -7,5 +7,8 @@ import (
 )
 
 func RegisterRoutes(r *gin.RouterGroup) {
+
 	r.POST("/blog", middleware.AuthVerify(), createBlog)
+	r.GET("/blog/:blogId" , getBlogById)
+
 }
