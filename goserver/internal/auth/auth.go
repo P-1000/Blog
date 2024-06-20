@@ -51,6 +51,8 @@ func register(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
 }
 
+
+
 func login(c *gin.Context) {
 	var loginData struct {
 		Email    string `json:"email" binding:"required"`

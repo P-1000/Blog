@@ -28,11 +28,11 @@ export const signin = async(req, res , next) => {
        if(!user) return next(createError(404, "User not found!"))
        const isMatch = await bcrypt.compare(req.body.password, user.password)
          if(!isMatch) return next(createError(400, "Invalid Credentials!"))
-         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET , {expiresIn: "1d"}) //
+         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET , {expiresIn: "1d"})
          const {password, ...others} = user._doc
          res.cookie("access_token", token , {
-            expires: new Date(Date.now() + 86400000), // expires in 1 day
-            httpOnly: true, // this will prevent JavaScript from accessing the cookie
+            expires: new Date(Date.now() + 86400000),
+            httpOnly: true,
           })
          .status(200)
          .json({token , user: others})
@@ -72,7 +72,7 @@ export const cookie_read = async (req, res, next) => {
 }
 
 
-//Follow Functin : 
+//Follow Functin :
 export const followFunc = async (req, res) => {
   const { userId, followId } = req.body;
 
@@ -149,7 +149,7 @@ export const findUserByName = async (req, res) => {
 }
 
 
-// rest password 
+// rest password
 
 export const sendMail = async (req, res) => {
   try {
@@ -178,7 +178,7 @@ export const sendMail = async (req, res) => {
   }
 };
 
-// mail config 
+// mail config
 
 
 
@@ -203,7 +203,7 @@ export const passwordReset = async (req, res) => {
         pass: process.env.PASSWORD,
       },
     });
-    
+
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -308,7 +308,7 @@ export const passwordReset = async (req, res) => {
 </head>
 
 <body style="text-size-adjust: none; background-color: #091548; margin: 0; padding: 0;">
-<h1> 
+<h1>
 Dear ${user.name},
 </h1>
 	<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #091548;">
@@ -482,7 +482,7 @@ Dear ${user.name},
 																		<td class="alignment" style="vertical-align: middle; text-align: center;"><!--[if vml]><table align="left" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
 																			<!--[if !vml]><!-->
 																			<table class="icons-inner" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; margin-right: -4px; padding-left: 0px; padding-right: 0px;" cellpadding="0" cellspacing="0" role="presentation"><!--<![endif]-->
-																				
+
 																			</table>
 																		</td>
 																	</tr>
@@ -506,7 +506,7 @@ Dear ${user.name},
 
 </html>
       `,
-        
+
     }
 
     const info = await transporter.sendMail(mailOptions);
@@ -551,7 +551,7 @@ export const tokenValidation = async (req, res) => {
 
 //passwor reset acknoledgement :
 export const passwordResetAck = async (req, res) => {
-  
+
   //get email from the function params
   const { email } = req.params;
 
@@ -571,7 +571,7 @@ export const passwordResetAck = async (req, res) => {
     html: `
     <!DOCTYPE html>
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
-    
+
     <head>
       <title></title>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -580,26 +580,26 @@ export const passwordResetAck = async (req, res) => {
         * {
           box-sizing: border-box;
         }
-    
+
         body {
           margin: 0;
           padding: 0;
         }
-    
+
         a[x-apple-data-detectors] {
           color: inherit !important;
           text-decoration: inherit !important;
         }
-    
+
         #MessageViewBody a {
           color: inherit;
           text-decoration: none;
         }
-    
+
         p {
           line-height: inherit
         }
-    
+
         .desktop_hide,
         .desktop_hide table {
           mso-hide: all;
@@ -607,41 +607,41 @@ export const passwordResetAck = async (req, res) => {
           max-height: 0px;
           overflow: hidden;
         }
-    
+
         .image_block img+div {
           display: none;
         }
-    
+
         @media (max-width:520px) {
           .desktop_hide table.icons-inner {
             display: inline-block !important;
           }
-    
+
           .icons-inner {
             text-align: center;
           }
-    
+
           .icons-inner td {
             margin: 0 auto;
           }
-    
+
           .image_block img.fullWidth {
             max-width: 100% !important;
           }
-    
+
           .social_block.desktop_hide .social-table {
             display: inline-block !important;
           }
-    
+
           .row-content {
             width: 100% !important;
           }
-    
+
           .stack .column {
             width: 100%;
             display: block;
           }
-    
+
           .mobile_hide {
             max-width: 0;
             min-height: 0;
@@ -650,7 +650,7 @@ export const passwordResetAck = async (req, res) => {
             display: none;
             overflow: hidden;
           }
-    
+
           .desktop_hide,
           .desktop_hide table {
             max-height: none !important;
@@ -659,7 +659,7 @@ export const passwordResetAck = async (req, res) => {
         }
       </style>
     </head>
-    
+
     <body style="text-size-adjust: none; background-color: #fff; margin: 0; padding: 0;">
       <table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff;">
         <tbody>
@@ -877,7 +877,7 @@ export const passwordResetAck = async (req, res) => {
         </tbody>
       </table><!-- End -->
     </body>
-    
+
     </html>
     `
   };
