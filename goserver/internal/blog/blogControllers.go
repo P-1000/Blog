@@ -32,7 +32,6 @@ func createBlog(c *gin.Context) {
 
 	blog.ID = primitive.NewObjectID()
 	blog.Authors = append(blog.Authors, userId.(primitive.ObjectID))
-
 	blog.CreatedAt = time.Now()
 	blog.UpdatedAt = time.Now()
 
@@ -45,7 +44,25 @@ func createBlog(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Creating Blog"})
 		return
 	}
-	c.JSON(http.StatusAccepted, gin.H{"success": "Blog Created"})
+
+	blogStats := models.BlogStats{
+		ID:           primitive.NewObjectID(),
+		BlogId:       blog.ID,
+		LikeCount:    0,
+		ViewCount:    0,
+		CommentCount: 0,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
+	}
+
+	blogStatsCollection := database.GetCollection("blog_stats")
+	_, err = blogStatsCollection.InsertOne(ctx, blogStats)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Creating BlogStats"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"success": "Blog Created", "blog": blog, "blogStats": blogStats})
 }
 
 func getBlogById(c *gin.Context) {
@@ -177,4 +194,73 @@ func deleteBlog(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Something Unexpected "})
 	}
 	c.JSON(http.StatusOK, gin.H{"success": "Blog delted!"})
+}
+
+func likeBlog(c *gin.Context) {
+	userId, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Access token not found"})
+		return
+	}
+	objUserId, err := primitive.ObjectIDFromHex(userId.(string))
+	blogId := c.Param("id")
+	objId, err := primitive.ObjectIDFromHex(blogId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Blog Id"})
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := database.GetCollection("blog")
+	if err := collection.FindOne(ctx, bson.M{"_id": objId}); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "blog not found"})
+		return
+	}
+	statsCollection := database.GetCollection("blog_stats")
+	var blogStats models.BlogStats
+	statsErr := statsCollection.FindOne(ctx, bson.M{"blogId": objId}).Decode(&blogStats)
+	if statsErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error liking blog"})
+		return
+	}
+
+	update := bson.M{
+		"$inc": bson.M{
+			"likeCount": 1,
+		},
+		"$set": bson.M{
+			"updated_at": time.Now(),
+		},
+	}
+
+	_, err = statsCollection.UpdateOne(ctx, bson.M{"blogId": objId}, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error liking blog"})
+		return
+	}
+
+	likeCollection := database.GetCollection("likes")
+	isLiked := likeCollection.FindOne(ctx, bson.M{"blogId": objId, "userId": objUserId})
+	if isLiked != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Already Liked"})
+		return
+	}
+	like := models.Like{
+		ID:        primitive.NewObjectID(),
+		UserId:    objUserId,
+		BlogId:    objId,
+		CreatedAt: time.Now(),
+	}
+	_, err = likeCollection.InsertOne(ctx, like)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error liking blog"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Blog liked successfully"})
+}
+
+func commentBlog(c *gin.Context) {
+
 }
