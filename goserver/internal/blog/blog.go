@@ -9,6 +9,7 @@ import (
 func RegisterRoutes(r *gin.RouterGroup) {
 
 	r.POST("/blog", middleware.AuthVerify(), createBlog)
-	r.GET("/blog/:blogId" , getBlogById)
-
+	r.GET("/blog/:blogId", middleware.AuthVerify(), getBlogById)
+	r.PUT("/blog/:id", middleware.AuthVerify(), updateBlog)
+	r.DELETE("/blog/:id", middleware.AuthVerify(), deleteBlog)
 }
