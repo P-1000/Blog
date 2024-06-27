@@ -7,5 +7,6 @@ import (
 )
 
 func RegisterRoutes(r *gin.RouterGroup) {
-	r.GET("/feed/general", middleware.AuthVerify(), getGeneralFeed)
+	r.GET("/feed/general/:page", getGeneralFeed)
+	r.GET("feed/custom", middleware.AuthVerify(), customFeed)
 }

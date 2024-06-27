@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"net/http"
+	"strings"
 	"time"
 
 	"goserver/internal/database"
@@ -51,44 +52,52 @@ func register(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
 }
 
-
-
 func login(c *gin.Context) {
 	var loginData struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
+		Identifier string `json:"identifier" binding:"required"`
+		Password   string `json:"password" binding:"required"`
 	}
-	if err := c.ShouldBind(&loginData); err != nil {
+
+	if err := c.ShouldBindJSON(&loginData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	isEmail := strings.Contains(loginData.Identifier, "@")
+	var filter bson.M
+	if isEmail {
+		filter = bson.M{"email": loginData.Identifier}
+	} else {
+		filter = bson.M{"name": loginData.Identifier}
+	}
+
 	collection := database.GetCollection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	var user models.User
-	err := collection.FindOne(ctx, bson.M{"email": loginData.Email}).Decode(&user)
+	err := collection.FindOne(ctx, filter).Decode(&user)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "bad credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginData.Password))
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "bad Credentials"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":  user.ID,
-		"exp": time.Now().Add(time.Hour * 24).Unix(),
+		"userID": user.ID.Hex(),
+		"exp":    time.Now().Add(time.Hour * 24).Unix(),
 	})
 
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
 
-	c.JSON(200, gin.H{"token": tokenString})
+	c.JSON(http.StatusOK, gin.H{"token": tokenString, "user": user})
 }

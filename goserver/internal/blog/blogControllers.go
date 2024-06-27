@@ -1,6 +1,7 @@
 package blog
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -18,9 +19,22 @@ import (
 )
 
 func createBlog(c *gin.Context) {
-	userId, exists := c.Get("userID")
+	userIdInterface, exists := c.Get("userId")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "no token"})
+		return
+	}
+
+	userIdStr, ok := userIdInterface.(string)
+	fmt.Println(userIdStr, "bankai")
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
+		return
+	}
+
+	userId, err := primitive.ObjectIDFromHex(userIdStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
 		return
 	}
 
@@ -31,7 +45,7 @@ func createBlog(c *gin.Context) {
 	}
 
 	blog.ID = primitive.NewObjectID()
-	blog.Authors = append(blog.Authors, userId.(primitive.ObjectID))
+	blog.Authors = []primitive.ObjectID{userId}
 	blog.CreatedAt = time.Now()
 	blog.UpdatedAt = time.Now()
 
@@ -39,7 +53,7 @@ func createBlog(c *gin.Context) {
 	defer cancel()
 
 	blogCollection := database.GetCollection("blogs")
-	_, err := blogCollection.InsertOne(ctx, blog)
+	_, err = blogCollection.InsertOne(ctx, blog)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Creating Blog"})
 		return

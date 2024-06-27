@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -15,9 +17,9 @@ func AuthVerify() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
-		claims := &jwt.StandardClaims{}
-
+		tokenString = strings.Trim(tokenString, "Bearer")
+		tokenString = strings.TrimSpace(tokenString)
+		claims := &jwt.MapClaims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return []byte("your_secret_key"), nil
 		})
@@ -28,8 +30,15 @@ func AuthVerify() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("userID", claims.Subject)
+		userId, ok := (*claims)["userID"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "bankai"})
+			c.Abort()
+			return
+		}
+		fmt.Println(userId)
 
+		c.Set("userId", userId)
 		c.Next()
 	}
 }
