@@ -1,7 +1,11 @@
 package feed
 
-improt ()
+import (
+	"goserver/internal/middleware"
 
-func RegisterRoutes(r *gin.RouterGroup){
+	"github.com/gin-gonic/gin"
+)
 
+func RegisterRoutes(r *gin.RouterGroup) {
+	r.GET("/feed/general", middleware.AuthVerify(), getGeneralFeed)
 }

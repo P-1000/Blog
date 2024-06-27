@@ -261,6 +261,107 @@ func likeBlog(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Blog liked successfully"})
 }
 
-func commentBlog(c *gin.Context) {
+func addComment(c *gin.Context) {
+	userId, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Access token not found"})
+		return
+	}
 
+	objUserId, err := primitive.ObjectIDFromHex(userId.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
+		return
+	}
+
+	blogId := c.Param("blogId")
+	objBlogId, err := primitive.ObjectIDFromHex(blogId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Blog ID"})
+		return
+	}
+
+	var comment models.Comment
+	if err := c.BindJSON(&comment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid comment data"})
+		return
+	}
+
+	comment.ID = primitive.NewObjectID()
+	comment.BlogID = objBlogId
+	comment.UserID = objUserId
+	comment.CreatedAt = time.Now()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	collection := database.GetCollection("comments")
+	_, err = collection.InsertOne(ctx, comment)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error commenting on the blog"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"success": "Comment added"})
+}
+
+func getComments(c *gin.Context) {
+	//todo :
+}
+
+func unLikeBlog(c *gin.Context) {
+	userId, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+
+	objUserId, err := primitive.ObjectIDFromHex(userId.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid User ID"})
+		return
+	}
+
+	blogId := c.Param("id")
+	objBlogId, err := primitive.ObjectIDFromHex(blogId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Blog ID"})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Check if the user liked the blog
+	likeCollection := database.GetCollection("likes")
+	isLiked := likeCollection.FindOne(ctx, bson.M{"blogId": objBlogId, "userId": objUserId})
+	if isLiked.Err() == mongo.ErrNoDocuments {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Cannot unlike a blog that was not liked"})
+		return
+	}
+
+	deletedLike, err := likeCollection.DeleteOne(ctx, bson.M{"blogId": objBlogId, "userId": objUserId})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error unliking the blog"})
+		return
+	}
+
+	// Update the blog stats
+	statsCollection := database.GetCollection("blog_stats")
+	update := bson.M{
+		"$inc": bson.M{
+			"likeCount": -1,
+		},
+		"$set": bson.M{
+			"updated_at": time.Now(),
+		},
+	}
+
+	_, err = statsCollection.UpdateOne(ctx, bson.M{"blogId": objBlogId}, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error updating blog stats"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": "Blog unliked", "data": deletedLike})
 }
