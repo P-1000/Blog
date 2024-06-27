@@ -15,5 +15,5 @@ func RegisterRoutes(r *gin.RouterGroup) {
 	r.PUT("/blog/like/:id", middleware.AuthVerify(), likeBlog)
 	r.PUT("/blog/unlike/:id", middleware.AuthVerify(), unLikeBlog)
 	r.POST("/blog/:blogId/comment", middleware.AuthVerify(), addComment)
-	r.GET("/blog/:blogId/comments", middleware.AuthVerify(), getComments)
+	r.GET("/blog/:blogId/comments", middleware.AuthVerify(), getComments) //todo
 }

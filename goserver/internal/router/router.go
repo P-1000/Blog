@@ -2,9 +2,10 @@ package router
 
 import (
 	"goserver/internal/auth"
+	"goserver/internal/blog"
+	"goserver/internal/user"
 
 	"github.com/gin-gonic/gin"
-	"goserver/internal/blog"
 )
 
 func SetupRouter() *gin.Engine {
@@ -13,5 +14,7 @@ func SetupRouter() *gin.Engine {
 	auth.RegisterRoutes(authRoutes)
 	blogRoutes := r.Group("/blog")
 	blog.RegisterRoutes(blogRoutes)
+	followRoutes := r.Group("/follow")
+	user.RegisterRoutes(followRoutes)
 	return r
 }

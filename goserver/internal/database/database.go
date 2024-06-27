@@ -15,7 +15,7 @@ var (
 	cancel context.CancelFunc
 )
 
-const dbName = "yourdb" // Change this to your database name
+const dbName = "flashpost"
 
 func Init() {
 	var err error
@@ -45,4 +45,16 @@ func GetMongoClient() *mongo.Client {
 
 func GetCollection(collectionName string) *mongo.Collection {
 	return GetMongoClient().Database(dbName).Collection(collectionName)
+}
+
+func Close() {
+	if client != nil {
+		err := client.Disconnect(ctx)
+		if err != nil {
+			log.Println("Error disconnecting from MongoDB:", err)
+		} else {
+			log.Println("Disconnected from MongoDB")
+		}
+	}
+	cancel()
 }
