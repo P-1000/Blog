@@ -26,9 +26,16 @@ const BlogService = {
         throw error.response.data.message;
     }
   },
-
+  getBlogById : async (blogId) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/blog/blog/${blogId}`);
+      return response;
+    } catch (error) {
+      throw error.response.data.message;
+    }
+  },
 };
 
-export const { postNewBlog } = BlogService;
+export const { postNewBlog , getBlogById } = BlogService;
 
 export default BlogService;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Author from "./Author";
 import AsideAuthor from "./AsideAuthor";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import {getBlogById} from "../../services/blogService";
 
 import Output from "editorjs-react-renderer";
 import EditorjsRender from "./EditorjsRender";
@@ -44,39 +44,18 @@ function BlogDetails() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await instance.get(`/api/blogs/blog/${blogId}`);
-        const blog_data = response.data;
-        setBlog(blog_data);
-        setCon(JSON.parse(blog_data.Content));
-        setBlogLike(blog_data.likes)
-        console.log(blogLike)
+        const response = await getBlogById(blogId);
+        const content =  await JSON.parse(response.data.blog.Content);
+        setCon(content);
+        setBlog(response.data);
+        setAuthorDetails(response.data.authors[0]);
+        setBlogLike(response?.data.blogStats?.LikeCount || 0)
       } catch (error) {
         console.error(error);
       }
     };
     fetchBlog();
-    fetchUserProfile();
   }, [blogId]);
-
-  const fetchUserProfile = async () => {
-    // const res = await fetch(
-    //   `https://back-e0rl.onrender.com/api/users/${blog.Author}`
-    // ); //todo
-    const res = await instance.get(`/api/users/${blog.Author}`);
-    const data = await res.json();
-    setAuthorDetails(data);
-  };
-
-  const renderContent = () => {
-    try {
-      const contentObj = JSON.parse(blog.Content);
-      const converter = new QuillDeltaToHtmlConverter(contentObj.ops, {});
-      return <div dangerouslySetInnerHTML={{ __html: converter.convert() }} />;
-    } catch (error) {
-      console.error("Error parsing content JSON:", error);
-      return <p>{blog.Content}</p>;
-    }
-  };
 
 
   return (
@@ -92,35 +71,35 @@ function BlogDetails() {
                 <div className=" flex  px-10 py-3 items-center justify-center">
                   <img
                     className="lg:w-10/12 lg:px-4 w-[30rem]  object-cover shadow-md rounded-md"
-                    src={blog.imgUrl}
-                    alt={blog.title}
+                    src={blog?.blog?.CoverImage}
+                    alt={blog?.blog?.Title}
                   />
                 </div>
 
                 <div className="">
-                  <h1 className="lg:text-4xl  text-2xl mx-10 flex flex-wrap px-2 lg:px-1 font-bold my-3 ">{blog.title}</h1>
+                  <h1 className="lg:text-4xl  text-2xl mx-10 flex flex-wrap px-2 lg:px-1 font-bold my-3 ">{blog?.blog?.Title}</h1>
                 </div>
                 <div className="w-full flex justify-center   items-center  bg-white  max-h-full bg-clip-padding overflow-auto">
                   {/* <Author post_id={blogId} name={blog.Author} /> */}
                   <AuthNew
-                    post_id={blogId}
-                    name={blog.Author}
+                    post_id={blog.ID}
+                    name={authorDetails?.Name}
                     date="Mar 16 , 2024"
                     readTime="3 min read"
                   />
                 </div>
                 <div className="flex gap-2 w-full">
                   <div className=" lg:py-4 px-7 lg:px-[12%] ">
-                    <p>{blog.desc}</p>
+                    <p>{blog?.blog?.Description}</p>
                   </div>
                 </div>
               </div>
             </div>
-   
+
           </div>
           <div className="w-full">
             <div className=" ">
-              {blog.Content ? <EditorjsRender data={con} /> : "Please Wait "}
+              {blog?.blog?.Content ? <EditorjsRender data={con} /> : "Please Wait "}
             </div>
           </div>
         </div>

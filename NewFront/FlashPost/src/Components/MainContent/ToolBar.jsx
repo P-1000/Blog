@@ -17,7 +17,7 @@ const ToolBar = (props) => {
     // Check if the user has already liked the blog
     const checkIfLiked = async () => {
       try {
-        const res = await instance.get(`/api/blogs/isliked/${blogId}/${authUser.id}`);
+        const res = await instance.get(`/api/blogs/isliked/${blogId}/${9}}`);
         setLiked(res.data.isLiked);
       } catch (error) {
         console.error(error);
@@ -25,7 +25,7 @@ const ToolBar = (props) => {
     };
 
     checkIfLiked();
-  }, [blogId, authUser.id]);
+  }, [blogId]);
 
   const handleComment = () => {
     openModal(<CommentPage />, "Comments");

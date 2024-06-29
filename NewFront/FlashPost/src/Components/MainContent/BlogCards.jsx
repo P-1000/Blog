@@ -6,16 +6,19 @@ import { motion } from "framer-motion";
 
 function BlogCards(props) {
   if (props.blog === undefined) {
-    return <div>
-      <h1 className="animate-pulse">loading</h1>
-    </div>;
+    return (
+      <div>
+        <h1 className="animate-pulse">loading</h1>
+      </div>
+    );
   }
-  const { imgUrl, title, desc, blog_id, Author, createdAt } = props.blog;
+  const { CoverImage, Title, Description, blog_id, authors, CreatedAt } =
+    props.blog;
   const [s, sc] = useState("");
   const [coverImg, setcoverImg] = useState({});
   const img = new Image();
 
-  const date = new Date(createdAt);
+  const date = new Date(CreatedAt);
   const options = {
     year: "numeric",
     month: "short",
@@ -39,17 +42,21 @@ function BlogCards(props) {
         <div>
           <div className="flex gap-4 ">
             <div className="ml-5 mt-4 flex ">
-              <AuthoImg author_name={Author} />
+              <AuthoImg author_name={authors} />
             </div>
             <div className="mt-4">
               <div>
-                <h1 className="text-md font-bold text-primary">{Author}</h1>
+                <h1 className="text-md font-bold text-primary">
+                  {authors[0]?.Name}
+                </h1>
                 <p className="text-xs text-gray-500">{formattedDate}</p>
               </div>
               <div></div>
             </div>
-            <button onClick={() => addBookmark(blog_id)}
-              className="ml-28  mt-5 lg:hidden">
+            <button
+              onClick={() => addBookmark(blog_id)}
+              className="ml-28  mt-5 lg:hidden"
+            >
               <BsBookmarkPlus className="text-xl text-primary-500" />
             </button>
           </div>
@@ -57,16 +64,16 @@ function BlogCards(props) {
             <div className="flex flex-col w-10/12 lg:w-8/12">
               <div className="mt-4 ml-5">
                 <h1 className="text-lg lg:text-xl font-bold text-primary hover:text-secondary ">
-                  {title}
+                  {Title}
                 </h1>
               </div>
 
               <div>
                 <div className="w-full  mt-1">
-                  {/* <p className='text-sm text-gray-500 ml-5 font-normal text-ellipsis  overflow-hidden ' 
+                  {/* <p className='text-sm text-gray-500 ml-5 font-normal text-ellipsis  overflow-hidden '
                                 dangerouslySetInnerHTML={{__html:desc}} > */}
                   <p className="text-sm hidden lg:block text-gray-500 ml-5 font-normal h-24 text-ellipsis overflow-hidden ">
-                    {desc}
+                    {Description}
                   </p>
                 </div>
               </div>
@@ -77,7 +84,7 @@ function BlogCards(props) {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.9 }}
                   whileDrag={{ scale: 0.9 }}
-                  src={imgUrl}
+                  src={CoverImage}
                   className="rounded-md box-border object-cover border-primary shadow-lg hover:shadow-md transition-all"
                 />
               </div>

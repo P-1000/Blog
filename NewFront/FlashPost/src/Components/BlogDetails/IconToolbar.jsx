@@ -18,6 +18,7 @@ const ICONS = [
       </svg>
     ),
     key: "like",
+    count: 0,
   },
   {
     icon: (
@@ -36,6 +37,7 @@ const ICONS = [
       </svg>
     ),
     key: "comment",
+    count: 0,
   },
   {
     icon: (
@@ -58,43 +60,13 @@ const ICONS = [
   {
     icon: (
       <svg
-        viewBox="0 0 20 20"
-        className="h-4 w-4 sm:h-5 sm:w-5 2xl:h-6 2xl:w-6 stroke-current text-slate-800"
+        viewBox="0 0 18 18"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        className="h-4 w-4 stroke-current text-slate-800 sm:h-5 sm:w-5 2xl:h-6 2xl:w-6"
       >
         <path
-          d="M9.99992 11.6667C11.1045 11.6667 11.9999 10.7713 11.9999 9.66667C11.9999 8.5621 11.1045 7.66667 9.99992 7.66667C8.89535 7.66667 7.99992 8.5621 7.99992 9.66667C7.99992 10.7713 8.89535 11.6667 9.99992 11.6667Z"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M2.7841 13.5263C3.84078 12.3184 5.33577 11.6667 10 11.6667C14.6642 11.6667 16.1592 12.3184 17.2159 13.5263"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M15.8333 6.66667C16.7538 6.66667 17.5 5.92047 17.5 5C17.5 4.07953 16.7538 3.33333 15.8333 3.33333C14.9129 3.33333 14.1667 4.07953 14.1667 5C14.1667 5.92047 14.9129 6.66667 15.8333 6.66667Z"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M19 9.16667C18.3738 8.41715 17.4266 8.05556 15.8333 8.05556C14.24 8.05556 13.2928 8.41715 12.6667 9.16667"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M4.16667 6.66667C5.08714 6.66667 5.83333 5.92047 5.83333 5C5.83333 4.07953 5.08714 3.33333 4.16667 3.33333C3.24619 3.33333 2.5 4.07953 2.5 5C2.5 5.92047 3.24619 6.66667 4.16667 6.66667Z"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-        <path
-          d="M7.33333 9.16667C6.70719 8.41715 5.75998 8.05556 4.16667 8.05556C2.57336 8.05556 1.62615 8.41715 1 9.16667"
+          d="M6.25 7.91667L11.75 5.08333M6.25 10.0833L11.75 12.9167M6.5 9C6.5 10.3807 5.38071 11.5 4 11.5C2.61929 11.5 1.5 10.3807 1.5 9C1.5 7.61929 2.61929 6.5 4 6.5C5.38071 6.5 6.5 7.61929 6.5 9ZM16.5 4C16.5 5.38071 15.3807 6.5 14 6.5C12.6193 6.5 11.5 5.38071 11.5 4C11.5 2.61929 12.6193 1.5 14 1.5C15.3807 1.5 16.5 2.61929 16.5 4ZM16.5 14C16.5 15.3807 15.3807 16.5 14 16.5C12.6193 16.5 11.5 15.3807 11.5 14C11.5 12.6193 12.6193 11.5 14 11.5C15.3807 11.5 16.5 12.6193 16.5 14Z"
           stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -106,26 +78,29 @@ const ICONS = [
   {
     icon: (
       <svg
-        viewBox="0 0 16 16"
-        className="h-4 w-4 sm:h-5 sm:w-5 2xl:h-6 2xl:w-6 stroke-current text-slate-800"
+        viewBox="0 0 24 24"
+        className="h-4 w-4 scale-[1.1] fill-current stroke-current text-slate-800 sm:h-5 sm:w-5 2xl:h-6 2xl:w-6"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"></path>
+        <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"></path>
+        <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"></path>
         <path
-          d="M8.00065 8C8.18414 8 8.33301 7.85114 8.33301 7.66667C8.33301 7.48219 8.18414 7.33333 8.00065 7.33333C7.81716 7.33333 7.66829 7.48219 7.66829 7.66667C7.66829 7.85114 7.81716 8 8.00065 8Z"
-          stroke-width="1.33333"
+          d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         ></path>
         <path
-          d="M8.00065 4C8.18414 4 8.33301 3.85114 8.33301 3.66667C8.33301 3.48219 8.18414 3.33333 8.00065 3.33333C7.81716 3.33333 7.66829 3.48219 7.66829 3.66667C7.66829 3.85114 7.81716 4 8.00065 4Z"
-          stroke-width="1.33333"
+          d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         ></path>
         <path
-          d="M8.00065 12C8.18414 12 8.33301 11.8511 8.33301 11.6667C8.33301 11.4822 8.18414 11.3333 8.00065 11.3333C7.81716 11.3333 7.66829 11.4822 7.66829 11.6667C7.66829 11.8511 7.81716 12 8.00065 12Z"
-          stroke-width="1.33333"
+          d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z"
+          stroke-width="1.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         ></path>
@@ -145,16 +120,21 @@ const ToolbarIcon = ({ onLike, onComment, onBookmark, onShare, onMore }) => {
   };
 
   return (
-    <div className="flex items-center justify-between w-full">
-      {ICONS.map(({ icon, key }) => (
-        <button
-          key={key}
-          className="p-2 sm:p-3 hover:bg-slate-300/30 rounded-lg transition duration-200"
-          onClick={handlers[key]}
-        >
-          {icon}
-        </button>
-      ))}
+    <div className="z-50 flex w-full justify-center ">
+      <div className="rounded-full bg-white flex px-1 py-1  border-zinc-200 border">
+        {ICONS.map(({ icon, key, count }) => (
+          <div
+            className="px-4 text- border-r flex items-center group gap-1 cursor-pointer last:border-r-0"
+            key={key}
+            onClick={handlers[key]}
+          >
+            <span className="group-hover:bg-gray-200/80 p-2 rounded-full transition-all">
+              {icon}
+            </span>
+            {/* <span className="text-base">2</span> */}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -6,10 +6,6 @@ import CodeSnippet from './CodeSnip';
 
 const EditorjsRender = (props) => {
     const { data } = props;
-
-console.log(data.blocks[0])
-
-
     const renderBlock = (block) => {
         switch (block.type) {
             case 'header':
@@ -56,7 +52,7 @@ console.log(data.blocks[0])
                         ))}
                     </ul>
                 );
-//cases for table : 
+//cases for table :
          case 'table':
                 return (
                     <table className='table-auto border-collapse border border-gray-400'>
@@ -83,7 +79,7 @@ console.log(data.blocks[0])
                     </table>
                 );
 
-                // case for bold 
+                // case for bold
                 case 'bold':
                 return <p className='mb-4' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
                 // case for italic
@@ -101,9 +97,9 @@ console.log(data.blocks[0])
                 // case for warning
                 case 'warning':
                 return <p className='mb-4' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(block.data.text) }} />;
-                
 
-                         // todo cases : 
+
+                         // todo cases :
 
             default:
                 return null;
