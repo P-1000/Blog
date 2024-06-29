@@ -3,7 +3,7 @@ import { SlLike } from "react-icons/sl";
 import { AiFillLike } from "react-icons/ai";
 import instance from "../../Config/AxiosInst";
 
-//todo : fetch likes 
+//todo : fetch likes
 const LikeButton = ({ blogId, initialLikes }) => {
   const [user_id, setUser_id] = useState(null);
   const token = localStorage.getItem("jwt");

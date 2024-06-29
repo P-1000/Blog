@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -9,57 +8,45 @@ import {
   loginSuccess,
   loginFailure,
 } from "../../../redux/userSlice";
-
+import apiService from "../../../services/authService";
+import { AuthContext } from "../../../context/UserContext";
 import FormInput from "./FormInput";
 
 const LoginForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
+  const { authUser, setAuthUser, setToken } = useContext(AuthContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(loginStart());
-
     try {
-      const res = await toast.promise(
-        axios.post("https://back-e0rl.onrender.com/api/auth/signin", {
-          name,
-          password,
-        }),
-        {
-          loading: "Logging in...",
-          success: "Login successful!",
-          error: "Login failed.",
-        }
-      );
+      const res = await toast.promise(apiService.login(name, password), {
+        loading: "Logging in...",
+        success: "Login successful!",
+        error: "Login failed.",
+      });
 
-      localStorage.setItem("jwt", JSON.stringify(res.data.token));
-      document.cookie = `token=${res.data.token}`;
+      console.log("Response:", res);
 
-      const token = localStorage.getItem("jwt");
-      const tok = JSON.parse(token);
-      const config = {
-        headers: { Authorization: `Bearer ${tok}` },
-      };
-
-      axios
-        .get("https://back-e0rl.onrender.com/api/auth/read", config)
-        .then((response) => {
-          dispatch(loginSuccess(response.data));
-          toast.success("Success.");
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.error(error);
-        });
-
-      dispatch(loginSuccess(res.data));
-      navigate("/home");
+      if (res.token && res.user) {
+        console.log("User:", res.user);
+        localStorage.setItem("jwt", JSON.stringify(res.token));
+        localStorage.setItem("user", JSON.stringify(res.user));
+        setToken(res.token);
+        setAuthUser(res.user);
+        navigate("/home");
+        dispatch(loginSuccess(res));
+      } else {
+        throw new Error("Invalid response structure");
+      }
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.error("Login error:", error);
+      toast.error(
+        error.response ? error.response.data.message : "Login failed."
+      );
       dispatch(loginFailure());
     }
   };

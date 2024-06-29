@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginStart, loginSuccess } from "../../redux/userSlice";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import MouseOverPopover from "./Profile.jsx";
 import { PiBroadcastFill } from "react-icons/pi";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,11 +17,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import instance from "../../Config/AxiosInst.js";
 import Author from "../MainContent/Author.jsx";
-import { AuthContext } from "../../context/userContext.jsx";
-
+import { AuthContext } from "../../context/UserContext.jsx";
+import BlogService from "../../services/blogService.js";
 
 function NavBar() {
-  const { authUser, isLoading ,  setAuthUser, } = useContext(AuthContext);
+  const { authUser, isLoading, setAuthUser } = useContext(AuthContext);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -43,16 +42,15 @@ function NavBar() {
   const [user, setUser] = useState([]);
   useEffect(() => {
     async function fetchData() {
-      //  const res = await axios.get('https://back-e0rl.onrender.com/api/auth/read', config)
-      const res = await instance.get("/api/auth/read", config);
-      setUser(res.data);
-      setAuthUser(res.data);
-      dispatch(loginSuccess(res.data));
+      const usr = localStorage.getItem("user");
+      const res = JSON.parse(usr);
+      setUser(res);
+      dispatch(loginSuccess(res));
     }
     fetchData();
   }, [currentUser]);
 
-  const usr = localStorage.setItem("user", JSON.stringify(user));
+  const usr = localStorage.getItem("user", JSON.stringify(user));
 
   const [search, setSearch] = useState("");
 
@@ -182,33 +180,18 @@ function NavBar() {
 
     try {
       toast.info("Uploading blog...");
-      // const res = await axios.post(
-      //   'https://back-e0rl.onrender.com/api/blogs/uploadBlog',
-      //   {
-      //     title,
-      //     imgUrl: coverUrl,
-      //     desc: description,
-      //     tags,
-      //     Author: currentUser.name,
-      //     Content : JSON.stringify(content1),
-      //   },
-      //   config
-      // );
-      const res = await instance.post(
-        "/api/blogs/uploadBlog",
+      const res = await BlogService.postNewBlog(
         {
           title,
           imgUrl: coverUrl,
           desc: description,
           tags,
-          Author: currentUser.name,
+          Author: currentUser.ID,
           Content: JSON.stringify(content1),
         },
         config
       );
-
       dispatch(resetForm());
-
       toast.success("Blog uploaded successfully");
     } catch (error) {
       toast.error(error.response.data.message);
@@ -248,7 +231,7 @@ function NavBar() {
                 whileTap={{ scale: 0.9 }}
                 whileDrag={{ scale: 0.9 }}
                 onClick={() => navigate("/Home")}
-                className="border hidden lg:block border-gray-300 rounded-full px-4 py-2 text-sm  
+                className="border hidden lg:block border-gray-300 rounded-full px-4 py-2 text-sm
                     font-semibold text-gray-700 mr-2 hover:bg-gray-100"
               >
                 Your Feed
@@ -256,8 +239,8 @@ function NavBar() {
             </div>
 
             <div
-              className="flex flex-row-reverse focus-within:border rounded-full lg:px-4 lg:py-2 lg:pr-[16rem] 
-             text-sm 
+              className="flex flex-row-reverse focus-within:border rounded-full lg:px-4 lg:py-2 lg:pr-[16rem]
+             text-sm
              focus-within:border-secondary"
             >
               <input

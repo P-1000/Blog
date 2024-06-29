@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ContentMenu from './ContentMenu';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PersonalisedBlogs from './PersonalisedBlogs';
 import TrendingBlogs from './TrendingBlogs';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Spinner from '../Utils/Spinner';
-import TextEditor from '../BlogCreation/EditorJs';
 import instance from '../../Config/AxiosInst';
 
 function MainContent() {
@@ -89,7 +86,7 @@ function MainContent() {
                   <PersonalisedBlogs blogs={personalisedBlogs} />
                 </InfiniteScroll>
               )}
-              {category === 'trending' && 
+              {category === 'trending' &&
               <TrendingBlogs blogs={trendingBlogs} />
               }
               {

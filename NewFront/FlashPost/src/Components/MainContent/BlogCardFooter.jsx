@@ -12,34 +12,29 @@ function BlogCardFooter(props) {
 
   const { tag } = props;
 
-  const token = localStorage.getItem('jwt');
-  const tok = JSON.parse(token);
-  const config = {
-    headers: { Authorization: `Bearer ${tok}` }
-  };
+  // const token = localStorage.getItem('jwt');
+  // const tok = JSON.parse(token);
+  // const config = {
+  //   headers: { Authorization: `Bearer ${tok}` }
+  // };
 
   useEffect(() => {
     // Count tags
     setCountTag(tag ? tag.length : 0);
-  }, [tag]); 
+  }, [tag]);
 
   const handleBookmarks = async () => {
-    if (!token) {
-      window.location.href = '/login';
-      return;
-    } else {
-      try {
-        // const response = await axios.put(
-        //   `https://back-e0rl.onrender.com/api/blogs/bookmark/${props.id}`,
-        //   null,
-        //   config
-        // );
-        const response = await instance.put(`/api/blogs/bookmark/${props.id}`, null, config);
-        console.log(response);
-      } catch (error) {
-        console.error('Error bookmarking blog:', error);
-      }
-    }
+    // if (!token) {
+    //   window.location.href = '/login';
+    //   return;
+    // } else {
+    //   try {
+    //     const response = await instance.put(`/api/blogs/bookmark/${props.id}`, null, config);
+    //     console.log(response);
+    //   } catch (error) {
+    //     console.error('Error bookmarking blog:', error);
+    //   }
+    // }
   };
 
   return (
