@@ -5,16 +5,11 @@ import userRoutes from "./routes/User.js";
 import authRoutes from "./routes/auth.js";
 import cookieparser from "cookie-parser";
 import cors from "cors";
-// import blogRouter from "./routes/Blog.js"
 import blog_router from "./routes/Blog.js";
-// import blog from "./Models/blog.js"
 import blog from "./Controllers/Mblog.js";
 import Tag from "./Models/Tags.js";
 import Fuse from "fuse.js";
 import { followFunc, sendMail, unfollowFunc } from "./Controllers/auth.js";
-import { createError } from "./error.js";
-import { verifyToken } from "./Verify.js";
-import User from "./Models/User.js";
 import interaction_router from "./routes/Interaction.routes.js";
 import commentRouter from "./routes/Cmnts.js";
 // import algoliasearch from 'algoliasearch';
@@ -33,20 +28,24 @@ app.use(
       "https://flash-post.vercel.app/",
       "https://flashpost.netlify.app/",
     ],
-    credentials: true,
   })
 );
+
+
+const connect = () => {
+  console.log("waiting for the Db");
+  mongoose
+    .connect(process.env.MONGO)
+    .then(() => {
+      console.log("Database connected");
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 app.use(cookieparser());
 app.use(express.json());
-
-mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log("Database connected");
-  })
-  .catch((err) => {
-    throw err;
-  });
 
 app.get("/", (req, res) => {
   console.log("Server Running Bro!");
@@ -178,6 +177,6 @@ app.post("/api/sendmail", sendMail);
 
 app.listen(3000, () => {
   console.log("starting server");
-  // connect();
+  connect();
   console.log("Server running on port 3000");
 });
