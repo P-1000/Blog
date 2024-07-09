@@ -72,6 +72,16 @@ app.get("/api/test", (req, res) => {
   res.json({ message: "success" });
 });
 
+app.post("/api/fake", async (req, res) => {
+  try {
+    const { count } = req.body;
+    return res.json({ message: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 //search db for blogs with title, tags, desc : without any filter or pagination
 app.get("/api/search", async (req, res) => {
   try {
