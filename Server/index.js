@@ -10,7 +10,6 @@ import blog_router from "./routes/Blog.js";
 // import blog from "./Models/blog.js"
 import blog from "./Controllers/Mblog.js";
 import Tag from "./Models/Tags.js";
-import { faker } from "@faker-js/faker";
 import Fuse from "fuse.js";
 import { followFunc, sendMail, unfollowFunc } from "./Controllers/auth.js";
 import { createError } from "./error.js";
@@ -34,11 +33,11 @@ app.use(
       "https://flash-post.vercel.app/",
       "https://flashpost.netlify.app/",
     ],
+    credentials: true,
   })
 );
-
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "5mb", extended: true }));
+app.use(cookieparser());
+app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO)
@@ -48,9 +47,6 @@ mongoose
   .catch((err) => {
     throw err;
   });
-
-app.use(cookieparser());
-app.use(express.json());
 
 app.get("/", (req, res) => {
   console.log("Server Running Bro!");
