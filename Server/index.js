@@ -12,6 +12,7 @@ import Fuse from "fuse.js";
 import { followFunc, sendMail, unfollowFunc } from "./Controllers/auth.js";
 import interaction_router from "./routes/Interaction.routes.js";
 import commentRouter from "./routes/Cmnts.js";
+import User from "./Models/User.js";
 // import algoliasearch from 'algoliasearch';
 // UKAHGWLA0Z
 // 85eda515b05d95ee73b78ccb67aad0d0
@@ -35,7 +36,7 @@ app.use(
 const connect = () => {
   console.log("waiting for the Db");
   mongoose
-    .connect(process.env.MONGO)
+    .connect('mongodb+srv://earnvpn:K1x7Ne0KAIfLBzCa@cluster0.7xjnfdn.mongodb.net/?retryWrites=true&w=majority')
     .then(() => {
       console.log("Database connected");
     })
@@ -67,6 +68,16 @@ app.post("/api/fake", async (req, res) => {
   try {
     const { count } = req.body;
     return res.json({ message: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.get("/api/bankai" , async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
