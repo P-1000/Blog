@@ -40,17 +40,14 @@ app.use(
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
-const connect = () => {
-  console.log("waiting for the Db");
-  mongoose
-    .connect(process.env.MONGO)
-    .then(() => {
-      console.log("Database connected");
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
+mongoose
+  .connect(process.env.MONGO)
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((err) => {
+    throw err;
+  });
 
 app.use(cookieparser());
 app.use(express.json());
@@ -64,8 +61,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/blogs", blog_router);
 app.use("/api/interaction", interaction_router);
-app.use("/api/comments" , commentRouter)
-
+app.use("/api/comments", commentRouter);
 
 // test route for deployment send json data
 app.get("/api/test", (req, res) => {
@@ -133,8 +129,6 @@ app.get("/api/tags", async (req, res) => {
   }
 });
 
-
-
 app.get("/api/TopTags", async (req, res) => {
   try {
     const tags = await Tag.find().sort({ count: -1 }).lean(); // return plain js object instead of mongoose object :
@@ -186,12 +180,8 @@ app.post("/api/unfollow", unfollowFunc);
 
 app.post("/api/sendmail", sendMail);
 
-// password rest :
-
-//get all the info about user
-
 app.listen(3000, () => {
   console.log("starting server");
-  connect();
+  // connect();
   console.log("Server running on port 3000");
 });
