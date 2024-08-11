@@ -17,8 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import TextEditor from "./Components/BlogCreation/EditorJs";
 import LoginPage from "./Pages/Login";
 import CurrentUserProfilePage from "./Pages/ProfilePage/CurrentUserProfilePage";
+import moengage from "@moengage/web-sdk";
+import { useEffect } from "react";
+
+
 
 function App() {
+  useEffect(()=>{
+    moengage.initialize({app_id: 'PBW9V6VMZM36LC5735AYWUSI'});
+  } , [])
   return (
     <div>
       <NavBar />

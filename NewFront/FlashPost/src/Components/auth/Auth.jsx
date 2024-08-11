@@ -20,6 +20,8 @@ function Auth() {
     navigate("/home");
   }
 
+
+
   return (
     <>
       <div>

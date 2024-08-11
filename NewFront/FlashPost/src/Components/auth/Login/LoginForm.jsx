@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ import {
 } from "../../../redux/userSlice";
 
 import FormInput from "./FormInput";
+import moengage from "@moengage/web-sdk";
+
 
 const LoginForm = () => {
   const [name, setName] = useState("");
@@ -45,16 +47,40 @@ const LoginForm = () => {
         headers: { Authorization: `Bearer ${tok}` },
       };
 
+
       axios
         .get("https://back-e0rl.onrender.com/api/auth/read", config)
-        .then((response) => {
-          dispatch(loginSuccess(response.data));
+        .then((res) => {
+          moengage.initialize({app_id: 'PBW9V6VMZM36LC5735AYWUSI'});
+          console.log(
+            "User ID: " +
+              res.data._id +
+              " Name: " +
+              res.data.name +
+              " Email: " +
+              res.data.email
+          )
+          moengage.add_unique_user_id(res.data._id).then(() => {
+            console.log("User ID added");
+            moengage.add_email(res.data.email);
+            moengage.add_user_name(res.data.name);
+            })
+  
+            moengage.track_event("login_bankai", {
+              name: res.data.name,
+              email: res.data.email,
+              id : res.data._id
+            });
+
+          dispatch(loginSuccess(res.data));
           toast.success("Success.");
         })
         .catch((error) => {
           console.log(error);
           toast.error(error);
         });
+        
+       
 
       dispatch(loginSuccess(res.data));
       navigate("/home");
@@ -63,6 +89,9 @@ const LoginForm = () => {
       dispatch(loginFailure());
     }
   };
+
+  useEffect(() => {
+  }, []);
 
   return (
     <div>

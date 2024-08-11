@@ -50,7 +50,7 @@ function NavBar() {
       dispatch(loginSuccess(res.data));
     }
     fetchData();
-  }, [currentUser]);
+  }, []);
 
   const usr = localStorage.setItem("user", JSON.stringify(user));
 
